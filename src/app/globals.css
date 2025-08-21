@@ -2,8 +2,9 @@
 @import "tw-animate-css";
 
 @theme {
-  --color-brandClr1: #333333;
-  --color-brandClr2: #545454;
+  --color-brandClr1: #0057DC;
+  --color-brandClr2: #FFC823;
+  --color-brandClr3: #FFEEBB;
 }
 
 @theme inline {
@@ -93,6 +94,9 @@
 }
 
 @layer utilities {
+  .maxWidth {
+    @apply w-full max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8;
+  }
   .customShadow {
     @apply shadow-[0_0_20px_rgba(0,0,0,0.1)];
   }

@@ -4,10 +4,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
+import { IoClose } from "react-icons/io5";
 
 
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -39,7 +41,7 @@ const Navbar = () => {
         method: "GET",
         tags: ["user"]
       });
-      console.log("Nav User Data:", response);
+      // console.log("Nav User Data:", response);
       setUser(response?.data);
     };
     getUser();
@@ -47,11 +49,11 @@ const Navbar = () => {
 
 
   return (
-    <div className='shadow-md h-22 flex items-center fl bg-[#DEE5EC] sticky top-0 z-50'>
-      <div className='maxWidth flex justify-between items-center py-3 px-2'>
+    <div className='bg-white h-22 flex items-center sticky top-0 z-50'>
+      <div className='w-full maxWidth flex justify-between items-center py-3 px-2'>
         {/* Brand Logo */}
         <Link href="/" className='flex justify-start items-center'>
-          <Image src={brandLogo} alt="Brand Logo" width={100} height={20} />
+          <Image src={brandLogo} alt="Brand Logo" width={100} height={20} className='w-30 h-6 object-fit'/>
         </Link>
 
         {/* Desktop Navigation */}
@@ -59,9 +61,9 @@ const Navbar = () => {
           {navbarItems.map((item, index) => (
             <li
               key={index}
-              className={`cursor-pointer px-3 hover:scale-105 py-1 rounded-sm transition-all duration-300 customShadow ${isActive(item.url)
-                ? 'bg-[#FFECAC] text-primary font-bold'
-                : 'hover:bg-[#FFECAC]'
+              className={`cursor-pointer px-3 py-1 rounded-sm transition-all duration-300 ${isActive(item.url)
+                ? 'bg-brandClr1 text-white font-bold'
+                : 'hover:bg-brandClr1 hover:text-white'
                 }`}
             >
               <Link href={item.url}>{item.title}</Link>
@@ -69,10 +71,10 @@ const Navbar = () => {
           ))}
         </ul>
 
-        {/* Sign In / Mobile Menu Trigger */}
+        {/* Log in / Mobile Menu Trigger */}
         <div className='flex justify-end items-center gap-4 relative'>
           {!user ? (
-            <Link href="/login" className='hidden md:inline-block bg-[#FFECAC] text-black font-semibold py-2 px-4 rounded customShadow4'>Sign In</Link>
+            <Link href="/login" className='hidden lg:inline-block border-2 border-brandClr1 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4'>Log in</Link>
           ) : (
             <div className='flex items-center gap-2 cursor-pointer'>
               <div className='max-md:hidden w-12 h-12 rounded-full overflow-hidden border-2 border-primary'>
@@ -85,22 +87,25 @@ const Navbar = () => {
           {/* Mobile Menu */}
           <div className='lg:hidden'>
             <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger asChild>
+              <SheetTrigger asChild className='cursor-pointer'>
                 <Menu className="w-6 h-6 text-gray-600" />
               </SheetTrigger>
               <SheetContent side="left" className="w-64">
-                <SheetHeader>
-                  <SheetTitle className="text-left text-lg">
-                    <Image src={brandLogo} alt="Brand Logo" width={160} height={40} />
+                <SheetHeader className='flex flex-row items-center justify-between pt-8'>
+                  <SheetTitle className="">
+                    <Image src={brandLogo} alt="Brand Logo" width={100} height={20} className='w-30 h-6 object-fit'/>
                   </SheetTitle>
+                  <SheetClose>
+                    <IoClose size={24} className='text-gray-600 hover:text-gray-800 cursor-pointer'/>
+                  </SheetClose>
                 </SheetHeader>
 
-                <ul className='flex flex-col mt-6 gap-2 font-medium text-gray-700'>
+                <ul className='flex flex-col mt-6 gap-2 font-medium text-gray-700 px-2'>
                   {user && (
-                    <li onClick={() => setOpen(false)} className='cursor-pointer hover:bg-gray-100 px-3 py-2 rounded'>
+                    <li onClick={() => setOpen(false)} className='cursor-pointer hover:bg-gray-100 py-2 rounded'>
                       <Link href="/profile" className='flex gap-2 items-center'>
                         <span className='w-12 h-12 block rounded-full overflow-hidden border-2 border-primary'>
-                          <Image src={user ? user?.profile : profileImg}  alt="User Profile" width={100} height={100} />
+                          <Image src={user ? user?.profile : profileImg} alt="User Profile" width={100} height={100} />
                         </span>
                         <span className='flex flex-col text-gray-600 text-sm'>
                           {user?.fullName}
@@ -121,9 +126,9 @@ const Navbar = () => {
                       <Link href={item.url}>{item.title}</Link>
                     </li>
                   ))}
-                  <li className='px-3 py-4'>
+                  <li className=' py-4'>
                     {!user && (
-                      <Link href="/login" className='block bg-[#FFECAC] text-black font-semibold px-4 py-2 rounded mt-2 text-center customShadow4'>Sign In</Link>
+                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log in</Link>
                     )}
                   </li>
                 </ul>

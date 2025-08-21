@@ -22,11 +22,10 @@ export const navbarItems: navItemsType[] = [
   },
   {
     title: 'About us',
-    url: '/about',
+    url: '/about-us',
   },
   {
     title: 'Contact us',
-    url: '/contact',
+    url: '/contact-us',
   },
-  
 ];

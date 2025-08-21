@@ -24,7 +24,7 @@ const CustomButton = ({
   <Link
     href={url}
     className={clsx(
-      'bg-gradient-to-b bg-[#FFECAC] hover:bg-[#FFECAC]/80 text-gray-700 hover:text-gray-600 block text-center w-full rounded-md cursor-pointer font-semibold transition-all hover:scale-102 duration-500 customShadow',
+      'bg-gradient-to-b bg-brandClr2 hover:bg-brandClr2/80 text-gray-700 hover:text-gray-600 block text-center w-full rounded-md cursor-pointer font-semibold transition-all hover:scale-102 duration-500 customShadow',
       variantClasses[variant],
       className
     )}

@@ -31,13 +31,6 @@ import { useRouter } from "next/navigation";
 // Schema
 const contactUsFormSchema = z
   .object({
-    profileImg: z
-      .any()
-      .optional()
-      .refine(
-        (file) => file instanceof File && file.type.startsWith("image/"),
-        "Please upload a valid image file"
-      ),
     name: z.string(),
     email: z.string().email({
       message: "Please enter a valid email address.",
