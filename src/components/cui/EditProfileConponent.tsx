@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +28,6 @@ import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { Textarea } from "../ui/textarea";
 import { WorkExperienceModal } from "./WorkExperienceModal";
-import { FaBars } from "react-icons/fa";
 import { CustomModal } from "../modal/CustomModal";
 
 // Schema
@@ -94,12 +94,14 @@ const EditProfileComponent = () => {
       }); // Reset form with user data
     }
     getUserData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("workExperienceInput : ", workExperienceInput)
-  },[workExperienceInput]);
+    if(workExperienceInput.post !== "" && workExperienceInput.des !== ""){
+      setWorkExperience([...workExperience, workExperienceInput]);
+    }
+  }, [workExperienceInput]);
 
 
   return (
@@ -227,16 +229,27 @@ const EditProfileComponent = () => {
               </ul>}
             </>
 
-            <div className="flex items-center justify-between">
-              <p className="text-gray-600 text-lg pb-1.5">Work Experience</p>
-              <CustomModal
-                title="Jobs Filter Options"
-                trigger={<button className='border border-gray-400 px-4 py-1 text-gray-500 rounded-sm cursor-pointer'>
-                  Add+
-                </button>}
-              >
-                <WorkExperienceModal setWorkExperienceInput={setWorkExperienceInput} workExperienceInput={workExperienceInput} />
-              </CustomModal>
+            {/* ------------------ Work Experience ------------------ */}
+            <div>
+              <div className="flex items-center justify-between">
+                <p className="text-gray-600 text-lg pb-1.5">Work Experience</p>
+                <CustomModal
+                  title="Jobs Filter Options"
+                  trigger={<button className='border border-gray-400 px-4 py-1 text-gray-500 rounded-sm cursor-pointer'>
+                    Add+
+                  </button>}
+                >
+                  <WorkExperienceModal setWorkExperienceInput={setWorkExperienceInput} />
+                </CustomModal>
+              </div>
+              <ul className='w-full space-y-4 list-disc'>
+                {workExperience.length > 0 && workExperience?.map((item, index) => (
+                  <li key={index} className='flex flex-col items-start gap-1'>
+                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.post}</span>
+                    <span className='text-gray-600 text-sm ps-4'>{item?.des}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
 

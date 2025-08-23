@@ -13,14 +13,13 @@ import {
 import { useSearchParams } from 'next/navigation';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { set } from 'zod';
 
 const defaultValues = {
   post: "",
   des: "",
 };
 
-function WorkExperienceModalSuspense({workExperienceInput, setWorkExperienceInput}:{workExperienceInput: Record<string, string>, setWorkExperience: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
+function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams);
 
@@ -93,10 +92,10 @@ function WorkExperienceModalSuspense({workExperienceInput, setWorkExperienceInpu
   )
 }
 
-export function WorkExperienceModal({workExperienceInput, setWorkExperienceInput}:{workExperienceInput: Record<string, string>, setWorkExperience: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
+export function WorkExperienceModal({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
   return (
     <Suspense fallback={<div>Loading...</div>}>
-      <WorkExperienceModalSuspense  setWorkExperienceInput={setWorkExperienceInput} workExperienceInput={workExperienceInput} />
+      <WorkExperienceModalSuspense  setWorkExperienceInput={setWorkExperienceInput}/>
     </Suspense>
   );
 }
