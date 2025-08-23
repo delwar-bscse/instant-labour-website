@@ -32,11 +32,12 @@ function SelectTrigger({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
   size?: "sm" | "default" | "lg"
-  variant?: "default" | "yelloBg"
+  variant?: "default" | "yelloBg" | "paginationSelect"
 }) {
   const variantStyles = {
     default: "border bg-background text-foreground",
     yelloBg: "bg-[#FEF6E7] focus:bg-[#FEF6E7]/60 border-0 focus-visible:ring-0 focus-visible:border-0 outline-none  h-10",
+    paginationSelect: "bg-[#ECECFB] focus:bg-[#ECECFB]]/60 border-0 focus-visible:ring-0 focus-visible:border-0 outline-none  h-10",
   }
   return (
     <SelectPrimitive.Trigger

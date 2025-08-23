@@ -24,7 +24,7 @@ function CustomSearchBarSuspense({ placeholder = "Search here...", query = "quer
     <div className="relative w-full">
       <Search className="absolute left-3 top-1/2 h-6 w-6 -translate-y-1/2 text-gray-500" />
       <Input
-        className="w-full rounded-full bg-background pl-12 h-11 focus-visible:ring focus-visible:ring-gray-300 focus-visible:border-gray-300 outline-none sm:text-lg md:text-xl text-gray-500 font-normal"
+        className="w-full rounded-full bg-background pl-12 h-12 focus-visible:ring focus-visible:ring-gray-300 focus-visible:border-gray-300 outline-none sm:text-lg md:text-xl text-gray-500 font-normal"
         placeholder={placeholder}
         type="search"
         defaultValue={searchParams.get("query")?.toString()}

@@ -1,0 +1,39 @@
+
+import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
+import { workerDetails } from '@/data/workerDatas'
+import Image from 'next/image'
+import React from 'react'
+import { RiSettings5Line } from "react-icons/ri";
+import { BiEdit } from "react-icons/bi";
+import Link from 'next/link';
+
+const Profile = () => {
+  return (
+    <div>
+      {/* ------------------- Profile & Cover ------------------- */}
+      <div className='relative'>
+        <Image src={workerDetails.workerCover} width={1200} height={300} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[300px] object-fit' />
+        <div className='absolute bottom-0 left-6 md:left-16 rounded-full transform translate-y-1/2'>
+          <Image src={workerDetails.workerImg} width={400} height={400} alt={workerDetails.name} className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full' />
+        </div>
+      </div>
+      <div className='maxWidth flex items-center justify-end gap-2 md:gap-4 pt-2 md:pt-4'>
+        <Link href="/profile/edit-profile" className='flex items-center w-8 h-8 md:w-10 md:h-10 justify-center rounded-full bg-brandClr2/50 cursor-pointer'>
+          <BiEdit className='md:text-2xl text-gray-600' />
+        </Link>
+        <Link href="/settings" className='flex items-center gap-2 bg-brandClr2/50 cursor-pointer rounded-full md:rounded-md p-2 md:px-4 md:py-1.5'>
+          <span>
+            <RiSettings5Line className='md:text-2xl text-gray-600' />
+          </span>
+          <span className='text-gray-600 text-lg font-semibold hidden md:block'>Settings</span>
+        </Link>
+      </div>
+      <div className='h-[20px] md:h-[80px]' />
+
+      {/* ------------------- Personal Info ------------------- */}
+      <WorkerDetailsBody />
+    </div>
+  )
+}
+
+export default Profile

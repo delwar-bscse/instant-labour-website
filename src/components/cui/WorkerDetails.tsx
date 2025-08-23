@@ -1,0 +1,67 @@
+import Image from 'next/image'
+import React from 'react'
+import { MdOutlineVerifiedUser } from "react-icons/md";
+import { workerDetails } from '@/data/workerDatas';
+import { FaCheckSquare } from "react-icons/fa";
+
+const WorkerDetails = () => {
+  return (
+    <div className='maxWidth pt-4 pb-20'>
+      {/* ------------------- Profile & Cover ------------------- */}
+      <div className='relative'>
+        <Image src={workerDetails.workerCover} width={1200} height={300} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[300px] object-fit' />
+        <div className='absolute bottom-0 left-6 md:left-16 rounded-full transform translate-y-1/2'>
+          <Image src={workerDetails.workerImg} width={400} height={400} alt={workerDetails.name} className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full' />
+          <div className='w-6 h-6 md:w-10 md:h-10 rounded-full bg-green-500 absolute -top-4 right-0 transform -translate-x-1/2 translate-y-1/2' />
+        </div>
+      </div>
+      <div className='h-[80px] md:h-[150px]' />
+
+      <div className='space-y-5'>
+        {/* ------------------- Personal Info ------------------- */}
+        <div className='space-y-2'>
+          <div className='flex items-center gap-4'>
+            <p className='font-bold text-xl text-gray-700'>{workerDetails.name}</p>
+            <p>
+              <span className='text-green-500 text-sm flex items-center gap-1'><MdOutlineVerifiedUser size={18} /> Verified</span>
+            </p>
+          </div>
+          <p className='text-gray-700 text-xl'>{workerDetails.category} / {workerDetails.experience}</p>
+          <p className='text-gray-800 font-semibold text-xl'>£{workerDetails.price} Per Day</p>
+        </div>
+        <div className='space-y-1'>
+          <h3 className='text-gray-800 font-semibold text-xl'>About Me</h3>
+          <p className='text-gray-500 text-sm'>{workerDetails.aboutMe}</p>
+        </div>
+
+        {/* ------------------- Core Skills ------------------- */}
+        <div className='space-y-2'>
+          <h3 className='text-gray-800 font-semibold text-xl'>Core Skills</h3>
+          <ul>
+            {workerDetails.coreSkill.map((item, index) => (
+              <li key={index} className='flex items-center gap-3'>
+                <FaCheckSquare size={20} className='text-green-500' />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* ------------------- Portfolio / Work Experience ------------------- */}
+        <div className='space-y-3'>
+          <h2 className='text-gray-800 font-semibold text-xl'>Portfolio / Work Experience</h2>
+          <div className='space-y-2'>
+            {workerDetails.workExperience.map((item, index) => (
+              <div key={index} className=''>
+                <p className='text-gray-700 font-semibold'>{index + 1}. {item.post}</p>
+                <p className='text-gray-600'>{item.des}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export default WorkerDetails

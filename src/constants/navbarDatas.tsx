@@ -17,8 +17,8 @@ export const navbarItems: navItemsType[] = [
     url: '/workers',
   },
   {
-    title: 'Employers',
-    url: '/employers',
+    title: 'Inbox',
+    url: '/inbox',
   },
   {
     title: 'About us',
@@ -27,5 +27,53 @@ export const navbarItems: navItemsType[] = [
   {
     title: 'Contact us',
     url: '/contact-us',
+  },
+];
+
+// employer menus
+export const employerMenus: navItemsType[] = [
+  {
+    title: 'Profile',
+    url: '/profile',
+  },
+  {
+    title: 'Post Job',
+    url: '/post-job',
+  },
+  {
+    title: 'Inbox',
+    url: '/inbox',
+  },
+  {
+    title: 'Buy Credits',
+    url: '/credits',
+  },
+  {
+    title: 'Logout',
+    url: '/logout',
+  },
+];
+
+// worker menus
+export const workerMenus: navItemsType[] = [
+  {
+    title: 'Profile',
+    url: '/profile',
+  },
+  {
+    title: 'Applied Job',
+    url: '/applied-job',
+  },
+  {
+    title: 'Inbox',
+    url: '/inbox',
+  },
+  {
+    title: 'Buy Credits',
+    url: '/credits',
+  },
+  {
+    title: 'Logout',
+    url: '/logout',
   },
 ];

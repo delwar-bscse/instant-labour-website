@@ -155,7 +155,7 @@ function CustomFilterSuspense() {
 
           {/* Submit Button */}
           <Button variant="yelloBtn" type="submit" size="lg" className="w-full mt-4">
-            Sign Up
+            Apply
           </Button>
         </form>
       </Form>

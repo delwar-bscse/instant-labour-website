@@ -1,8 +1,77 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { aboutHeroImg } from '@/assets/assets'
+import CustomButton from '@/components/cui/CustomButton'
+import { aboutUsData } from '@/data/aboutUsData'
+import Image from 'next/image'
 import React from 'react'
 
 const AboutUs = () => {
   return (
-    <div>AboutUs</div>
+    <div className=''>
+      {/* --------------------- About Hero Section --------------------- */}
+      <div className=" py-20 bg-[#0057DC]">
+        <div className="maxWidth flex flex-col-reverse sm:flex-row items-center justify-between gap-16 md:gap-8">
+          <div className="flex-1 space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">find labour for your short-term or day job</h1>
+            <p className="text-gray-100 mt-4">connects with local labour available now for temporary work.</p>
+            <div className="flex gap-4 w-full max-w-50">
+              <CustomButton text="Post a job" url="/contact-us" variant="button01" />
+            </div>
+          </div>
+          <div className="basis-1/2 flex justify-center items-center relative">
+            <Image src={aboutHeroImg} alt="Hero Image" width={1000} height={1000} className='w-full relative bottom-10' />
+            <Image src={aboutHeroImg} alt="Hero Image" width={1000} height={1000} className='w-full absolute top-10' />
+          </div>
+        </div>
+      </div>
+
+      {/* --------------------- About Us Content --------------------- */}
+      <div className='maxWidth py-20 space-y-16'>
+        <SubComponent item={aboutUsData.whoWeAre} position="right" />
+        <SubComponent item={aboutUsData.ourMission} position="left" />
+        <SubComponent item={aboutUsData.whatWeDo} position="right" />
+        <SubComponent item={aboutUsData.whyChooseInstantLabour} position="left" />
+        <SubComponent item={aboutUsData.ourVision} position="right" />
+      </div>
+
+      {/* --------------------- About Us Content --------------------- */}
+      <div className='bg-[#72A1E9]'>
+        <div className="maxWidth flex flex-col items-center justify-center gap-8 py-20">
+          <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Start ?</h1>
+          <div className="flex gap-6 w-full max-w-80">
+            <CustomButton text="I want to hire" url="/workers" variant="button01" />
+            <CustomButton text="I need a job" url="/jobs" variant="button01" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+{/* ------------- About Us Content Sub Component ------------- */ }
+const SubComponent = ({ item, position }: { item: Record<string, any>, position: string }) => {
+
+  return (
+    <div className={`flex flex-col gap-8 lg:gap-16  ${position === "right" ? "md:flex-row" : "md:flex-row-reverse"}`}>
+      <div className='flex-1'>
+        <h3 className='font-semibold text-4xl text-gray-800'>{item.title}</h3>
+        {Array.isArray(item.content) ? (
+          <ul className='list-disc pl-8'>
+            {item.content.map((i: string, index: number) => (
+              <li key={index} className="text-gray-600 mt-4">
+                {i}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-600 mt-4">{item.content}</p>
+        )}
+      </div>
+      <div className='flex-1'>
+        <Image src={item.img} alt="Hero Image" width={1000} height={600} className={`w-full h-[260px] md:h-[300px] lg:h-[360px] object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
+      </div>
+    </div>
   )
 }
 
