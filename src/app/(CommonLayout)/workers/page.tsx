@@ -50,7 +50,7 @@ const Workers = () => {
         </CustomModal>
       </div>
 
-      {/* --------------- Jobs --------------- */}
+      {/* --------------- Workers --------------- */}
       <div className=''>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
           {workerDatas?.map((item) => (
@@ -59,7 +59,7 @@ const Workers = () => {
         </div>
       </div>
 
-      {/* --------------- Jobs --------------- */}
+      {/* --------------- Pagination --------------- */}
       <div className='py-12'>
         <CustomPagination TOTAL_PAGES={10} />
       </div>

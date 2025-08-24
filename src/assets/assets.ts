@@ -1,4 +1,5 @@
 import brandLogo from "./logo.png";
+import footerLogo from "./logoFooter.png";
 import profileImg from "./profileImg.png";
 import userImg from "./user.jpg";
 import mapImg from "./map.png";
@@ -46,7 +47,7 @@ import about05 from "./aboutus/aboutus05.png"
 
 
 export { 
-  brandLogo, profileImg, mapImg, userImg,
+  brandLogo, footerLogo, profileImg, mapImg, userImg,
   contactHeroImg,
   cateImg01, cateImg02, cateImg03, cateImg04, cateImg05,
   client01, client02, client03,

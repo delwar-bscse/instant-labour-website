@@ -8,7 +8,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 600
+    price: 600,
+    status: "Ongoing",
+    apply: 4
   },
   {
     _id: 2,
@@ -17,7 +19,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 300
+    price: 300,
+    status: "Ongoing",
+    apply: 2
   },
   {
     _id: 3,
@@ -26,7 +30,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 400
+    price: 400,
+    status: "Ongoing",
+    apply: 9
   },
   {
     _id: 4,
@@ -35,7 +41,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 300
+    price: 300,
+    status: "Ongoing",
+    apply: 1
   },
   {
     _id: 5,
@@ -44,7 +52,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 300
+    price: 300,
+    status: "Finished",
+    apply: 76
   },
   {
     _id: 6,
@@ -53,7 +63,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 300
+    price: 300,
+    status: "Ongoing",
+    apply: 13
   },
   {
     _id: 7,
@@ -62,7 +74,9 @@ export const jobDatas = [
     category: "Garden Cleaner",
     location: "New York, NY",
     postDate: "26, Dec 2025",
-    price: 300
+    price: 300,
+    status: "Ongoing",
+    apply: 46
   },
 ];
 
@@ -74,6 +88,8 @@ export const jobDetails = {
   location: "New York, NY",
   postDate: "26, Dec 2025",
   price: 600,
+  status: "Ongoing",
+  apply: 46,
   isVerified: true,
   jobOverview: "We’re looking for a reliable and detail-oriented Garden Cleaner to help maintain and beautify our outdoor spaces. The role involves keeping gardens clean, tidy, and healthy by removing waste, trimming plants, and ensuring the overall presentation meets our standards",
   keyResponsibilities: [

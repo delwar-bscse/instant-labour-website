@@ -55,6 +55,9 @@ const Navbar = () => {
   }, [pathname]);
 
   const hadleRedirect = (url: string) => {
+    if(url === "/logout"){
+      return router.push("/");
+    }
     router.push(url);
   };
 
@@ -84,9 +87,7 @@ const Navbar = () => {
 
         {/* Log in / Mobile Menu Trigger */}
         <div className='flex justify-end items-center gap-4 relative'>
-          {!true ? (
-            <Link href="/login" className='hidden lg:inline-block border-2 border-brandClr1 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4'>Log in</Link>
-          ) : (
+          {true ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className='flex items-center gap-2 cursor-pointer'>
@@ -105,7 +106,9 @@ const Navbar = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+          ) : (
+            <Link href="/login" className='hidden lg:inline-block border-2 border-brandClr1 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4'>Log in</Link>
+          ) }
 
           {/* Mobile Menu */}
           <div className='lg:hidden'>

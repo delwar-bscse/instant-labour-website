@@ -3,8 +3,8 @@ import React from 'react'
 
 const EditProfile = () => {
   return (
-    <div className='maxWidth'>
-      <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-12'>Edit Profile</h2>
+    <div className='maxWidth py-4 md:py-8'>
+      <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold text-gray-800 text-center pb-4 md:pb-8'>Edit Profile</h2>
       <EditProfileComponent />
     </div>
   )

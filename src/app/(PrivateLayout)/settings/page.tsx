@@ -1,15 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React, { useEffect, useState } from 'react'
 import { VscLock } from "react-icons/vsc";
-import { RiLogoutBoxRLine } from "react-icons/ri";
-import { useRouter } from 'next/navigation';
 // import { deleteCookie } from "cookies-next/client";
-import { toast } from 'sonner';
-import { MdOutlineDashboard } from "react-icons/md";
-import { myFetch } from '@/utils/myFetch';
+// import { toast } from 'sonner';
 import ChangePassword from '@/components/cui/ChangePassword';
 import DeleteAccount from '@/components/cui/DeleteAccount';
+import { RiDeleteBin6Line } from "react-icons/ri";
 
 const profileSidebar = [
   {
@@ -20,26 +16,23 @@ const profileSidebar = [
   {
     id: 2,
     title: "Delete Account",
-    icon: <RiLogoutBoxRLine className='text-gray-700 text-xl' />,
+    icon: <RiDeleteBin6Line className='text-gray-700 text-xl' />,
   },
 ];
 
 const Settings = () => {
-  const router = useRouter();
   const [step, setStep] = useState(1);
-  const [user, setUser] = useState<any>(null);
-
-  const role = ["creator", "admin"];
+  // const [user, setUser] = useState<any>(null);
 
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await myFetch("/users/my-profile", {
-        method: "GET",
-        tags: ["user"]
-      });
-      console.log("Profile User Data:", response);
-      setUser(response?.data);
+      // const response = await myFetch("/users/my-profile", {
+      //   method: "GET",
+      //   tags: ["user"]
+      // });
+      // console.log("Profile User Data:", response);
+      // setUser(response?.data);
     };
     getUser();
   }, []);
@@ -56,16 +49,6 @@ const Settings = () => {
               <span className='text-lg font-semibold text-gray-600'>{item.title}</span>
             </li>
           ))}
-          {role?.includes(user?.role) && (
-            <li>
-              <a href="https://www.dashboard.thesocialchance.com" target="_blank" className={`w-[220px] flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow `}>
-                <span>
-                  <MdOutlineDashboard className='text-gray-700 text-xl' />
-                </span>
-                <span className='text-lg font-semibold text-gray-600'>Dashboard</span>
-              </a>
-            </li>
-          )}
         </ul>
       </div>
 

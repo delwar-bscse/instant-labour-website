@@ -18,7 +18,7 @@ const ContactUs = () => {
         </div>
       </div>
       {/* --------------------- Contact Us --------------------- */}
-      <div>
+      <div className='pb-20'>
         <ContactUsSection />
       </div>
     </div>

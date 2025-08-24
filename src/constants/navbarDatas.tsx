@@ -41,10 +41,6 @@ export const employerMenus: navItemsType[] = [
     url: '/post-job',
   },
   {
-    title: 'Inbox',
-    url: '/inbox',
-  },
-  {
     title: 'Buy Credits',
     url: '/credits',
   },
@@ -63,6 +59,10 @@ export const workerMenus: navItemsType[] = [
   {
     title: 'Applied Job',
     url: '/applied-job',
+  },
+  {
+    title: 'Posted Job',
+    url: '/posted-job',
   },
   {
     title: 'Inbox',
