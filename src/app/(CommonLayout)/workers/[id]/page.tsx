@@ -1,11 +1,18 @@
 
 import React from 'react'
-import WorkerDetails from '@/components/cui/WorkerDetails';
+import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop';
+import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody';
 
 const SingleWorker = () => {
   return (
     <div className='maxWidth pt-4 pb-20'>
-      <WorkerDetails />
+
+      {/* ------------------- Worker Details Body ------------------- */}
+      <WorkerDetailsTop />
+
+      {/* ------------------- Worker Details Body ------------------- */}
+      <WorkerDetailsBody />
+
     </div>
   )
 }

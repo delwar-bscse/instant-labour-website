@@ -1,14 +1,14 @@
 import { cateImg01, cateImg02, cateImg03, cateImg04, cateImg05, client01, client02, client03 } from "@/assets/assets"
 
 
-export const howItWorks = [
+export const howItWorksEmployers = [
   {
     title:"Post a shift",
-    des:"discribe your job-it takes under 1 minute"
+    des:"Discribe your job-it takes under 1 minute"
   },
   {
     title:"Get matched instantly  ",
-    des:"our ai sends it to the best local work"
+    des:"Our ai sends it to the best local work"
   },
   {
     title:"Labour arrives fast",
@@ -16,37 +16,18 @@ export const howItWorks = [
   },
 ]
 
-export const creditPrice = [
+export const howItWorksWorkers = [
   {
-    credits: 10,
-    price: 5
+    title:"Create Worker Profile",
+    des:"discribe your job-it takes under 1 minute"
   },
   {
-    credits: 20,
-    price: 10
+    title:"Get Matched With Jobs Instantly",
+    des:"Our Ai Sends It To The Best Local Work"
   },
   {
-    credits: 30,
-    price: 15
-  },
-  {
-    credits: 40,
-    price: 20
-  }
-]
-
-export const spendCredits = [
-  {
-    title: "Post A Job",
-    credits: 10
-  },
-  {
-    title: "Accept a Job",
-    credits: 10
-  },
-  {
-    title: "Send First Message (Employer)",
-    credits: 1
+    title:"Go To Work!",
+    des:"Your Worker Confirm An Shows Up. Done."
   },
 ]
 

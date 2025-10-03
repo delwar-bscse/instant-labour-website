@@ -19,7 +19,7 @@ export function TakeDate({ date, setDate }: { date: Date, setDate: React.Dispatc
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor="date" className="text-gray-800 text-xl">
-        Date of birth
+        Deadline
       </Label>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>

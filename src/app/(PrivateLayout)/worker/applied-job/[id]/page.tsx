@@ -1,7 +1,7 @@
 import JobDetails from '@/components/cui/JobDetails'
 import React from 'react'
 
-const AppliedJobDetailsPage = () => {
+const AppliedJobDetails = () => {
   return (
     <div>
       <JobDetails />
@@ -9,4 +9,4 @@ const AppliedJobDetailsPage = () => {
   )
 }
 
-export default AppliedJobDetailsPage
+export default AppliedJobDetails

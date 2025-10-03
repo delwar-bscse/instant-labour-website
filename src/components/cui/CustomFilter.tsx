@@ -19,10 +19,12 @@ import {
 } from "@/components/ui/select"
 import PriceRange from '@/components/cui/CustomRange'
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Input } from '../ui/input';
 
 const defaultValues = {
   category: "",
   subCategory: "",
+  location: "",
   price: 50,
   radius: 50
 };
@@ -45,6 +47,9 @@ function CustomFilterSuspense() {
     }
     if (data.subCategory) {
       params.set("subCategory", data.subCategory);
+    }
+    if (data.location) {
+      params.set("location", data.location);
     }
     if (data.price) {
       params.set("price", data.price.toString());
@@ -106,6 +111,21 @@ function CustomFilterSuspense() {
                     <SelectItem value="SubCategory02">Sub Category 2</SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Sub Category */}
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-600">Location</FormLabel>
+                <FormControl>
+                  <Input variant="borderblackRound" className="" placeholder="Enter email" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

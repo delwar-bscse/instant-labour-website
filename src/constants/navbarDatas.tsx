@@ -17,10 +17,6 @@ export const navbarItems: navItemsType[] = [
     url: '/workers',
   },
   {
-    title: 'Inbox',
-    url: '/inbox',
-  },
-  {
     title: 'About us',
     url: '/about-us',
   },
@@ -34,19 +30,23 @@ export const navbarItems: navItemsType[] = [
 export const employerMenus: navItemsType[] = [
   {
     title: 'Profile',
-    url: '/profile',
+    url: '/employer/profile',
   },
   {
-    title: 'Post Job',
-    url: '/post-job',
+    title: 'Posted Job',
+    url: '/employer/posted-job',
   },
   {
-    title: 'Buy Credits',
-    url: '/credits',
+    title: 'Inbox',
+    url: '/employer/inbox',
+  },
+  {
+    title: 'Subscription',
+    url: '/employer/subscription',
   },
   {
     title: 'Logout',
-    url: '/logout',
+    url: '/login',
   },
 ];
 
@@ -54,26 +54,18 @@ export const employerMenus: navItemsType[] = [
 export const workerMenus: navItemsType[] = [
   {
     title: 'Profile',
-    url: '/profile',
+    url: '/worker/profile',
   },
   {
     title: 'Applied Job',
-    url: '/applied-job',
-  },
-  {
-    title: 'Posted Job',
-    url: '/posted-job',
+    url: '/worker/applied-job',
   },
   {
     title: 'Inbox',
-    url: '/inbox',
-  },
-  {
-    title: 'Buy Credits',
-    url: '/credits',
+    url: '/worker/inbox',
   },
   {
     title: 'Logout',
-    url: '/logout',
+    url: '/login',
   },
 ];

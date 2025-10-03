@@ -15,7 +15,7 @@ const Footer = () => {
             <Image src={brandLogo} alt="Blooming Brands" width={200} height={40} className='w-[200px]  object-fit' />
           </h3>
           <p className='flex items-center gap-2'>
-            At [Platform Name], we connect businesses with skilled freelancers to get work done faster and better. Our platform makes it easy to find the right talent, hire with confidence, and collaborate smoothly. Whether you’re an employer looking for experts or a freelancer showcasing your skills, we help you work together for great results.
+            At Instantlabour, we connect businesses with skilled freelancers to get work done faster and better. Our platform makes it easy to find the right talent, hire with confidence, and collaborate smoothly. Whether you’re an employer looking for experts or a freelancer showcasing your skills, we help you work together for great results.
           </p>
         </div>
         <div className='lg:basis-[50%] flex flex-col sm:flex-row lg:justify-end gap-8 px-6'>
@@ -31,10 +31,10 @@ const Footer = () => {
           </div>
           <div>
             <FooterTitle title="Contact Info" />
-            <ul className='space-y-2'>
+            <ul className='space-y-3'>
               {contactInfo?.map((item, index) => (
                 <li key={index} className='flex items-center gap-2'>
-                  <span className='p-2 rounded-full'>{item?.icon}</span>
+                  <span className=''>{item?.icon}</span>
                   <span>{item?.title}</span>
                 </li>
               ))}
@@ -42,14 +42,23 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className='h-[2px] w-full bg-gray-50'/>
-      <div className='maxWidth flex justify-between items-center py-8'>
-        <p>© 2025 [Platform Name]. All rights reserved.</p>
+      <div className='h-[2px] w-full bg-gray-50' />
+      <div className='maxWidth flex flex-col-reverse md:flex-row justify-between items-center gap-2 py-8'>
+        <p>© 2025 Instantlabour. All rights reserved.</p>
         <ul>
           {followUs?.map((item, index) => (
-            <li key={index} className='inline-block mx-4'>
-              <Link href={item?.url} className='hover:text-white text-white delay-200'>{item?.icon}</Link>
+            <li
+              key={index}
+              className="inline-block mx-4 border border-white rounded-full p-1.5 md:p-2 cursor-pointer hover:bg-white/10 transition-colors duration-200"
+            >
+              <Link
+                href={item?.url}
+                className="text-white hover:text-white text-xl md:text-2xl"
+              >
+                {item?.icon}
+              </Link>
             </li>
+
           ))}
         </ul>
       </div>

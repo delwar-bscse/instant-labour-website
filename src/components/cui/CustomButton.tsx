@@ -2,11 +2,12 @@ import Link from 'next/link'
 import React from 'react'
 import clsx from 'clsx'
 
-type Variant = 'button01' | 'button02'
+type Variant = 'button01' | 'button02' | 'button03'
 
 const variantClasses: Record<Variant, string> = {
-  button01: 'py-2 px-3',
+  button01: 'py-2 px-4',
   button02: 'lg:py-3 lg:px-4 py-2 px-3',
+  button03: 'py-1.5 px-4',
 }
 
 const CustomButton = ({

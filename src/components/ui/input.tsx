@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 
 const variantClasses: Record<string, string> = {
   borderblack: "border border-gray-400 focus-visible:ring-gray-200 bg-white rounded-none",
+  borderblackRound: "border border-gray-400 focus-visible:ring-gray-200 bg-white rounded-sm",
   yelloBg2: "bg-[#FEF6E7] focus:bg-[#FEF6E7]/60 border-0 focus-visible:ring-0 focus-visible:border-0 outline-none  h-11",
 }
 

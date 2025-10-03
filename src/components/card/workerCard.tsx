@@ -3,13 +3,25 @@ import Image from 'next/image'
 import React from 'react'
 import { LuLayers2 } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
-import CustomButton from '../cui/CustomButton';
+// import CustomButton from '../cui/CustomButton';
 import { MdVerifiedUser } from "react-icons/md";
 import { HiOutlineCurrencyPound } from "react-icons/hi";
 
-const WorkerCard = ({ item, url }: { item: Record<string, any>, url: string }) => {
+const WorkerCard = ({ item }: { item: Record<string, any>, url?: string, status?: string }) => {
+
+  // const handleStatus = () => {
+  //   if (status === "Approved") {
+  //     return "text-green-500"
+  //   } else if (status === "Pending") {
+  //     return "text-blue-500"
+  //   } else {
+  //     return "text-red-500"
+  //   }
+  // }
+
+
   return (
-    <div key={item._id} className='space-y-2 bg-white customShadow p-4'>
+    <>
       <div>
         <Image src={item.workerImg} width={500} height={400} alt={item.name} className='w-full h-[260px]' />
       </div>
@@ -41,9 +53,10 @@ const WorkerCard = ({ item, url }: { item: Record<string, any>, url: string }) =
             <span>{item.price} Per Day</span>
           </li>
         </ul>
-        <CustomButton text="View Profile" url={url} variant="button01" className='w-full' />
+        {/* {status && <p className={`text-sm font-semibold ${handleStatus()}`}>{status}</p>} */}
+        {/* <CustomButton text="View Profile" url={url} variant="button01" className='w-full' /> */}
       </div>
-    </div>
+    </>
   )
 }
 

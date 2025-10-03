@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import Image from 'next/image'
@@ -23,9 +24,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Menu } from 'lucide-react'
-import { navbarItems, workerMenus } from '@/constants/navbarDatas'
+import { navbarItems, workerMenus, employerMenus } from '@/constants/navbarDatas'
 import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
+import { EUserRole, getUserRole } from '@/utils/getUserRole'
 
 
 
@@ -34,8 +36,11 @@ const Navbar = () => {
   const [open, setOpen] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>(null);
+
+  // determine user role and set dropdown items accordingly
+  const userRole = getUserRole();
+  const dropdownItems = userRole === EUserRole.EMPLOYER ? employerMenus : workerMenus;
 
   const isActive = (url: string) => {
     if (url === "/") return pathname === "/";
@@ -55,7 +60,7 @@ const Navbar = () => {
   }, [pathname]);
 
   const hadleRedirect = (url: string) => {
-    if(url === "/logout"){
+    if (url === "/logout") {
       return router.push("/");
     }
     router.push(url);
@@ -98,17 +103,17 @@ const Navbar = () => {
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                {workerMenus.map((item, index)=>(
+                {dropdownItems.map((item, index) => (
                   <DropdownMenuItem key={index} onClick={() => hadleRedirect(item.url)} className={`${isActive(item.url)
-                ? 'bg-brandClr1 text-white font-bold'
-                : 'hover:bg-brandClr1 hover:text-white'
-                }`}>{item.title}</DropdownMenuItem>
+                    ? 'bg-brandClr1 text-white font-bold'
+                    : 'hover:bg-brandClr1 hover:text-white'
+                    }`}>{item.title}</DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <Link href="/login" className='hidden lg:inline-block border-2 border-brandClr1 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4'>Log in</Link>
-          ) }
+          )}
 
           {/* Mobile Menu */}
           <div className='lg:hidden'>

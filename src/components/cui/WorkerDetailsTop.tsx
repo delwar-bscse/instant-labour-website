@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import React from 'react'
 import { workerDetails } from '@/data/workerDatas';
-import WorkerDetailsBody from './WorkerDetailsBody';
 
-const WorkerDetails = () => {
+const WorkerDetailsTop = () => {
   return (
-    <div className='maxWidth pt-4 pb-20'>
+    <div className='maxWidth pt-4 pb-4'>
       {/* ------------------- Profile & Cover ------------------- */}
       <div className='relative'>
         <Image src={workerDetails.workerCover} width={1200} height={300} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[300px] object-fit' />
@@ -14,11 +13,9 @@ const WorkerDetails = () => {
           <div className='w-6 h-6 md:w-10 md:h-10 rounded-full bg-green-500 absolute -top-4 right-0 transform -translate-x-1/2 translate-y-1/2' />
         </div>
       </div>
-      <div className='h-[80px] md:h-[150px]' />
-
-      <WorkerDetailsBody />
+      <div className='h-[80px] md:h-[150px]' />      
     </div>
   )
 }
 
-export default WorkerDetails
+export default WorkerDetailsTop

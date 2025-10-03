@@ -8,8 +8,8 @@ import { LuPhoneCall } from "react-icons/lu";
 
 export const quickLinks = [
   {
-    title: "About Us",
-    url: "/about-us"
+    title: "Subscription",
+    url: "/subscription"
   },
   {
     title: "Terms & Conditions",
@@ -24,29 +24,29 @@ export const quickLinks = [
 export const contactInfo= [
   {
     title: "+2123 654 7898",
-    icon: <LuPhoneCall size={20} />
+    icon: <LuPhoneCall />
   },
   {
     title: "shamimnadir@example.com",
-    icon: <FiMail size={20} />
+    icon: <FiMail/>
   },
   {
     title: "Company Address",
-    icon: <GrLocation size={20} />
+    icon: <GrLocation/>
   },
 ];
 
 export const followUs = [
   {
-    icon: <SlSocialFacebook size={20} />,
+    icon: <SlSocialFacebook/>,
     url: "https://www.facebook.com/share/19b3DdSvMx/?mibextid=wwXIfr"
   },
   {
-    icon: <SlSocialInstagram size={20} />,
+    icon: <SlSocialInstagram/>,
     url: "https://www.instagram.com/thesocialchance?igsh=cW15MXhwZ21sOHFu&utm_source=qr"
   },
   {
-    icon: <PiTiktokLogoThin size={20} />,
+    icon: <PiTiktokLogoThin />,
     url: "https://www.tiktok.com/@thesocialchance?_t=ZN-8yWcc2oq9LS&_r=1"
   },
 ]

@@ -1,20 +1,20 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import PostedJobList from '@/components/cui/PostedJobList';
-import BookingList from '@/components/cui/BookingList';
+import ApplyJobList from '@/components/cui/ApplyJobList';
+import OfferJobList from '@/components/cui/OfferJobList';
 
 const profileSidebar = [
   {
     id: 1,
-    title: "Posted Job",
+    title: "Apply List",
   },
   {
     id: 2,
-    title: "Booking List",
+    title: "Offer List",
   },
 ];
 
-const PostedJobPage = () => {
+const AppliedJobPage = () => {
   const [step, setStep] = useState(1);
   // const [user, setUser] = useState<any>(null);
 
@@ -44,12 +44,12 @@ const PostedJobPage = () => {
       </div>
 
       <div className='w-full'>
-        {step === 1 && <PostedJobList />}
-        {step === 2 && <BookingList />}
+        {step === 1 && <ApplyJobList />}
+        {step === 2 && <OfferJobList />}
       </div>
 
     </div>
   )
 }
 
-export default PostedJobPage
+export default AppliedJobPage

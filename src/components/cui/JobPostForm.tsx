@@ -58,6 +58,14 @@ const JobPostForm = () => {
   const [skillRequirements, setSkillRequirements] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
   const [date, setDate] = useState<Date>(new Date());
+  const [image, setImage] = useState<File | null>(null);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImage(file);
+    }
+  };
 
   const form = useForm<EditProfileFormValues>({
     resolver: zodResolver(editProfileFormSchema),
@@ -67,16 +75,26 @@ const JobPostForm = () => {
 
   async function onSubmit(data: EditProfileFormValues) {
     console.log("Submitted Data:", data);
-    // const formData = new FormData();
-    // formData.append("name", data.name);
-    // // formData.append("email", data.email);
-    // formData.append("phone", data.phoneNumber);
+    const formData = new FormData();
+    formData.append("companyName", data.companyName);
+    formData.append("category", data.category);
+    formData.append("subCategory", data.subCategory);
+    formData.append("email", data.location);
+    formData.append("deadline", date.toISOString());
+    formData.append("phone", data.availability);
+    if (image) {
+      formData.append("image", image);
+    }
+    formData.append("budget", data.budget);
+    formData.append("keyResponsibilities", JSON.stringify(keyResponsibilities));
+    formData.append("skillRequirements", JSON.stringify(skillRequirements));
+    formData.append("benefits", JSON.stringify(benefits));
 
     // const response = await myFetch("/users/update-my-profile", {
     //   method: "PATCH",
     //   body: formData,
     // });
-    // // console.log("User Data:", response);
+    // console.log("User Data:", response);
   }
 
   useEffect(() => {
@@ -171,6 +189,9 @@ const JobPostForm = () => {
               )}
             />
 
+            {/* Deadline */}
+            <TakeDate date={date} setDate={setDate} />
+
 
             {/* Availability */}
             <FormField
@@ -200,7 +221,12 @@ const JobPostForm = () => {
               )}
             />
 
-            <div className="grid grid-cols-2 gap-4">
+            {/* Upload Image */}
+            <div>
+              <p className="text-gray-800 text-xl font-semibold pb-1">Upload 1 Image</p>
+              <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
+            </div>
+            
               {/* Budget */}
               <FormField
                 control={form.control}
@@ -216,16 +242,13 @@ const JobPostForm = () => {
                 )}
               />
 
-              <TakeDate date={date} setDate={setDate} />
-            </div>
-
-            {/* Overview */}
+            {/* Job Overview */}
             <FormField
               control={form.control}
               name="overview"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Overview</FormLabel>
+                  <FormLabel className="text-gray-800 text-xl">Job Overview</FormLabel>
                   <FormControl>
                     <Textarea variant="borderblack" placeholder="Enter your message" {...field} className="" />
                   </FormControl>
@@ -235,7 +258,6 @@ const JobPostForm = () => {
             />
 
             <InputList title="Key Responsibilities" list={keyResponsibilities} setList={setKeyResponsibilities} />
-
             <InputList title="Skill Requirements" list={skillRequirements} setList={setSkillRequirements} />
             <InputList title="Benefits" list={benefits} setList={setBenefits} />
 
