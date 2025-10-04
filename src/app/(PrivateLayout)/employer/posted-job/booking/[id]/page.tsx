@@ -1,10 +1,22 @@
-import WorkerDetails from '@/components/cui/WorkerDetailsTop'
+import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
+import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
 import React from 'react'
 
-const BookingWorkerDetails = () => {
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}
+
+const BookingWorkerDetails = ({ searchParams }: Props) => {
+  const type = searchParams.type;
+  console.log("Status",type)
   return (
     <div className='maxWidth pt-4 pb-20'>
-      <WorkerDetails />
+      {/* ------------------- Worker Details Body ------------------- */}
+      <WorkerDetailsTop />
+
+      {/* ------------------- Worker Details Body ------------------- */}
+      <WorkerDetailsBody />
     </div>
   )
 }

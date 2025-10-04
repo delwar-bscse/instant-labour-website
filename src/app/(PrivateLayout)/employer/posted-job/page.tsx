@@ -1,23 +1,32 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import PostedJobList from '@/components/cui/PostedJobList';
 import BookingList from '@/components/cui/BookingList';
 import CustomButton from '@/components/cui/CustomButton';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 const profileSidebar = [
   {
     id: 1,
     title: "Posted Job",
+    query: "posted-job"
   },
   {
     id: 2,
     title: "Booking List",
+    query: "booking-list"
   },
 ];
 
 const PostedJobPage = () => {
-  const [step, setStep] = useState(1);
   // const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const type = searchParams.get("type") || "posted-job";
+
+  useEffect(()=>(console.log(pathname)),[pathname])
 
 
   useEffect(() => {
@@ -37,21 +46,21 @@ const PostedJobPage = () => {
       <div className='flex justify-between items-center'>
         <ul className='flex gap-4'>
           {profileSidebar?.map((item) => (
-            <li onClick={() => setStep(item.id)} key={item.id} className={` gap-2 py-2 cursor-pointer rounded-sm px-3 shadow font-semibold text-center ${item.id === step ? "bg-brandClr1 text-gray-50" : "bg-white"}`}>
+            <li onClick={() => router.push(`${pathname}?type=${item.query}`)} key={item.id} className={` gap-2 py-2 cursor-pointer rounded-sm px-3 shadow font-semibold text-center ${item.query === type ? "bg-brandClr1 text-gray-50" : "bg-white"}`}>
               {item.title}
             </li>
           ))}
         </ul>
-        {step === 1 && <div className='flex items-center justify-end pb-2'>
+        {type === "posted-job" && <div className='flex items-center justify-end pb-2'>
           <div className='w-full max-w-50'>
-            <CustomButton text="+ Post a job" url="/post-job" variant="button01" className='w-full' />
+            <CustomButton text="+ Post a job" url="/employer/posted-job/post-job" variant="button01" className='w-full' />
           </div>
         </div>}
       </div>
 
       <div className='w-full'>
-        {step === 1 && <PostedJobList />}
-        {step === 2 && <BookingList />}
+        {type === "posted-job" && <PostedJobList />}
+        {type === "booking-list" && <BookingList />}
       </div>
 
     </div>

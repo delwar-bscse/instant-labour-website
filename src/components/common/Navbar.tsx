@@ -96,7 +96,7 @@ const Navbar = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className='flex items-center gap-2 cursor-pointer'>
-                  <div className='max-md:hidden w-12 h-12 rounded-full overflow-hidden border-2 border-primary'>
+                  <div className='w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-primary'>
                     <Image src={user ? user?.profile : profileImg} alt="User Profile" width={200} height={200} className='object-fit' />
                   </div>
                   <p className='hidden xl:inline-block font-bold text-gray-700'>Md. Kamran Ali</p>

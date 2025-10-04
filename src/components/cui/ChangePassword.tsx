@@ -74,7 +74,7 @@ const ChangePassword = () => {
   }
 
   return (
-    <div className="w-full max-w-[700px] mx-auto flex text-center justify-center px-4">
+    <div className="w-full max-w-[400px] mx-auto flex text-center justify-center px-4">
       <div className="bg-white customShadow px-4 md:px-8 py-6 md:py-8 w-full rounded-md">
         {/* <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-12">Change Password</h2> */}
         <Form {...form}>

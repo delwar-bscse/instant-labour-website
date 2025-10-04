@@ -42,7 +42,7 @@ export const employerMenus: navItemsType[] = [
   },
   {
     title: 'Subscription',
-    url: '/employer/subscription',
+    url: '/subscription',
   },
   {
     title: 'Logout',

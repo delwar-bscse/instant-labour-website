@@ -5,7 +5,7 @@ import { FaCheckSquare } from "react-icons/fa";
 
 const WorkerDetailsBody = () => {
   return (
-    <div className='maxWidth pb-20'>
+    <div className='maxWidth'>
       <div className='space-y-5'>
         {/* ------------------- Personal Info ------------------- */}
         <div className='space-y-2'>

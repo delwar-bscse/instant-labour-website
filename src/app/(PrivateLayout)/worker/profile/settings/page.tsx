@@ -5,15 +5,12 @@ import ChangePassword from '@/components/cui/ChangePassword';
 import DeleteAccount from '@/components/cui/DeleteAccount';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { BiUserCircle } from 'react-icons/bi';
-import { TiBusinessCard } from "react-icons/ti";
 import { MdOutlineLogout } from "react-icons/md";
 import EmployeeWorkerProfile from '@/components/cui/EmployeeWorkerProfile';
 import { useRouter } from 'next/navigation';
-import SubscriptionCard from '@/components/cui/SubscriptionCard';
-import { subscriptionDatas } from '@/data/subscriptionDatas';
 import Image, { StaticImageData } from 'next/image';
-import { IoCameraOutline } from 'react-icons/io5';
 import { workerDetails } from '@/data/workerDatas';
+import { IoCameraOutline } from "react-icons/io5";
 
 const profileSidebar = [
   {
@@ -23,25 +20,21 @@ const profileSidebar = [
   },
   {
     id: 2,
-    title: "Subscribe Package",
-    icon: <TiBusinessCard className='text-gray-700 text-xl' />,
-  },
-  {
-    id: 3,
     title: "Change Password",
     icon: <VscLock className='text-gray-700 text-xl' />,
   },
   {
-    id: 4,
+    id: 3,
     title: "Delete Account",
     icon: <RiDeleteBin6Line className='text-gray-700 text-xl' />,
   },
 ];
 
-const EmployeeProfile = () => {
+const WorkerSettings = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [profileImage, setProfileImage] = useState<string | StaticImageData>(workerDetails.workerImg);
+  const [coverImage, setCoverImage] = useState<string | StaticImageData>(workerDetails.workerCover);
 
   const handleProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -49,6 +42,15 @@ const EmployeeProfile = () => {
     const url = URL.createObjectURL(file);
     setProfileImage(url);
   };
+
+  const handleCoverImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const url = URL.createObjectURL(file);
+    setCoverImage(url);
+  };
+
+
 
 
   useEffect(() => {
@@ -68,12 +70,15 @@ const EmployeeProfile = () => {
       {/* ------------------- Profile & Cover ------------------- */}
       <div className='maxWidth pt-4 pb-4'>
         <div className='relative'>
-          <div className='bg-[#FFECAC] h-20 sm:h-28 md:h-40 w-full' />
-
+          <Image src={coverImage} width={1200} height={240} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[240px] object-fit' />
+          <div onClick={() => document.getElementById("coverImageId")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-gray-500/50 flex items-center justify-center absolute bottom-7 right-0 transform -translate-x-1/2 translate-y-1/2'>
+            <IoCameraOutline className='text-white text-lg md:text-xl' />
+          </div>
+          <input id="coverImageId" type="file" accept='image/*' onChange={handleCoverImage} className='hidden' />
           <div className='absolute bottom-0 left-6 md:left-16 rounded-full transform translate-y-1/2 bg-white/50'>
             <Image src={profileImage} width={320} height={320} alt={workerDetails.name} className='w-[100px] h-[100px] md:w-[160px] md:h-[160px] rounded-full' />
 
-            <div onClick={() => document.getElementById("profileImageId")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-gray-500/50 flex items-center justify-center absolute bottom-4 md:bottom-10 -right-2 md:-right-4 transform -translate-x-1/2 translate-y-1/2'>
+            <div onClick={() => document.getElementById("profileImageId")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-gray-500/50 flex items-center justify-center absolute bottom-6 md:bottom-8 -right-4 transform -translate-x-1/2 translate-y-1/2'>
               <IoCameraOutline className='text-white text-lg md:text-xl' />
             </div>
             <input id="profileImageId" type="file" accept='image/*' onChange={handleProfileImage} className='hidden' />
@@ -82,7 +87,7 @@ const EmployeeProfile = () => {
         <div className='h-[20px] md:h-[80px]' />
       </div>
 
-      {/* ------------------- Settings Sidebar ------------------- */}
+      {/* ------------------- Settings ------------------- */}
       <div className='maxWidth flex flex-col md:flex-row gap-8 py-8'>
         <div>
           <ul className='flex flex-row justify-center md:flex-col gap-4'>
@@ -105,9 +110,8 @@ const EmployeeProfile = () => {
 
         <div className='w-full'>
           {step === 1 && <EmployeeWorkerProfile />}
-          {step === 2 && <SubscriptionCard data={subscriptionDatas[0]} hideButton={true} />}
-          {step === 3 && <ChangePassword />}
-          {step === 4 && <DeleteAccount />}
+          {step === 2 && <ChangePassword />}
+          {step === 3 && <DeleteAccount />}
         </div>
 
       </div>
@@ -115,4 +119,4 @@ const EmployeeProfile = () => {
   )
 }
 
-export default EmployeeProfile
+export default WorkerSettings

@@ -8,7 +8,7 @@ import { HiOutlineCurrencyPound } from "react-icons/hi";
 import { MdOutlineVerifiedUser } from 'react-icons/md';
 import { BiUserCircle } from 'react-icons/bi';
 
-const JobDetails = () => {
+const JobDetailsTop = () => {
   return (
     <div key={jobDetails._id} className='flex flex-col md:flex-row gap-8 bg-white'>
 
@@ -56,4 +56,4 @@ const JobDetails = () => {
   )
 }
 
-export default JobDetails
+export default JobDetailsTop

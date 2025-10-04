@@ -27,7 +27,7 @@ const WorkerList = ({ searchParams }: Props) => {
               </div>
             </div>
             <div>
-              <CustomButton text="View" url={`/posted-job/worker-list/${index}?type=${type}`} variant="button03" className='w-full md:w-auto' />
+              <CustomButton text="View" url={`/employer/posted-job/worker-list/${index}?type=${type}`} variant="button03" className='w-full md:w-auto' />
             </div>
           </div>
         ))}

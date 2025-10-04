@@ -1,14 +1,14 @@
 import CustomButton from '@/components/cui/CustomButton'
-import JobDetails from '@/components/cui/JobDetails'
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
 import React from 'react'
+import JobDetailsTop from '@/components/cui/JobDetailsTop'
 
 const page = () => {
   return (
     <div className='maxWidth pt-4 pb-20'>
 
       {/* --------------------- Job Header --------------------- */}
-      <JobDetails />
+      <JobDetailsTop />
 
       {/* --------------------- Job body (description) --------------------- */}
       <JobDetailsBody />
