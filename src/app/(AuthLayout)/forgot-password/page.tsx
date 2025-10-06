@@ -83,7 +83,7 @@ const ForgotPassword = () => {
               <FormItem>
                 <FormLabel className="text-gray-gray-500 text-lg">Email</FormLabel>
                 <FormControl>
-                  <Input variant="yelloBg" placeholder="Enter email" {...field} />
+                  <Input variant="yelloBg2" placeholder="Enter email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

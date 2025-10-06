@@ -3,7 +3,7 @@ import { SlSocialFacebook, SlSocialInstagram } from "react-icons/sl";
 import { PiTiktokLogoThin } from "react-icons/pi";
 import { GrLocation } from "react-icons/gr";
 import { FiMail } from "react-icons/fi";
-import { LuPhoneCall } from "react-icons/lu";
+// import { LuPhoneCall } from "react-icons/lu";
 
 
 export const quickLinks = [
@@ -22,10 +22,10 @@ export const quickLinks = [
 ];
 
 export const contactInfo= [
-  {
-    title: "+2123 654 7898",
-    icon: <LuPhoneCall />
-  },
+  // {
+  //   title: "+2123 654 7898",
+  //   icon: <LuPhoneCall />
+  // },
   {
     title: "shamimnadir@example.com",
     icon: <FiMail/>

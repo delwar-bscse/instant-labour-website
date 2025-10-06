@@ -1,4 +1,5 @@
 "use client"
+
 import React, { useEffect, useState } from 'react'
 import { VscLock } from "react-icons/vsc";
 import ChangePassword from '@/components/cui/ChangePassword';

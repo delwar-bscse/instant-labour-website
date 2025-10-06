@@ -1,5 +1,6 @@
 "use client"
-import React, { useEffect } from 'react'
+
+import React, { Suspense, useEffect } from 'react'
 import PostedJobList from '@/components/cui/PostedJobList';
 import BookingList from '@/components/cui/BookingList';
 import CustomButton from '@/components/cui/CustomButton';
@@ -18,7 +19,7 @@ const profileSidebar = [
   },
 ];
 
-const PostedJobPage = () => {
+function PostedJobPageSuspense () {
   // const [user, setUser] = useState<any>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -26,7 +27,7 @@ const PostedJobPage = () => {
 
   const type = searchParams.get("type") || "posted-job";
 
-  useEffect(()=>(console.log(pathname)),[pathname])
+  useEffect(() => (console.log(pathname)), [pathname])
 
 
   useEffect(() => {
@@ -65,6 +66,15 @@ const PostedJobPage = () => {
 
     </div>
   )
+}
+
+
+export const PostedJobPage = () =>{
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PostedJobPageSuspense />
+    </Suspense>
+  );
 }
 
 export default PostedJobPage

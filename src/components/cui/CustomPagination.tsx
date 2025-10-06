@@ -95,7 +95,7 @@ function MyPaginationSuspense({ TOTAL_PAGES = 5 }: { TOTAL_PAGES?: number }) {
           </PaginationContent>
         </Pagination>
         <Select defaultValue={currentPageSize.toString()} onValueChange={(value) => handlePageSize(parseInt(value))}>
-          <SelectTrigger variant="paginationSelect" size="lg" className="w-[180px]">
+          <SelectTrigger variant="paginationSelect" size="lg" className="w-[180px] h-9 md:h-10 lg:h-11">
             <SelectValue placeholder="10/page" />
           </SelectTrigger>
           <SelectContent>

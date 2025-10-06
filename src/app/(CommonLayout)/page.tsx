@@ -1,3 +1,6 @@
+"use client"
+//use client will be remove later
+
 import Image from "next/image"
 import heroImg from "@/assets/landHero.png";
 import CustomButton from "@/components/cui/CustomButton";
@@ -63,7 +66,7 @@ export default function Home() {
         <div className="bg-brandClr2 p-8 rounded-xl space-y-8">
           <h3 className="text-3xl md:text-5xl text-gray-700 font-semibold bg-white/20 inline-block px-8 py-3 rounded-sm border border-white/50">20% Offer</h3>
           <div className="flex flex-col sm:flex-row justify-between gap-4">
-            <p className="text-gray-700 text-xl md:text-3xl font-semibold">Today all Credits 20% off</p>
+            <p className="text-gray-700 text-xl md:text-3xl font-semibold">Today all packages 20% off</p>
             <div className="w-40">
               <CustomButton text="Buy Now" url="/credits" variant="button01" className="bg-white hover:bg-white/80" />
             </div>

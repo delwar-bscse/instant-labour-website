@@ -1,16 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { getCookie } from "cookies-next";
 
 // getUserRole.ts
 
-type UserRole = "employer" | "worker";
 
-export const EUserRole: { [key: string]: UserRole } = {
+export const EUserRole: { [key: string]: string } = {
   EMPLOYER: "employer",
   WORKER: "worker"
 }
 
 export const getUserRole = () => {
-  // Simulate fetching user role from a database or an API
-  const userRole: UserRole = EUserRole.EMPLOYER;
+  const userRole: any = getCookie("role") || null;
   // const userRole = "worker"
 
   return userRole;

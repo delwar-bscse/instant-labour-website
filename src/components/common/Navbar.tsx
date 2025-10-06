@@ -6,6 +6,7 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { IoClose } from "react-icons/io5";
+import { MdOutlineNotificationsNone } from "react-icons/md";
 
 
 import {
@@ -24,10 +25,10 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Menu } from 'lucide-react'
-import { navbarItems, workerMenus, employerMenus } from '@/constants/navbarDatas'
+import { workerMenus, employerMenus, navbarItemsEmployer, navbarItemsWorker, navbarItemsAll } from '@/constants/navbarDatas'
 import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
-import { EUserRole, getUserRole } from '@/utils/getUserRole'
+import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
 
 
 
@@ -39,8 +40,14 @@ const Navbar = () => {
   const [user, setUser] = useState<any>(null);
 
   // determine user role and set dropdown items accordingly
-  const userRole = getUserRole();
-  const dropdownItems = userRole === EUserRole.EMPLOYER ? employerMenus : workerMenus;
+  const dropdownItems = getUserRoleEmployer() ? employerMenus : workerMenus;
+  let navbarItems = navbarItemsAll;
+
+  if (getUserRoleEmployer()) {
+    navbarItems = navbarItemsEmployer;
+  } else if (getUserRoleWorker()) {
+    navbarItems = navbarItemsWorker;
+  }
 
   const isActive = (url: string) => {
     if (url === "/") return pathname === "/";
@@ -92,7 +99,13 @@ const Navbar = () => {
 
         {/* Log in / Mobile Menu Trigger */}
         <div className='flex justify-end items-center gap-4 relative'>
-          {true ? (
+          {getUserRole() && <Link href="/notifications" className='w-9 h-9 md:w-12 md:h-12 rounded-full  bg-gray-200 flex items-center justify-center'>
+            <span className='relative'>
+              <MdOutlineNotificationsNone className='size-6 md:size-7 text-gray-600 hover:text-gray-800 cursor-pointer' />
+              <span className='absolute -top-[2px] -right-[2px] min-w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px]'>9</span>
+            </span>
+          </Link>}
+          {getUserRole() ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <div className='flex items-center gap-2 cursor-pointer'>
@@ -158,7 +171,7 @@ const Navbar = () => {
                     </li>
                   ))}
                   <li className=' py-4'>
-                    {!user && (
+                    {!getUserRole() && (
                       <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log in</Link>
                     )}
                   </li>

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// "use client"
 import React from 'react'
 
 const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolean }) => {

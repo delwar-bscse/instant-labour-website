@@ -9,9 +9,22 @@ import CustomPagination from '@/components/cui/CustomPagination'
 import CustomButton from '@/components/cui/CustomButton'
 import WorkerCard from '@/components/card/workerCard'
 import { workerDatas } from '@/data/workerDatas'
+import { Button } from '@/components/ui/button'
+import { getUserRoleEmployer } from '@/utils/getUserRole'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 
 const Workers = () => {
+  const router = useRouter();
+
+    const handlePost = () => {
+    if(getUserRoleEmployer()){
+      router.push("/employer/posted-job/post-job");
+    }else{
+      toast.error("Please login first");
+    }
+  }
 
 
   return (
@@ -21,8 +34,8 @@ const Workers = () => {
         <div className="flex-1 space-y-6">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-700 font-semibold capitalize">find labour for your short-term or day job</h1>
           <p className="text-gray-600 mt-4">connects with local labour available now for temporary work.</p>
-          <div className="flex gap-4 w-full max-w-50">
-            <CustomButton text="Post a job" url="/post-job" variant="button01" />
+          <div className='max-w-[200px] mt-12'>
+            <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Book Now</Button>
           </div>
         </div>
         <div className="flex justify-center items-center">

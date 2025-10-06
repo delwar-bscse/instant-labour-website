@@ -30,7 +30,7 @@ const buttonVariants = cva(
         llg: "h-11 rounded-md px-6 has-[>svg]:px-4",
         xl: "h-12 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
-        paginationIcon: "size-10 md:size-11 lg:size-12",
+        paginationIcon: "size-9 md:size-10 lg:size-11",
       },
     },
     defaultVariants: {

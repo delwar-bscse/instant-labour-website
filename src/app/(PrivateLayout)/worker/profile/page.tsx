@@ -1,3 +1,4 @@
+"use client"
 
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import { workerDetails } from '@/data/workerDatas'

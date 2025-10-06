@@ -1,3 +1,4 @@
+// "use client"
 import SubscriptionCard from '@/components/cui/SubscriptionCard'
 import { subscriptionDatas } from '@/data/subscriptionDatas'
 import React from 'react'

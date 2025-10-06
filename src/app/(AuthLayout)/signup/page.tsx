@@ -24,8 +24,6 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { myFetch } from "@/utils/myFetch";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 // Schema
@@ -77,26 +75,27 @@ const SignUp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    // console.log("Submitted Data:", data);
+    console.log("Submitted Data:", data);
+    router.push("/login");
 
-    const res = await myFetch("/users/create", {
-      method: "POST",
-      body: {
-        fullName: data.name,
-        email: data.email,
-        password: data.password,
-        role: "user",
-      },
-    });
+    // const res = await myFetch("/users/create", {
+    //   method: "POST",
+    //   body: {
+    //     fullName: data.name,
+    //     email: data.email,
+    //     password: data.password,
+    //     role: "user",
+    //   },
+    // });
 
-    // console.log("Response from server:", res);
-    if (res.success) {
-      toast.success(`res.message || "Check your email!"`);
-      localStorage.setItem("createUserToken", JSON.stringify(res?.data?.createUserToken));
-      router.push("/brand-signup-otp");
-    } else {
-      toast.error(res.message || "Something went wrong!");
-    }
+    // // console.log("Response from server:", res);
+    // if (res.success) {
+    //   toast.success(`res.message || "Check your email!"`);
+    //   localStorage.setItem("createUserToken", JSON.stringify(res?.data?.createUserToken));
+    //   router.push("/brand-signup-otp");
+    // } else {
+    //   toast.error(res.message || "Something went wrong!");
+    // }
 
   }
 
@@ -119,7 +118,7 @@ const SignUp = () => {
                 <FormItem>
                   <FormLabel className="text-gray-600">Name</FormLabel>
                   <FormControl>
-                    <Input variant="yelloBg" placeholder="Enter Your Name" {...field} />
+                    <Input variant="yelloBg2" placeholder="Enter Your Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -134,7 +133,7 @@ const SignUp = () => {
                 <FormItem>
                   <FormLabel className="text-gray-600">Email</FormLabel>
                   <FormControl>
-                    <Input variant="yelloBg" placeholder="Enter email" {...field} />
+                    <Input variant="yelloBg2" placeholder="Enter email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -149,7 +148,7 @@ const SignUp = () => {
                 <FormItem>
                   <FormLabel className="text-gray-600">Number</FormLabel>
                   <FormControl>
-                    <Input variant="yelloBg" placeholder="Enter email" {...field} />
+                    <Input variant="yelloBg2" placeholder="Enter email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -164,7 +163,7 @@ const SignUp = () => {
                 <FormItem>
                   <FormLabel className="text-gray-600">Location</FormLabel>
                   <FormControl>
-                    <Input variant="yelloBg" placeholder="Enter email" {...field} />
+                    <Input variant="yelloBg2" placeholder="Enter email" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -205,7 +204,7 @@ const SignUp = () => {
                     <div className="relative">
                       <Input
                         type={showPassword ? "text" : "password"}
-                        variant="yelloBg"
+                        variant="yelloBg2"
                         placeholder="Enter password"
                         className="pr-10"
                         {...field}
@@ -234,7 +233,7 @@ const SignUp = () => {
                     <div className="relative">
                       <Input
                         type={showConfirmPassword ? "text" : "password"}
-                        variant="yelloBg"
+                        variant="yelloBg2"
                         placeholder="Enter confirm password"
                         className="pr-10"
                         {...field}
@@ -252,8 +251,18 @@ const SignUp = () => {
               )}
             />
 
+            <div className="flex items-center pt-3">
+              <input type="checkbox" className="mr-2" />
+              <div className="flex text-gray-700 gap-2">
+                <span>By continue</span>
+                <span className="text-blue-600"> policy and terms </span>
+                <span>and</span>
+                <span className="text-blue-600">terms & condition</span>
+              </div>
+            </div>
+
             {/* Submit Button */}
-            <Button variant="yelloBtn" type="submit" size="lg" className="w-full mt-4">
+            <Button variant="yelloBtn" type="submit" size="lg" className="w-full mt-1">
               Sign Up
             </Button>
 

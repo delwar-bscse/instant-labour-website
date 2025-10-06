@@ -1,3 +1,4 @@
+"use client"
 import { contactHeroImg } from '@/assets/assets'
 import ContactUsSection from '@/components/sections/ContactUsSection'
 import Image from 'next/image'

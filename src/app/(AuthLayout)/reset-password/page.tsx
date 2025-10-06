@@ -92,7 +92,7 @@ const ResetPassword = () => {
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      variant="yelloBg"
+                      variant="yelloBg2"
                       placeholder="Enter password"
                       className="pr-10"
                       {...field}
@@ -121,7 +121,7 @@ const ResetPassword = () => {
                   <div className="relative">
                     <Input
                       type={showConfirmPassword ? "text" : "password"}
-                      variant="yelloBg"
+                      variant="yelloBg2"
                       placeholder="Enter confirm password"
                       className="pr-10"
                       {...field}

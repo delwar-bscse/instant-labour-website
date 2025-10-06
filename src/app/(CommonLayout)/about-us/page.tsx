@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// "use client"
 import { aboutHeroImg } from '@/assets/assets'
 import CustomButton from '@/components/cui/CustomButton'
 import { aboutUsData } from '@/data/aboutUsData'

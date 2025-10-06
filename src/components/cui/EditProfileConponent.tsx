@@ -34,7 +34,10 @@ const editProfileFormSchema = z.object({
   name: z.string(),
   category: z.string(),
   subCategory: z.string(),
+
   aboutMe: z.string(),
+  payRequired: z.string(),
+  availability: z.string(),
 });
 
 // Type
@@ -45,10 +48,12 @@ const defaultValues: Partial<EditProfileFormValues> = {
   category: "",
   subCategory: "",
   aboutMe: "",
+  payRequired: "",
+  availability: "",
 };
 
 const EditProfileComponent = () => {
-
+// const [payRequired, setPayRequired] = useState<string>();
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
   const [workExperience, setWorkExperience] = useState<Record<string, string>[]>([]);
   const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
@@ -159,6 +164,53 @@ const EditProfileComponent = () => {
                       <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+                        {/* Availability */}
+            <FormField
+              control={form.control}
+              name="availability"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                        <SelectValue placeholder="Select a availability" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Full-Time">Full-Time</SelectItem>
+                      <SelectItem value="Part-Time">Part-Time</SelectItem>
+                      <SelectItem value="Flexible">Flexible</SelectItem>
+                      <SelectItem value="One Day">One Day</SelectItem>
+                      <SelectItem value="Weekly">Weekly</SelectItem>
+                      <SelectItem value="Monthly">Monthly</SelectItem>
+                      <SelectItem value="Yearly">Yearly</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* Pay Required */}
+            <FormField
+              control={form.control}
+              name="payRequired"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
+                    <span>Pay Required</span>
+                    <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
+                    <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}

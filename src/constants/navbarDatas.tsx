@@ -3,7 +3,7 @@ import { navItemsType } from "@/types/types";
 
 
 
-export const navbarItems: navItemsType[] = [
+export const navbarItemsAll: navItemsType[] = [
   {
     title: 'Home',
     url: '/',
@@ -15,6 +15,43 @@ export const navbarItems: navItemsType[] = [
   {
     title: 'Workers',
     url: '/workers',
+  },
+  {
+    title: 'About us',
+    url: '/about-us',
+  },
+  {
+    title: 'Contact us',
+    url: '/contact-us',
+  },
+];
+
+export const navbarItemsEmployer: navItemsType[] = [
+  {
+    title: 'Home',
+    url: '/',
+  },
+  {
+    title: 'Workers',
+    url: '/workers',
+  },
+  {
+    title: 'About us',
+    url: '/about-us',
+  },
+  {
+    title: 'Contact us',
+    url: '/contact-us',
+  },
+];
+export const navbarItemsWorker: navItemsType[] = [
+  {
+    title: 'Home',
+    url: '/',
+  },
+  {
+    title: 'Jobs',
+    url: '/jobs',
   },
   {
     title: 'About us',

@@ -1,3 +1,5 @@
+// "use client";
+
 import Message from '@/components/sections/Message';
 import { Input } from '@/components/ui/input'
 import { msgDetails, msgList } from '@/data/msgData'

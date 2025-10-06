@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+"use client"
+
 import React, { Suspense } from 'react'
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";

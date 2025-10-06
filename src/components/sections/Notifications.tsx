@@ -1,14 +1,17 @@
 "use client";
 
 import { notificationDatas } from "@/data/notificationDatas";
-import Image from "next/image";
 import { relativeTime } from "@/utils/relativeTimes";
+import Image from "next/image";
 
-export default function NotificationPage() {
+
+
+export default function Notifications() {
   const now = new Date(); // no tz conversion needed
 
   return (
     <div className="maxWidth py-20 space-y-4">
+      <h3 className="font-semibold text-3xl text-brandClr1">Notifications</h3>
       {notificationDatas.map((item) => (
         <div
           key={item._id}
@@ -23,7 +26,7 @@ export default function NotificationPage() {
           />
           <div className="flex-1">
             <p className="flex flex-col gap-2">
-              <span className="font-bold text-gray-600 text-lg">{item.msg}</span>
+              <span className="font-semibold md:font-bold text-gray-600 md:text-lg">{item.msg}</span>
               <span className="text-gray-500 text-[11px]">
                 {relativeTime(item.createdAt, { now })}
               </span>

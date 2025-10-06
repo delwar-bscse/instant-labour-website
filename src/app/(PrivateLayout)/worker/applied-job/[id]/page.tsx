@@ -1,3 +1,4 @@
+// "use client"
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
 import JobDetailsTop from '@/components/cui/JobDetailsTop'
 import React from 'react'

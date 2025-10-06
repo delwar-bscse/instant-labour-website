@@ -1,3 +1,4 @@
+// "use client"
 import EditProfileComponent from '@/components/cui/EditProfileConponent'
 import React from 'react'
 

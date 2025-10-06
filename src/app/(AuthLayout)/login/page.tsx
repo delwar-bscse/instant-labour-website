@@ -17,8 +17,10 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { EUserRole } from "@/utils/getUserRole";
+import { deleteCookie, setCookie } from "cookies-next";
 
 // Schema
 const contactUsFormSchema = z
@@ -49,9 +51,21 @@ const SignIn = () => {
     mode: "onChange",
   });
 
+  useEffect(()=>{
+    deleteCookie('role');
+  },[]);
+
   async function onSubmit(data: ContactUsFormValues) {
     console.log("Submitted Data:", data);
-    router.push("/");
+    if (data.email === "employer@gmail.com" && data.password === "123456") {
+      setCookie("role", EUserRole.EMPLOYER);
+      router.push("/");
+    }
+
+    if (data.email === "worker@gmail.com" && data.password === "123456") {
+      setCookie("role", EUserRole.WORKER);
+      router.push("/");
+    }
 
     // const res = await myFetch("/auth/login", {
     //   method: "POST",
@@ -90,7 +104,7 @@ const SignIn = () => {
               <FormItem>
                 <FormLabel className="text-gray-600 text-lg">Email</FormLabel>
                 <FormControl>
-                  <Input variant="yelloBg" className="" placeholder="Enter email" {...field} />
+                  <Input variant="yelloBg2" className="" placeholder="Enter email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,7 +123,7 @@ const SignIn = () => {
                     <Input
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter password"
-                      variant="yelloBg"
+                      variant="yelloBg2"
                       className="pr-10"
                       {...field}
                     />

@@ -53,7 +53,7 @@ export const jobDatas = [
     location: "New York, NY",
     postDate: "26, Dec 2025",
     price: 300,
-    status: "Finished",
+    status: "Ongoing",
     apply: 76
   },
   {

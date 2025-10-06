@@ -1,3 +1,4 @@
+// "use client"
 import { jobDatas } from '@/data/jobDatas'
 import React from 'react'
 import JobPostCard from '../card/JobPostCard'
