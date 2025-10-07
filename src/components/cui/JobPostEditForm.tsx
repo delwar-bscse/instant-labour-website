@@ -107,167 +107,168 @@ const JobPostEditForm = () => {
 
 
   return (
-    <div className="w-full max-w-[700px] mx-auto py-16">
-      <h2 className="text-2xl md:text-3xl xl:text-5xl font-bold text-gray-600 pb-8 text-center">Edit Job</h2>
-      <div className="w-full">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <div className="w-full border border-gray-200 shadow px-4 py-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-            {/* Company Name */}
-            <FormField
-              control={form.control}
-              name="companyName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Company Name</FormLabel>
+          {/* Company Name */}
+          <FormField
+            control={form.control}
+            name="companyName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Company Name</FormLabel>
+                <FormControl>
+                  <Input variant="borderblack" placeholder="Enter company name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Input variant="borderblack" placeholder="Enter company name" {...field} />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a Category" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Category 01">Category 01</SelectItem>
+                    <SelectItem value="Category 02">Category 02</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Category */}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a Category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Category 01">Category 01</SelectItem>
-                      <SelectItem value="Category 02">Category 02</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Sub-Category */}
-            <FormField
-              control={form.control}
-              name="subCategory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a Sub Category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Sub Category 01">Sub Category 01</SelectItem>
-                      <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Location */}
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Location</FormLabel>
+          {/* Sub-Category */}
+          <FormField
+            control={form.control}
+            name="subCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Input variant="borderblack" placeholder="Enter Job Location" {...field} />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a Sub Category" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Sub Category 01">Sub Category 01</SelectItem>
+                    <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Deadline */}
-            <TakeDate date={date} setDate={setDate} />
+          {/* Location */}
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Location</FormLabel>
+                <FormControl>
+                  <Input variant="borderblack" placeholder="Enter Job Location" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Deadline */}
+          <TakeDate date={date} setDate={setDate} />
 
 
-            {/* Availability */}
-            <FormField
-              control={form.control}
-              name="availability"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a availability" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Full-Time">Full-Time</SelectItem>
-                      <SelectItem value="Part-Time">Part-Time</SelectItem>
-                      <SelectItem value="Flexible">Flexible</SelectItem>
-                      <SelectItem value="One Day">One Day</SelectItem>
-                      <SelectItem value="Weekly">Weekly</SelectItem>
-                      <SelectItem value="Monthly">Monthly</SelectItem>
-                      <SelectItem value="Yearly">Yearly</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Upload Image */}
-            <div>
-              <p className="text-gray-800 text-xl font-semibold pb-1">Upload 1 Image</p>
-              <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
-            </div>
-            
-              {/* Budget */}
-              <FormField
-                control={form.control}
-                name="budget"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-gray-800 text-xl">Budget</FormLabel>
-                    <FormControl>
-                      <Input type="number" min={0} variant="borderblack" placeholder="Enter job budget" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-            {/* Job Overview */}
-            <FormField
-              control={form.control}
-              name="overview"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Job Overview</FormLabel>
+          {/* Availability */}
+          <FormField
+            control={form.control}
+            name="availability"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Textarea variant="borderblack" placeholder="Enter your message" {...field} className="" />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a availability" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Full-Time">Full-Time</SelectItem>
+                    <SelectItem value="Part-Time">Part-Time</SelectItem>
+                    <SelectItem value="Flexible">Flexible</SelectItem>
+                    <SelectItem value="One Day">One Day</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
+                    <SelectItem value="Yearly">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            <InputList title="Key Responsibilities" list={keyResponsibilities} setList={setKeyResponsibilities} />
-            <InputList title="Skill Requirements" list={skillRequirements} setList={setSkillRequirements} />
-            <InputList title="Benefits" list={benefits} setList={setBenefits} />
+          {/* Upload Image */}
+          <div>
+            <p className="text-gray-800 text-xl font-semibold pb-1">Upload 1 Image</p>
+            <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
+          </div>
 
-            {/* Submit */}
-            <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
-              Submit
-            </Button>
-          </form>
-        </Form>
-      </div>
+          {/* Budget */}
+          <FormField
+            control={form.control}
+            name="budget"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
+                  <span>Budget</span>
+                  <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
+                  <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
+                </FormLabel>
+                <FormControl>
+                  <Input type="number" min={0} variant="borderblack" placeholder="Enter job budget" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Job Overview */}
+          <FormField
+            control={form.control}
+            name="overview"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Job Overview</FormLabel>
+                <FormControl>
+                  <Textarea variant="borderblack" placeholder="Enter your message" {...field} className="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <InputList title="Key Responsibilities" list={keyResponsibilities} setList={setKeyResponsibilities} />
+          <InputList title="Skill Requirements" list={skillRequirements} setList={setSkillRequirements} />
+          <InputList title="Benefits" list={benefits} setList={setBenefits} />
+
+          {/* Submit */}
+          <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
+            Submit
+          </Button>
+        </form>
+      </Form>
     </div>
   )
 }

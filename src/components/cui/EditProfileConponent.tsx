@@ -53,7 +53,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
 };
 
 const EditProfileComponent = () => {
-// const [payRequired, setPayRequired] = useState<string>();
+  // const [payRequired, setPayRequired] = useState<string>();
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
   const [workExperience, setWorkExperience] = useState<Record<string, string>[]>([]);
   const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
@@ -103,180 +103,178 @@ const EditProfileComponent = () => {
 
 
   return (
-    <div className="w-full max-w-[700px] mx-auto flex text-center justify-center">
-      <div className="w-full">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+    <div className="w-full border border-gray-200 shadow px-4 py-6">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
 
-            {/* Name */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Name</FormLabel>
+          {/* Name */}
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Name</FormLabel>
+                <FormControl>
+                  <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Category */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a Category" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Category 01">Category 01</SelectItem>
+                    <SelectItem value="Category 02">Category 02</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* Category */}
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a Category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Category 01">Category 01</SelectItem>
-                      <SelectItem value="Category 02">Category 02</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Sub-Category */}
-            <FormField
-              control={form.control}
-              name="subCategory"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a Sub Category" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Sub Category 01">Sub Category 01</SelectItem>
-                      <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-                        {/* Availability */}
-            <FormField
-              control={form.control}
-              name="availability"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                        <SelectValue placeholder="Select a availability" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="Full-Time">Full-Time</SelectItem>
-                      <SelectItem value="Part-Time">Part-Time</SelectItem>
-                      <SelectItem value="Flexible">Flexible</SelectItem>
-                      <SelectItem value="One Day">One Day</SelectItem>
-                      <SelectItem value="Weekly">Weekly</SelectItem>
-                      <SelectItem value="Monthly">Monthly</SelectItem>
-                      <SelectItem value="Yearly">Yearly</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Pay Required */}
-            <FormField
-              control={form.control}
-              name="payRequired"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
-                    <span>Pay Required</span>
-                    <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
-                    <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
-                  </FormLabel>
+          {/* Sub-Category */}
+          <FormField
+            control={form.control}
+            name="subCategory"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a Sub Category" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Sub Category 01">Sub Category 01</SelectItem>
+                    <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* About Me */}
-            <FormField
-              control={form.control}
-              name="aboutMe"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-gray-800 text-xl">About Me</FormLabel>
+          {/* Availability */}
+          <FormField
+            control={form.control}
+            name="availability"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <Textarea variant="borderblack" placeholder="Enter about yourself" {...field} className="" />
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                      <SelectValue placeholder="Select a availability" />
+                    </SelectTrigger>
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                  <SelectContent>
+                    <SelectItem value="Full-Time">Full-Time</SelectItem>
+                    <SelectItem value="Part-Time">Part-Time</SelectItem>
+                    <SelectItem value="Flexible">Flexible</SelectItem>
+                    <SelectItem value="One Day">One Day</SelectItem>
+                    <SelectItem value="Weekly">Weekly</SelectItem>
+                    <SelectItem value="Monthly">Monthly</SelectItem>
+                    <SelectItem value="Yearly">Yearly</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* ------------------ Core Skills ------------------ */}
-            <InputList title="Core Skills" list={coreSkills} setList={setCoreSkills} />
-            
+          {/* Pay Required */}
+          <FormField
+            control={form.control}
+            name="payRequired"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
+                  <span>Pay Required</span>
+                  <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
+                  <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
+                </FormLabel>
+                <FormControl>
+                  <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-            {/* ------------------ Work Experience ------------------ */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <p className="text-gray-800 text-lg pb-1.5 font-semibold">Work Experience</p>
-                <CustomModal
-                  title="Jobs Filter Options"
-                  trigger={<button className='border border-gray-400 px-4 py-1 text-gray-700 cursor-pointer'>
-                    Add+
-                  </button>}
-                >
-                  <WorkExperienceModal setWorkExperienceInput={setWorkExperienceInput} />
-                </CustomModal>
-              </div>
-              <ul className='w-full space-y-4 list-disc'>
-                {workExperience?.length > 0 && workExperience?.map((item, index) => (
-                  <li key={index} className='flex flex-col items-start gap-1'>
-                    <span className='flex items-center justify-between w-full'>
-                      <span className='text-gray-700 font-semibold'>{index + 1}. {item?.post}</span>
-                      <span
-                        className="text-red-500 cursor-pointer"
-                        onClick={() =>{
-                          const updatedOffers = workExperience.filter((_, idx) => index !== idx);
-                          setWorkExperience(updatedOffers);
-                        }}
-                      >
-                        Delete
-                      </span>
-                    </span>
-                    <span className='text-gray-600 text-sm ps-4'>{item?.des}</span>
-                  </li>
-                ))}
-              </ul>
+          {/* About Me */}
+          <FormField
+            control={form.control}
+            name="aboutMe"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">About Me</FormLabel>
+                <FormControl>
+                  <Textarea variant="borderblack" placeholder="Enter about yourself" {...field} className="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* ------------------ Core Skills ------------------ */}
+          <InputList title="Core Skills" list={coreSkills} setList={setCoreSkills} />
+
+
+          {/* ------------------ Work Experience ------------------ */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-gray-800 text-lg pb-1.5 font-semibold">Work Experience</p>
+              <CustomModal
+                title="Jobs Filter Options"
+                trigger={<button className='border border-gray-400 px-4 py-1 text-gray-700 cursor-pointer'>
+                  Add+
+                </button>}
+              >
+                <WorkExperienceModal setWorkExperienceInput={setWorkExperienceInput} />
+              </CustomModal>
             </div>
+            <ul className='w-full space-y-4 list-disc'>
+              {workExperience?.length > 0 && workExperience?.map((item, index) => (
+                <li key={index} className='flex flex-col items-start gap-1'>
+                  <span className='flex items-center justify-between w-full'>
+                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.post}</span>
+                    <span
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => {
+                        const updatedOffers = workExperience.filter((_, idx) => index !== idx);
+                        setWorkExperience(updatedOffers);
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </span>
+                  <span className='text-gray-600 text-sm ps-4'>{item?.des}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
 
-            {/* Submit */}
-            <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
-              Save
-            </Button>
-          </form>
-        </Form>
-      </div>
+          {/* Submit */}
+          <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
+            Save
+          </Button>
+        </form>
+      </Form>
     </div>
   )
 }
