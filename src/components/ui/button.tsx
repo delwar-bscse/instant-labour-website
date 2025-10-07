@@ -18,7 +18,7 @@ const buttonVariants = cva(
         yelloBtn: "bg-[#FFC823] text-gray-50 sadow-xs hover:bg-[#FFC823]/80 py-1",
         borderBlack: "border border-gray-400 bg-white hover:bg-white hover:text-accent-foreground rounded-none focus-visible:ring-0 focus-visible:border-gray-700 outline-none",
         redBtn: "bg-red-500 text-gray-50 shadow-xs hover:bg-red-600 py-1",
-        paginationButton: "bg-[#ECECFB] hover:bg-[#828D97] text-white shadow-xs rounded-full cursor-pointer transition-colors duration-300",
+        paginationButton: "bg-[#C2C2ED] hover:bg-[#828D97] text-white shadow-xs rounded-full cursor-pointer transition-colors duration-300",
         paginationButtonActive: "bg-brandClr1 text-white shadow-xs rounded-full cursor-pointer transition-colors duration-300",
         paginationGhostButton: "bg-transparent rounded-full hover:text-gray-500 hover:bg-transparent text-gray-700",
         paginationGhostButtonDisable: "bg-transparent rounded-full text-gray-500 hover:bg-transparent",

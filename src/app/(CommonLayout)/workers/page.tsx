@@ -35,7 +35,7 @@ const Workers = () => {
           <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-700 font-semibold capitalize">find labour for your short-term or day job</h1>
           <p className="text-gray-600 mt-4">connects with local labour available now for temporary work.</p>
           <div className='max-w-[200px] mt-12'>
-            <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Book Now</Button>
+            <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Post A Job</Button>
           </div>
         </div>
         <div className="flex justify-center items-center">
@@ -50,7 +50,7 @@ const Workers = () => {
 
       {/* --------------- Google Map --------------- */}
       <div>
-        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-[400px]' />
+        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover' />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

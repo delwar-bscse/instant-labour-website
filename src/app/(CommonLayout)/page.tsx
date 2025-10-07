@@ -9,7 +9,7 @@ import { IoCheckmarkCircle } from "react-icons/io5";
 import IndustriesSlider from "@/components/sections/IndustriesSlider";
 import ClientSayCard from "@/components/card/ClientSayCard";
 import FAQ from "@/components/sections/FAQ";
-import { getUserRoleEmployer } from "@/utils/getUserRole";
+import { getUserRoleEmployer, getUserRoleWorker } from "@/utils/getUserRole";
 
 export default function Home() {
 
@@ -25,10 +25,9 @@ export default function Home() {
           <h1 className="text-2xl sm:text-4xl lg:text-6xl text-gray-700 font-semibold capitalize">Employment marketplace find trusted labour in minutes no phone calls  needed.</h1>
           <p className="text-gray-600 mt-4">Instantly match with local tradesmen and temp workers!</p>
           <div className="flex flex-wrap gap-4 w-full">
-            <div><CustomButton text="I'm hiring" url="/workers" variant="button01" /></div>
-            <div><CustomButton text="I need a job" url="/jobs" variant="button01" /></div>
-            {getUserRoleEmployer() && <div>
-              <CustomButton text="Instant Labour" url="/jobs" variant="button01" /></div>}
+            {!getUserRoleWorker() && <div><CustomButton text="I'm hiring" url="/workers" variant="button01" /></div>}
+            {!getUserRoleEmployer() && <div><CustomButton text="I need a job" url="/jobs" variant="button01" /></div>}
+            {!getUserRoleWorker() && <div><CustomButton text="Instant Labour" url="/workers" variant="button01" /></div>}
           </div>
         </div>
         <div className="flex justify-center items-center">

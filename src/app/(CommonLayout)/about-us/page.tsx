@@ -1,22 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// "use client"
+"use client"
 import { aboutHeroImg } from '@/assets/assets'
 import CustomButton from '@/components/cui/CustomButton'
 import { aboutUsData } from '@/data/aboutUsData'
+import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
 import Image from 'next/image'
+// import { useRouter } from 'next/navigation'
 import React from 'react'
+import { toast } from 'sonner'
 
 const AboutUs = () => {
+  // const router = useRouter();
+
+  // const handlePost = () => {
+  //   if (getUserRoleEmployer()) {
+  //     router.push("/employer/posted-job/post-job");
+  //   } else {
+  //     toast.error("Please login first");
+  //   }
+  // }
+
   return (
     <div className=''>
       {/* --------------------- About Hero Section --------------------- */}
       <div className=" py-20 bg-[#0057DC]">
         <div className="maxWidth flex flex-col-reverse sm:flex-row items-center justify-between gap-16 md:gap-8">
           <div className="flex-1 space-y-6">
-            <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">find labour for your short-term or day job</h1>
-            <p className="text-gray-100 mt-4">connects with local labour available now for temporary work.</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Connecting Talent with Opportunity, Seamlessly</h1>
+            <p className="text-gray-100 mt-4">We make it simple for employers and skilled professionals to connect, collaborate, and complete projects — all in one trusted platform</p>
             <div className="flex gap-4 w-full max-w-50">
-              <CustomButton text="Post a job" url="/contact-us" variant="button01" />
+              <CustomButton text="Contact" url="/contact-us" variant="button01" />
             </div>
           </div>
           <div className="basis-1/2 flex justify-center items-center relative">
@@ -39,9 +52,11 @@ const AboutUs = () => {
       <div className='bg-[#72A1E9]'>
         <div className="maxWidth flex flex-col items-center justify-center gap-8 py-20">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Start ?</h1>
-          <div className="flex gap-6 w-full max-w-80">
-            <CustomButton text="I want to hire" url="/workers" variant="button01" />
-            <CustomButton text="I need a job" url="/jobs" variant="button01" />
+          <div className="flex justify-center gap-6 w-full max-w-80">
+            {!getUserRoleWorker() && <div>
+              <CustomButton text="I want to hire" url="/workers" variant="button01" /></div>}
+            {!getUserRoleEmployer() && <div>
+              <CustomButton text="I need a job" url="/jobs" variant="button01" /></div>}
           </div>
         </div>
       </div>

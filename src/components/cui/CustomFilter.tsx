@@ -83,7 +83,7 @@ function CustomFilterSuspense() {
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger variant="yelloBg" size="lg" className="w-full">
-                      <SelectValue placeholder="Select a Role" />
+                      <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -106,7 +106,7 @@ function CustomFilterSuspense() {
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger variant="yelloBg" size="lg" className="w-full">
-                      <SelectValue placeholder="Select a Role" />
+                      <SelectValue placeholder="Select a Sub Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -127,7 +127,7 @@ function CustomFilterSuspense() {
               <FormItem>
                 <FormLabel className="text-gray-600">Location</FormLabel>
                 <FormControl>
-                  <Input variant="borderblackRound" className="" placeholder="Enter email" {...field} />
+                  <Input variant="borderblackRound" className="" placeholder="Enter location" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

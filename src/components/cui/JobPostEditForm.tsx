@@ -55,7 +55,8 @@ const defaultValues: Partial<EditProfileFormValues> = {
 const JobPostEditForm = () => {
 
   const [keyResponsibilities, setKeyResponsibilities] = useState<string[]>([]);
-  const [skillRequirements, setSkillRequirements] = useState<string[]>([]);
+  const [skillRequirements, setSkillRequirements] = useState<string[]>([]);  
+  const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const [benefits, setBenefits] = useState<string[]>([]);
   const [date, setDate] = useState<Date>(new Date());
   const [image, setImage] = useState<File | null>(null);
@@ -233,8 +234,8 @@ const JobPostEditForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
                   <span>Budget</span>
-                  <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
-                  <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
+                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Hour</span>
+                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Day</span>
                 </FormLabel>
                 <FormControl>
                   <Input type="number" min={0} variant="borderblack" placeholder="Enter job budget" {...field} />

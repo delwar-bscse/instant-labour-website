@@ -170,8 +170,10 @@ const Navbar = () => {
                     </li>
                   ))}
                   <li className=' py-4'>
-                    {!getUserRole() && (
-                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log in</Link>
+                    {getUserRole() ? (
+                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log out</Link>
+                    ) : (
+                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log In</Link>
                     )}
                   </li>
                 </ul>

@@ -21,7 +21,7 @@ const Jobs = () => {
     <div className='maxWidth'>
       {/* --------------- Google Map --------------- */}
       <div>
-        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-[400px]' />
+        <Image src={mapImg} width={1000} height={400} alt="Map"  className='w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover' />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

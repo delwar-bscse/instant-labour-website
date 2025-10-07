@@ -55,6 +55,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
 const EditProfileComponent = () => {
   // const [payRequired, setPayRequired] = useState<string>();
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
+  const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const [workExperience, setWorkExperience] = useState<Record<string, string>[]>([]);
   const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
     post: "",
@@ -204,8 +205,8 @@ const EditProfileComponent = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
                   <span>Pay Required</span>
-                  <span className="bg-yellow-500 rounded-sm text-base py-1 px-2 text-white">Per Hour</span>
-                  <span className="bg-gray-500 rounded-sm text-base py-1 px-2 text-white">Per Day</span>
+                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Hour</span>
+                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Day</span>
                 </FormLabel>
                 <FormControl>
                   <Input variant="borderblack" placeholder="Enter full name" {...field} />
