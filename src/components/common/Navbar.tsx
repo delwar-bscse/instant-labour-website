@@ -8,7 +8,6 @@ import { usePathname, useRouter } from 'next/navigation'
 import { IoClose } from "react-icons/io5";
 import { MdOutlineNotificationsNone } from "react-icons/md";
 
-
 import {
   Sheet,
   SheetClose,
@@ -75,8 +74,8 @@ const Navbar = () => {
 
 
   return (
-    <div className='bg-white h-22 flex items-center sticky top-0 z-50'>
-      <div className='w-full maxWidth flex justify-between items-center py-3 px-2'>
+    <div className='w-full bg-white h-22 flex items-center sticky top-0 z-50'>
+      <div className='maxWidth flex justify-between items-center py-3 px-2'>
         {/* Brand Logo */}
         <Link href="/" className='flex justify-start items-center'>
           <Image src={brandLogo} alt="Brand Logo" width={100} height={20} className='w-30 h-6 object-fit' />
@@ -98,7 +97,7 @@ const Navbar = () => {
         </ul>
 
         {/* Log in / Mobile Menu Trigger */}
-        <div className='flex justify-end items-center gap-4 relative'>
+        <div className='flex-1 flex justify-end items-center gap-4 relative'>
           {getUserRole() && <Link href="/notifications" className='w-9 h-9 md:w-12 md:h-12 rounded-full  bg-gray-200 flex items-center justify-center'>
             <span className='relative'>
               <MdOutlineNotificationsNone className='size-6 md:size-7 text-gray-600 hover:text-gray-800 cursor-pointer' />

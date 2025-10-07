@@ -21,7 +21,7 @@ const BookingWorkerDetails = ({ searchParams }: Props) => {
 
       {/* ------------------- Worker Message Button ------------------- */}
       {type === 'Approved' && <div className='w-full max-w-50 mx-auto py-8'>
-        <CustomButton text="Message" url="/employer/inbox" variant="button01" className='w-full' />
+        <CustomButton text="Message" url="/inbox" variant="button01" className='w-full' />
       </div>}
     </div>
   )

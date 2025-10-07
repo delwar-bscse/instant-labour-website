@@ -75,7 +75,7 @@ export const employerMenus: navItemsType[] = [
   },
   {
     title: 'Inbox',
-    url: '/employer/inbox',
+    url: '/inbox',
   },
   {
     title: 'Subscription',
@@ -99,7 +99,7 @@ export const workerMenus: navItemsType[] = [
   },
   {
     title: 'Inbox',
-    url: '/worker/inbox',
+    url: '/inbox',
   },
   {
     title: 'Logout',

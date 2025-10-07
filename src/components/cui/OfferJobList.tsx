@@ -18,7 +18,7 @@ const OfferJobList = () => {
           </div>
           {item.status === "Pending" ?
             <div className='flex items-center flex-col gap-4'>
-              <Link href={`/worker/inbox`} className='w-[100px] bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-200 cursor-pointer text-sm font-semibold px-3 py-2 rounded-md text-center'>Message</Link>
+              <Link href={`/inbox`} className='w-[100px] bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-200 cursor-pointer text-sm font-semibold px-3 py-2 rounded-md text-center'>Message</Link>
             </div>
             :
             <div className='flex items-center flex-col gap-4'>
