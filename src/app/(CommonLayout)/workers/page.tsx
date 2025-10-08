@@ -59,7 +59,7 @@ const Workers = () => {
           <CustomSearchBar placeholder="Search by location" query="location" />
         </div>
         <CustomModal
-          title="Jobs Filter Options"
+          title="Workers Filter Options"
           trigger={<button className='border border-gray-400 p-3 text-gray-500 rounded-full cursor-pointer'>
             <FaBars className='text-xl' />
           </button>}

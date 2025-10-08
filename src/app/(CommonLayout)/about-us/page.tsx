@@ -7,7 +7,7 @@ import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
 import Image from 'next/image'
 // import { useRouter } from 'next/navigation'
 import React from 'react'
-import { toast } from 'sonner'
+// import { toast } from 'sonner'
 
 const AboutUs = () => {
   // const router = useRouter();
