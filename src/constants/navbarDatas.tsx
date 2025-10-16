@@ -32,7 +32,7 @@ export const navbarItemsEmployer: navItemsType[] = [
     url: '/',
   },
   {
-    title: 'Workers',
+    title: 'Find A Worker',
     url: '/workers',
   },
   {
@@ -50,7 +50,7 @@ export const navbarItemsWorker: navItemsType[] = [
     url: '/',
   },
   {
-    title: 'Jobs',
+    title: 'Find A Job',
     url: '/jobs',
   },
   {

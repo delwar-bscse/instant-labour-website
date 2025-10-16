@@ -6,8 +6,12 @@ import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { getUserRoleEmployer } from '@/utils/getUserRole';
+import { reviewDatas } from '@/data/reviewData';
+import ReviewCard from '@/components/card/ReviewCard';
+import { useRouter } from 'next/navigation';
 
 const SingleWorker = () => {
+  const router = useRouter();
 
   const handleBooked = () => {
     if (getUserRoleEmployer()) {
@@ -16,18 +20,42 @@ const SingleWorker = () => {
       toast.error("Please login first");
     }
   }
+
+  const handleMessage = () => {
+    if (getUserRoleEmployer()) {
+      router.push("/inbox/1");
+    } else {
+      toast.error("Please login first");
+    }
+  }
+
   return (
     <div className='maxWidth pt-4 pb-20'>
 
       {/* ------------------- Worker Details Body ------------------- */}
       <WorkerDetailsTop />
 
+
+      {/* --------------------- Book Now Button --------------------- */}
+      <div className='maxWidth flex gap-2 pb-8'>
+        <div className=''>
+          <Button onClick={handleBooked} variant="yelloBtn" className='w-full text-gray-700 rounded-sm'>Book Now</Button>
+        </div>
+        <div className=''>
+          <Button onClick={handleMessage} variant="yelloBtn" className='w-full text-gray-600 rounded-sm'>Message</Button>
+        </div>
+      </div>
+
       {/* ------------------- Worker Details Body ------------------- */}
       <WorkerDetailsBody />
 
-      {/* --------------------- Book Now Button --------------------- */}
-      <div className='max-w-[200px] mx-auto mt-12'>
-        <Button onClick={handleBooked} variant="yelloBtn" className='w-full'>Book Now</Button>
+      {/* --------------------- Rating list --------------------- */}
+      <div className='space-y-8 mt-12'>
+        {reviewDatas.map((item, index) => (
+          <div key={index} className=''>
+            <ReviewCard item={item} />
+          </div>
+        ))}
       </div>
 
     </div>

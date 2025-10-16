@@ -30,10 +30,10 @@ export const contactInfo= [
     title: "shamimnadir@example.com",
     icon: <FiMail/>
   },
-  {
-    title: "Company Address",
-    icon: <GrLocation/>
-  },
+  // {
+  //   title: "Company Address",
+  //   icon: <GrLocation/>
+  // },
 ];
 
 export const followUs = [

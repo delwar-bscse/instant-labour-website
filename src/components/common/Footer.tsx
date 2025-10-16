@@ -1,19 +1,18 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { contactInfo, followUs, quickLinks } from '@/constants/footerDatas';
 import FooterTitle from '../cui/FooterTitle';
-import { brandLogo } from '@/assets/assets';
 
 
 const Footer = () => {
   return (
     <div className='bg-brandClr1 text-white'>
       <div className='maxWidth flex-1 flex flex-col lg:flex-row gap-12 lg:gap-4 py-12'>
-        <div className='lg:basis-[50%] pt-8 space-y-8'>
-          <h3>
-            <Image src={brandLogo} alt="Blooming Brands" width={200} height={40} className='w-[200px]  object-fit' />
-          </h3>
+        <div className='lg:basis-[50%] space-y-8'>
+          <div className='flex items-center text-4xl font-bold '>
+            <span className='text-gray-50 tracking-wider'>Instant</span>
+            <span className='text-brandClr2 tracking-wider'>Labour</span>
+          </div>
           <p className='flex items-center gap-2'>
             At Instantlabour, we connect businesses with skilled freelancers to get work done faster and better. Our platform makes it easy to find the right talent, hire with confidence, and collaborate smoothly. Whether you’re an employer looking for experts or a freelancer showcasing your skills, we help you work together for great results.
           </p>

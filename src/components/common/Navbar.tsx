@@ -78,7 +78,7 @@ const Navbar = () => {
       <div className='maxWidth flex justify-between items-center py-3 px-2'>
         {/* Brand Logo */}
         <Link href="/" className='flex justify-start items-center'>
-          <Image src={brandLogo} alt="Brand Logo" width={100} height={20} className='w-30 h-6 object-fit' />
+          <Image src={brandLogo} alt="Brand Logo" width={300} height={75} className='w-32 h-12 object-fit' />
         </Link>
 
         {/* Desktop Navigation */}
@@ -97,7 +97,7 @@ const Navbar = () => {
         </ul>
 
         {/* Log in / Mobile Menu Trigger */}
-        <div className='flex-1 flex justify-end items-center gap-4 relative'>
+        <div className=' flex justify-end items-center gap-4 relative'>
           {getUserRole() && <Link href="/notifications" className='w-9 h-9 md:w-12 md:h-12 rounded-full  bg-gray-200 flex items-center justify-center'>
             <span className='relative'>
               <MdOutlineNotificationsNone className='size-6 md:size-7 text-gray-600 hover:text-gray-800 cursor-pointer' />
@@ -124,7 +124,11 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link href="/login" className='hidden lg:inline-block border-2 border-brandClr1 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4'>Log in</Link>
+            <div className='hidden lg:flex items-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+              <Link href="/signup">Sign Up</Link>
+              <span className='text-xl'>/</span>
+              <Link href="/login">Log In</Link>
+            </div>
           )}
 
           {/* Mobile Menu */}
@@ -136,10 +140,10 @@ const Navbar = () => {
               <SheetContent side="left" className="w-64">
                 <SheetHeader className='flex flex-row items-center justify-between pt-8'>
                   <SheetTitle className="">
-                    <Image src={brandLogo} alt="Brand Logo" width={100} height={20} className='w-30 h-6 object-fit' />
+                    <Image src={brandLogo} alt="Brand Logo" width={300} height={75} className='w-30 h-12 object-fit' />
                   </SheetTitle>
                   <SheetClose>
-                    <IoClose size={24} className='text-gray-600 hover:text-gray-800 cursor-pointer' />
+                    <IoClose size={30} className='text-gray-600 hover:text-gray-800 cursor-pointer' />
                   </SheetClose>
                 </SheetHeader>
 
@@ -169,13 +173,21 @@ const Navbar = () => {
                       <Link href={item.url}>{item.title}</Link>
                     </li>
                   ))}
-                  <li className=' py-4'>
-                    {getUserRole() ? (
-                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log out</Link>
+
+                  {/* Sign Up / Log In and Log Out Button */}
+                  <div className='py-6 flex items-center justify-center'>
+                    {!getUserRole() ? (
+                      <div className='flex items-center justify-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+                        <Link href="/signup" className='text-sm'>Sign Up</Link>
+                        <span className=''>/</span>
+                        <Link href="/login" className='text-sm'>Log In</Link>
+                      </div>
                     ) : (
-                      <Link href="/login" className='block bg-brandClr1 text-white font-semibold px-4 py-1 rounded mt-2 text-center customShadow4'>Log In</Link>
+                      <div className='flex items-center justify-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+                        <Link href="/login" className='text-sm '>Log out</Link>
+                      </div>
                     )}
-                  </li>
+                  </div>
                 </ul>
               </SheetContent>
             </Sheet>

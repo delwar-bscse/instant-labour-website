@@ -1,6 +1,8 @@
-import CustomButton from '@/components/cui/CustomButton';
+import ReviewCard from '@/components/card/ReviewCard';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
+import { reviewDatas } from '@/data/reviewData';
+import Link from 'next/link';
 import React from 'react'
 
 type Props = {
@@ -10,19 +12,29 @@ type Props = {
 
 const BookingWorkerDetails = ({ searchParams }: Props) => {
   const type = searchParams.type;
-  console.log("Status",type)
+  console.log("Status", type)
   return (
     <div className='maxWidth pt-4 pb-20'>
-      {/* ------------------- Worker Details Body ------------------- */}
+      {/* ------------------- Worker Top ------------------- */}
       <WorkerDetailsTop />
+
+      {/* ------------------- Contact & Review Button ------------------- */}
+      <div className='maxWidth my-10 flex gap-4 items-center'>
+        <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
+        <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+      </div>
 
       {/* ------------------- Worker Details Body ------------------- */}
       <WorkerDetailsBody />
 
-      {/* ------------------- Worker Message Button ------------------- */}
-      {type === 'Approved' && <div className='w-full max-w-50 mx-auto py-8'>
-        <CustomButton text="Message" url="/inbox" variant="button01" className='w-full' />
-      </div>}
+      {/* --------------------- Rating list --------------------- */}
+      <div className='maxWidth space-y-8 mt-12'>
+        {reviewDatas.map((item, index) => (
+          <div key={index} className=''>
+            <ReviewCard item={item} />
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

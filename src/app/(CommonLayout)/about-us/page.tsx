@@ -5,6 +5,7 @@ import CustomButton from '@/components/cui/CustomButton'
 import { aboutUsData } from '@/data/aboutUsData'
 import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
 import Image from 'next/image'
+import Link from 'next/link'
 // import { useRouter } from 'next/navigation'
 import React from 'react'
 // import { toast } from 'sonner'
@@ -52,11 +53,24 @@ const AboutUs = () => {
       <div className='bg-[#72A1E9]'>
         <div className="maxWidth flex flex-col items-center justify-center gap-8 py-20">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Start ?</h1>
-          <div className="flex justify-center gap-6 w-full max-w-80">
+          {/* <div className="flex justify-center gap-6 w-full max-w-80">
             {!getUserRoleWorker() && <div>
-              <CustomButton text="I want to hire" url="/workers" variant="button01" /></div>}
+              <CustomButton text="I'm hiring" url="/workers" variant="button01" /></div>}
             {!getUserRoleEmployer() && <div>
               <CustomButton text="I need a job" url="/jobs" variant="button01" /></div>}
+          </div> */}
+          <div className="flex flex-wrap justify-center gap-6">
+            {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+              <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
+            </div>}
+
+            {!getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+              <Link href="/workers" className="font-semibold text-gray-800">I Need A Job</Link>
+            </div>}
+
+            {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+              <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
+            </div>}
           </div>
         </div>
       </div>

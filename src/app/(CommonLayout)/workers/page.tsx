@@ -6,22 +6,24 @@ import { CustomModal } from '@/components/modal/CustomModal'
 import Image from 'next/image'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
-import CustomButton from '@/components/cui/CustomButton'
 import WorkerCard from '@/components/card/workerCard'
 import { workerDatas } from '@/data/workerDatas'
 import { Button } from '@/components/ui/button'
 import { getUserRoleEmployer } from '@/utils/getUserRole'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
 
 const Workers = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const workers = searchParams.get("workers");
 
-    const handlePost = () => {
-    if(getUserRoleEmployer()){
+  const handlePost = () => {
+    if (getUserRoleEmployer()) {
       router.push("/employer/posted-job/post-job");
-    }else{
+    } else {
       toast.error("Please login first");
     }
   }
@@ -30,23 +32,25 @@ const Workers = () => {
   return (
     <div className='maxWidth'>
       {/* --------------------- Hero Worker Section --------------------- */}
-      <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-20">
-        <div className="flex-1 space-y-6">
-          <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-700 font-semibold capitalize">find labour for your short-term or day job</h1>
-          <p className="text-gray-600 mt-4">connects with local labour available now for temporary work.</p>
-          <div className='max-w-[200px] mt-12'>
-            <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Post A Job</Button>
+      {getUserRoleEmployer() && <>
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-20">
+          <div className="flex-1 space-y-6">
+            <h1 className="text-3xl sm:text-4xl lg:text-7xl text-gray-800 font-bold leading-20 capitalize">find labour for <br />your short-term <br />or day job</h1>
+            <p className="text-gray-600 mt-4">connects with local labour available now for temporary work.</p>
+            {workers !== "instantLabour" && <div className='max-w-[200px] mt-12'>
+              <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Post A Job</Button>
+            </div>}
+          </div>
+          <div className="flex justify-center items-center">
+            <Image src={heroWorkerImg} alt="Hero Image" width={1000} height={1000} className='w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] object-cover rounded-full' />
           </div>
         </div>
-        <div className="flex justify-center items-center">
-          <Image src={heroWorkerImg} alt="Hero Image" width={1000} height={1000} className='w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] object-cover rounded-full' />
-        </div>
-      </div>
 
-      {/* --------------------- Available Labour Banner --------------------- */}
-      <div className='bg-[#548EE8] py-2 mb-12'>
-        <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold text-gray-50 text-center capitalize'>available labour</h2>
-      </div>
+        {/* --------------------- Available Labour Banner --------------------- */}
+        <div className='bg-[#548EE8] py-2 mb-12'>
+          <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold text-gray-50 text-center capitalize'>available labour</h2>
+        </div>
+      </>}
 
       {/* --------------- Google Map --------------- */}
       <div>
@@ -72,9 +76,10 @@ const Workers = () => {
       <div className=''>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
           {workerDatas?.map((item) => (
-            <div key={item._id} className='space-y-2 bg-white customShadow p-4'>
+            <div onClick={() => { document.getElementById("workerCardCommon")?.click() }} key={item._id} className='space-y-2 bg-white hover:bg-gray-50 customShadow p-4 cursor-pointer transition-colors duration-100'>
               <WorkerCard item={item} />
-              <CustomButton text="View Profile" url={`/workers/${item._id}`} variant="button01" className='w-full' />
+              {/* <CustomButton text="View Profile" url={`/workers/${item._id}`} variant="button01" className='w-full' /> */}
+              <Link id='workerCardCommon' href={`/workers/${item._id}`} className='hidden'></Link>
             </div>
           ))}
         </div>

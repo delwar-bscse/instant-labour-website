@@ -1,5 +1,5 @@
 import React from 'react'
-import { MdOutlineVerifiedUser } from "react-icons/md";
+import { MdOutlineStarPurple500, MdOutlineVerifiedUser } from "react-icons/md";
 import { workerDetails } from '@/data/workerDatas';
 import { FaCheckSquare } from "react-icons/fa";
 
@@ -14,13 +14,17 @@ const WorkerDetailsBody = () => {
             <p>
               <span className='text-green-500 text-sm flex items-center gap-1'><MdOutlineVerifiedUser size={18} /> Verified</span>
             </p>
+            <div className='flex items-center gap-1'>
+              <MdOutlineStarPurple500 className='text-brandClr2 size-6' />
+              <p className='font-semibold text-gray-600'>4.5</p>
+            </div>
           </div>
           <p className='text-gray-700 text-xl'>{workerDetails.category} / {workerDetails.experience}</p>
           <p className='text-gray-800 font-semibold text-xl'>£{workerDetails.price} Per Day</p>
         </div>
         <div className='space-y-1'>
           <h3 className='text-gray-800 font-semibold text-xl'>About Me</h3>
-          <p className='text-gray-500 text-sm'>{workerDetails.aboutMe}</p>
+          <p className='text-gray-500'>{workerDetails.aboutMe}</p>
         </div>
 
         {/* ------------------- Core Skills ------------------- */}

@@ -1,6 +1,8 @@
-import CustomButton from '@/components/cui/CustomButton';
+import ReviewCard from '@/components/card/ReviewCard';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
+import { reviewDatas } from '@/data/reviewData';
+import Link from 'next/link';
 import React from 'react'
 
 interface Props {
@@ -15,25 +17,28 @@ const ApproveAppliedWorkerDetails = ({ searchParams }: Props) => {
       {/* ------------------- Worker Details Top ------------------- */}
       <WorkerDetailsTop />
 
-      {/* ------------------- Worker Message Button ------------------- */}
-      {/* <div className='maxWidth pb-4'>
-        {type === 'approved' && <div className='w-full max-w-50'>
-          <CustomButton text="Message" url="/employer/inbox" variant="button01" className='w-full' />
-        </div>}
-      </div> */}
+      {/* ------------------- Contact & Review Button ------------------- */}
+      {type === 'approved' && <div className='maxWidth my-10 flex gap-4 items-center'>
+        <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
+        <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+      </div>}
 
       {/* ------------------- Worker Details Body ------------------- */}
       <WorkerDetailsBody />
 
-      {/* ------------------- Action Buttons - Decline, Approve ------------------- */}
-      {type === 'applied' && <div className='max-w-[200px] mx-auto my-12 flex justify-center gap-4 items-center'>
-        <button className='w-full bg-red-500 text-white py-2 px-3 rounded-sm hover:bg-red-600 transition-colors duration-300'>Decline</button>
-        <button className='w-full bg-green-500 text-white py-2 px-3 rounded-sm hover:bg-green-600 transition-colors duration-300'>Approve</button>
-      </div>}
+      {/* --------------------- Rating list --------------------- */}
+      <div className='maxWidth space-y-8 mt-12'>
+        {reviewDatas.map((item, index) => (
+          <div key={index} className=''>
+            <ReviewCard item={item} />
+          </div>
+        ))}
+      </div>
 
-      {/* ------------------- Worker Message Button ------------------- */}
-      {type === 'approved' && <div className='w-full max-w-50 mx-auto py-8'>
-        <CustomButton text="Message" url="/inbox" variant="button01" className='w-full' />
+      {/* ------------------- Action Buttons - Decline, Approve ------------------- */}
+      {type === 'applied' && <div className='maxWidth my-10 flex gap-4 items-center'>
+        <button className='border-2 border-red-600 text-red-600 font-semibold py-2 px-8 rounded-sm hover:border-red-700 transition-colors duration-300'>Decline</button>
+        <button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Approve</button>
       </div>}
     </div>
   )

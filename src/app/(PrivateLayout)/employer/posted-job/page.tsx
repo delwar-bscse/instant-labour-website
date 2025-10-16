@@ -9,12 +9,12 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 const profileSidebar = [
   {
     id: 1,
-    title: "Posted Job",
+    title: "My Posted Job",
     query: "posted-job"
   },
   {
     id: 2,
-    title: "Booking List",
+    title: "My Bookings",
     query: "booking-list"
   },
 ];
@@ -47,14 +47,14 @@ function PostedJobPageSuspense () {
       <div className='flex justify-between items-center'>
         <ul className='flex gap-4'>
           {profileSidebar?.map((item) => (
-            <li onClick={() => router.push(`${pathname}?type=${item.query}`)} key={item.id} className={` gap-2 py-2 cursor-pointer rounded-sm px-3 shadow font-semibold text-center ${item.query === type ? "bg-brandClr1 text-gray-50" : "bg-white"}`}>
+            <li onClick={() => router.push(`${pathname}?type=${item.query}`)} key={item.id} className={` gap-2 py-2 cursor-pointer rounded-sm px-3 shadow font-semibold text-center border-2 border-brandClr1 ${item.query === type ? "bg-brandClr1 text-gray-50" : "bg-white text-gray-800"}`}>
               {item.title}
             </li>
           ))}
         </ul>
         {type === "posted-job" && <div className='flex items-center justify-end pb-2'>
           <div className='w-full max-w-50'>
-            <CustomButton text="+ Post a job" url="/employer/posted-job/post-job" variant="button01" className='w-full' />
+            <CustomButton text="+ Post a job" url="/employer/posted-job/post-job" variant="button01" className='w-full border-2 border-brandClr2' />
           </div>
         </div>}
       </div>

@@ -75,7 +75,7 @@ export default function IndustriesSlider() {
           <SwiperSlide key={index}>
             <div className='pb-12 flex items-center justify-center flex-col gap-2'>
               <div className='w-[50px] h-[50px] '>
-                <Image src={item?.img} alt={item?.category} width={50} height={50} className='w-[50px] h-[50px] object-cover'/>
+                <Image src={item?.img} alt={item?.category} width={50} height={50} className='w-[50px] h-[50px] object-cover' />
               </div>
               <p>{item?.category}</p>
             </div>

@@ -23,6 +23,9 @@ const PostedJobDetails = () => {
         <div>
           <Link href={`/employer/posted-job/worker-list?type=approved`} className='w-full border py-2 px-3 rounded-sm border-green-500 hover:bg-green-500 hover:text-white transition-colors duration-300'>Approved Workers</Link>
         </div>
+        <div>
+          <button className='w-full border py-2 px-6 cursor-pointer rounded-sm bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300'>Boost</button>
+        </div>
       </div>
 
       {/* --------------------- Job body (description) --------------------- */}
