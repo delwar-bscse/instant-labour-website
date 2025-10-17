@@ -24,7 +24,6 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Textarea } from "../ui/textarea";
 import InputList from "./InputList";
-import { TakeDate } from "./TakeDate";
 
 // Schema
 const editProfileFormSchema = z.object({
@@ -33,7 +32,7 @@ const editProfileFormSchema = z.object({
   subCategory: z.string(),
   location: z.string(),
   // deadline: z.string(),
-  availability: z.string(),
+  availability: z.array(z.string()),
   budget: z.string(),
   overview: z.string(),
 });
@@ -47,7 +46,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
   subCategory: "",
   location: "",
   // deadline: "",
-  availability: "",
+  availability: [],
   budget: "",
   overview: "",
 };
@@ -58,8 +57,8 @@ const JobPostForm = () => {
   const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const [skillRequirements, setSkillRequirements] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
-  const [date, setDate] = useState<Date>(new Date());
   const [image, setImage] = useState<File | null>(null);
+  const [deadline, setDeadline] = useState<number>(7);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -81,8 +80,8 @@ const JobPostForm = () => {
     formData.append("category", data.category);
     formData.append("subCategory", data.subCategory);
     formData.append("email", data.location);
-    formData.append("deadline", date.toISOString());
-    formData.append("phone", data.availability);
+    formData.append("deadline", deadline.toString());
+    formData.append("phone", data.availability.join(","));
     if (image) {
       formData.append("image", image);
     }
@@ -102,8 +101,9 @@ const JobPostForm = () => {
     console.log("Key Responsibilities:", keyResponsibilities);
     console.log("Skill Requirements:", skillRequirements);
     console.log("Benefits:", benefits);
-    console.log("Date:", date);
-  }, [keyResponsibilities, skillRequirements, benefits, date]);
+    console.log("Deadline:", deadline);
+    console.log("jobType", budgetDuration)
+  }, [keyResponsibilities, skillRequirements, benefits, deadline, budgetDuration]);
 
 
 
@@ -189,11 +189,17 @@ const JobPostForm = () => {
           />
 
           {/* Deadline */}
-          <TakeDate date={date} setDate={setDate} />
+          <div className="flex gap-3">
+            <span onClick={() => setDeadline(7)} className={` border-2 cursor-pointer ${deadline === 7 ? "bg-yellow-500 border-yellow-500 text-gray-700" : "bg-white border-blue-600 text-blue-600"} rounded-sm text-base py-3 px-3 font-semibold`}>7 Days Post</span>
+            <span onClick={() => setDeadline(14)} className={` border-2 cursor-pointer ${deadline === 14 ? "bg-yellow-500 border-yellow-500 text-gray-700" : "bg-white border-blue-600 text-blue-600"} rounded-sm text-base py-3 px-3 font-semibold`}>14 Days Post</span>
+          </div>
+
+          {/* Deadline */}
+          {/* <TakeDate date={date} setDate={setDate} /> */}
 
 
           {/* Availability */}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="availability"
             render={({ field }) => (
@@ -218,7 +224,126 @@ const JobPostForm = () => {
                 <FormMessage />
               </FormItem>
             )}
+          /> */}
+          <FormField
+            control={form.control}
+            name="availability"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                <div className="space-y-2 flex gap-3 flex-wrap items-center border border-gray-400 py-2 px-3">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Full-Time"
+                      checked={field.value.includes("Full-Time")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Full-Time")
+                          ? field.value.filter((item) => item !== "Full-Time")
+                          : [...field.value, "Full-Time"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Full-Time
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Part-Time"
+                      checked={field.value.includes("Part-Time")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Part-Time")
+                          ? field.value.filter((item) => item !== "Part-Time")
+                          : [...field.value, "Part-Time"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Part-Time
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Flexible"
+                      checked={field.value.includes("Flexible")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Flexible")
+                          ? field.value.filter((item) => item !== "Flexible")
+                          : [...field.value, "Flexible"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Flexible
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="One Day"
+                      checked={field.value.includes("One Day")}
+                      onChange={() => {
+                        const newValue = field.value.includes("One Day")
+                          ? field.value.filter((item) => item !== "One Day")
+                          : [...field.value, "One Day"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    One Day
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Weekly"
+                      checked={field.value.includes("Weekly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Weekly")
+                          ? field.value.filter((item) => item !== "Weekly")
+                          : [...field.value, "Weekly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Weekly
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Monthly"
+                      checked={field.value.includes("Monthly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Monthly")
+                          ? field.value.filter((item) => item !== "Monthly")
+                          : [...field.value, "Monthly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Monthly
+                  </label>
+                  <label className="flex items-center pb-1">
+                    <input
+                      type="checkbox"
+                      value="Yearly"
+                      checked={field.value.includes("Yearly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Yearly")
+                          ? field.value.filter((item) => item !== "Yearly")
+                          : [...field.value, "Yearly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Yearly
+                  </label>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
           />
+
+
 
           {/* Upload Image */}
           <div>
@@ -233,9 +358,9 @@ const JobPostForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
-                  <span>Budget</span>
-                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Hour</span>
-                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Day</span>
+                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Hour</span>
+                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Day</span>
+                  <span onClick={() => setBudgetDuration("salary")} className={`${budgetDuration === "salary" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Salary</span>
                 </FormLabel>
                 <FormControl>
                   <Input type="number" min={0} variant="borderblack" placeholder="Enter job budget" {...field} />
@@ -265,9 +390,11 @@ const JobPostForm = () => {
           <InputList title="Benefits" list={benefits} setList={setBenefits} />
 
           {/* Submit */}
-          <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
-            Submit
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" variant="yelloBtn" size="llg" className="text-gray-700 w-full max-w-60 md:text-lg">
+              Publish
+            </Button>
+          </div>
         </form>
       </Form>
     </div>

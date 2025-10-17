@@ -9,6 +9,8 @@ import Image from 'next/image'
 import { jobDetails } from '@/data/jobDatas'
 import JobDetailsTopRight from '@/components/cui/JobDetailsTopRight'
 import Link from 'next/link'
+import { CustomModal } from '@/components/modal/CustomModal'
+import TakeReview from '@/components/cui/TakeReview'
 
 const page = () => {
 
@@ -47,7 +49,12 @@ const page = () => {
               <span className='text-blue-600 font-semibold'>Ongoing</span>
             </p> : <div className='flex gap-4 items-center'>
               <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
-              <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+              <CustomModal
+                title="Feedback"
+                trigger={<button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm cursor-pointer hover:border-blue-700 transition-colors duration-300'>Feed Back</button>}
+              >
+                <TakeReview />
+              </CustomModal>
             </div>}
 
           </div>

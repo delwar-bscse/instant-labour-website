@@ -115,3 +115,19 @@
   scrollbar-width: none;
   /* Firefox */
 }
+
+.star-rating {
+  display: flex;
+  align-items: center;
+}
+
+.stars {
+  display: flex;
+  gap: 4px; /* Adjust space between the stars */
+}
+
+.star:hover {
+  fill: #FFC823; /* Highlight when hovering */
+  transition: fill 0.4s ease;
+}
+

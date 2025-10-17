@@ -15,6 +15,8 @@ import { subscriptionDatas } from '@/data/subscriptionDatas';
 import Image, { StaticImageData } from 'next/image';
 import { IoCameraOutline } from 'react-icons/io5';
 import { workerDetails } from '@/data/workerDatas';
+import NidUpload from '@/components/cui/NidUpload';
+import { TbEPassport } from 'react-icons/tb';
 
 const profileSidebar = [
   {
@@ -24,16 +26,21 @@ const profileSidebar = [
   },
   {
     id: 2,
+    title: "NID Card",
+    icon: <TbEPassport className='text-gray-700 text-xl' />,
+  },
+  {
+    id: 3,
     title: "Subscribe Package",
     icon: <TiBusinessCard className='text-gray-700 text-xl' />,
   },
   {
-    id: 3,
+    id: 4,
     title: "Change Password",
     icon: <VscLock className='text-gray-700 text-xl' />,
   },
   {
-    id: 4,
+    id: 5,
     title: "Delete Account",
     icon: <RiDeleteBin6Line className='text-gray-700 text-xl' />,
   },
@@ -106,9 +113,10 @@ const EmployeeProfile = () => {
 
         <div className='w-full'>
           {step === 1 && <EmployeeWorkerProfile />}
-          {step === 2 && <SubscriptionCard data={subscriptionDatas[0]} hideButton={true} />}
-          {step === 3 && <ChangePassword />}
-          {step === 4 && <DeleteAccount />}
+          {step === 2 && <NidUpload />}
+          {step === 3 && <SubscriptionCard data={subscriptionDatas[0]} hideButton={true} />}
+          {step === 4 && <ChangePassword />}
+          {step === 5 && <DeleteAccount />}
         </div>
 
       </div>

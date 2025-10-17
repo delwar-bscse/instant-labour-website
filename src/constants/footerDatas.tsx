@@ -1,7 +1,6 @@
 
 import { SlSocialFacebook, SlSocialInstagram } from "react-icons/sl";
 import { PiTiktokLogoThin } from "react-icons/pi";
-import { GrLocation } from "react-icons/gr";
 import { FiMail } from "react-icons/fi";
 // import { LuPhoneCall } from "react-icons/lu";
 

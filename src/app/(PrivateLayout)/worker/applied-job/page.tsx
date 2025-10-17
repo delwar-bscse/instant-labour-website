@@ -6,11 +6,11 @@ import OfferJobList from '@/components/cui/OfferJobList';
 const profileSidebar = [
   {
     id: 1,
-    title: "Apply List",
+    title: "My Apply List",
   },
   {
     id: 2,
-    title: "Offer List",
+    title: "My Offer List",
   },
 ];
 

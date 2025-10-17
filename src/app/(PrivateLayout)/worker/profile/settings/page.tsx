@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation';
 import Image, { StaticImageData } from 'next/image';
 import { workerDetails } from '@/data/workerDatas';
 import { IoCameraOutline } from "react-icons/io5";
+import { TbEPassport } from 'react-icons/tb';
+import NidUpload from '@/components/cui/NidUpload';
 
 const profileSidebar = [
   {
@@ -20,11 +22,16 @@ const profileSidebar = [
   },
   {
     id: 2,
+    title: "NID Card",
+    icon: <TbEPassport className='text-gray-700 text-xl' />,
+  },
+  {
+    id: 3,
     title: "Change Password",
     icon: <VscLock className='text-gray-700 text-xl' />,
   },
   {
-    id: 3,
+    id: 4,
     title: "Delete Account",
     icon: <RiDeleteBin6Line className='text-gray-700 text-xl' />,
   },
@@ -110,8 +117,9 @@ const WorkerSettings = () => {
 
         <div className='w-full'>
           {step === 1 && <EmployeeWorkerProfile />}
-          {step === 2 && <ChangePassword />}
-          {step === 3 && <DeleteAccount />}
+          {step === 2 && <NidUpload />}
+          {step === 3 && <ChangePassword />}
+          {step === 4 && <DeleteAccount />}
         </div>
 
       </div>

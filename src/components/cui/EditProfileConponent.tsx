@@ -34,10 +34,10 @@ const editProfileFormSchema = z.object({
   name: z.string(),
   category: z.string(),
   subCategory: z.string(),
-
+  workOverview: z.string(),
   aboutMe: z.string(),
-  payRequired: z.string(),
-  availability: z.string(),
+  budget: z.string(),
+  availability: z.array(z.string()),
 });
 
 // Type
@@ -48,8 +48,9 @@ const defaultValues: Partial<EditProfileFormValues> = {
   category: "",
   subCategory: "",
   aboutMe: "",
-  payRequired: "",
-  availability: "",
+  budget: "",
+  workOverview: "",
+  availability: [],
 };
 
 const EditProfileComponent = () => {
@@ -57,6 +58,7 @@ const EditProfileComponent = () => {
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
   const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const [workExperience, setWorkExperience] = useState<Record<string, string>[]>([]);
+  const [attachment, setAttachment] = useState<File | null>(null);
   const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
     post: "",
     des: ""
@@ -68,7 +70,15 @@ const EditProfileComponent = () => {
     mode: "onChange",
   });
 
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setAttachment(file);
+    }
+  };
+
   async function onSubmit(data: EditProfileFormValues) {
+    console.log("File", attachment)
     console.log("Submitted Data:", data);
     // const formData = new FormData();
     // formData.append("name", data.name);
@@ -83,6 +93,7 @@ const EditProfileComponent = () => {
   }
 
   useEffect(() => {
+
     async function getUserData() {
       const response = await myFetch("/users/my-profile", {
         method: "GET",
@@ -170,7 +181,7 @@ const EditProfileComponent = () => {
           />
 
           {/* Availability */}
-          <FormField
+          {/* <FormField
             control={form.control}
             name="availability"
             render={({ field }) => (
@@ -195,21 +206,138 @@ const EditProfileComponent = () => {
                 <FormMessage />
               </FormItem>
             )}
-          />
-
-          {/* Pay Required */}
+          /> */}
           <FormField
             control={form.control}
-            name="payRequired"
+            name="availability"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                <div className="space-y-2 flex gap-3 flex-wrap items-center border border-gray-400 py-2 px-3">
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Full-Time"
+                      checked={field.value.includes("Full-Time")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Full-Time")
+                          ? field.value.filter((item) => item !== "Full-Time")
+                          : [...field.value, "Full-Time"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Full-Time
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Part-Time"
+                      checked={field.value.includes("Part-Time")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Part-Time")
+                          ? field.value.filter((item) => item !== "Part-Time")
+                          : [...field.value, "Part-Time"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Part-Time
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Flexible"
+                      checked={field.value.includes("Flexible")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Flexible")
+                          ? field.value.filter((item) => item !== "Flexible")
+                          : [...field.value, "Flexible"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Flexible
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="One Day"
+                      checked={field.value.includes("One Day")}
+                      onChange={() => {
+                        const newValue = field.value.includes("One Day")
+                          ? field.value.filter((item) => item !== "One Day")
+                          : [...field.value, "One Day"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    One Day
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Weekly"
+                      checked={field.value.includes("Weekly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Weekly")
+                          ? field.value.filter((item) => item !== "Weekly")
+                          : [...field.value, "Weekly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Weekly
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="checkbox"
+                      value="Monthly"
+                      checked={field.value.includes("Monthly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Monthly")
+                          ? field.value.filter((item) => item !== "Monthly")
+                          : [...field.value, "Monthly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Monthly
+                  </label>
+                  <label className="flex items-center pb-1">
+                    <input
+                      type="checkbox"
+                      value="Yearly"
+                      checked={field.value.includes("Yearly")}
+                      onChange={() => {
+                        const newValue = field.value.includes("Yearly")
+                          ? field.value.filter((item) => item !== "Yearly")
+                          : [...field.value, "Yearly"];
+                        field.onChange(newValue);
+                      }}
+                      className="mr-2"
+                    />
+                    Yearly
+                  </label>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Budget */}
+          <FormField
+            control={form.control}
+            name="budget"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
-                  <span>Pay Required</span>
-                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Hour</span>
-                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-500"} rounded-sm text-base py-1 px-2 text-white`}>Per Day</span>
+                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Hour</span>
+                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Day</span>
+                  <span onClick={() => setBudgetDuration("salary")} className={`${budgetDuration === "salary" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Salary</span>
                 </FormLabel>
                 <FormControl>
-                  <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                  <Input type="number" min={0} variant="borderblack" placeholder="Enter Your Salary" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -222,9 +350,31 @@ const EditProfileComponent = () => {
             name="aboutMe"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">About Me</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">About Your Self</FormLabel>
                 <FormControl>
                   <Textarea variant="borderblack" placeholder="Enter about yourself" {...field} className="" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+
+          {/* Attachment */}
+          <div>
+            <p className="text-gray-800 text-xl font-semibold pb-1">Attachment</p>
+            <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
+          </div>
+
+          {/* Work Overview */}
+          <FormField
+            control={form.control}
+            name="workOverview"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Work Overview</FormLabel>
+                <FormControl>
+                  <Textarea variant="borderblack" placeholder="Enter Work Overview" {...field} className="" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -271,8 +421,8 @@ const EditProfileComponent = () => {
 
 
           {/* Submit */}
-          <Button type="submit" variant="yelloBtn" size="llg" className="w-full">
-            Save
+          <Button type="submit" variant="yelloBtn" size="llg" className="w-full text-gray-700">
+            Confirm
           </Button>
         </form>
       </Form>

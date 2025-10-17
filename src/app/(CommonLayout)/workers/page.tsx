@@ -13,9 +13,10 @@ import { getUserRoleEmployer } from '@/utils/getUserRole'
 import { toast } from 'sonner'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { Suspense } from 'react'
 
 
-const Workers = () => {
+const WorkersSuspense = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const workers = searchParams.get("workers");
@@ -92,6 +93,14 @@ const Workers = () => {
 
     </div>
   )
+}
+
+export const Workers = () =>{
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <WorkersSuspense />
+    </Suspense>
+  );
 }
 
 export default Workers
