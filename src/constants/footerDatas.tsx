@@ -7,8 +7,16 @@ import { FiMail } from "react-icons/fi";
 
 export const quickLinks = [
   {
-    title: "Subscription",
-    url: "/subscription"
+    title: 'Home',
+    url: '/',
+  },
+  {
+    title: 'About us',
+    url: '/about-us',
+  },
+  {
+    title: 'Contact us',
+    url: '/contact-us',
   },
   {
     title: "Terms & Conditions",
@@ -21,18 +29,10 @@ export const quickLinks = [
 ];
 
 export const contactInfo= [
-  // {
-  //   title: "+2123 654 7898",
-  //   icon: <LuPhoneCall />
-  // },
   {
     title: "shamimnadir@example.com",
     icon: <FiMail/>
   },
-  // {
-  //   title: "Company Address",
-  //   icon: <GrLocation/>
-  // },
 ];
 
 export const followUs = [

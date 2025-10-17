@@ -10,13 +10,13 @@ import { TiBusinessCard } from "react-icons/ti";
 import { MdOutlineLogout } from "react-icons/md";
 import EmployeeWorkerProfile from '@/components/cui/EmployeeWorkerProfile';
 import { useRouter } from 'next/navigation';
-import SubscriptionCard from '@/components/cui/SubscriptionCard';
 import { subscriptionDatas } from '@/data/subscriptionDatas';
 import Image, { StaticImageData } from 'next/image';
 import { IoCameraOutline } from 'react-icons/io5';
 import { workerDetails } from '@/data/workerDatas';
 import NidUpload from '@/components/cui/NidUpload';
 import { TbEPassport } from 'react-icons/tb';
+import SubscriptionInfo from '@/components/cui/SubscriptionInfo';
 
 const profileSidebar = [
   {
@@ -114,7 +114,7 @@ const EmployeeProfile = () => {
         <div className='w-full'>
           {step === 1 && <EmployeeWorkerProfile />}
           {step === 2 && <NidUpload />}
-          {step === 3 && <SubscriptionCard data={subscriptionDatas[0]} hideButton={true} />}
+          {step === 3 && <SubscriptionInfo data={subscriptionDatas[0]} />}
           {step === 4 && <ChangePassword />}
           {step === 5 && <DeleteAccount />}
         </div>
