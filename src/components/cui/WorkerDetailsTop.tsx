@@ -13,7 +13,7 @@ const WorkerDetailsTop = () => {
           <div className='w-6 h-6 md:w-10 md:h-10 rounded-full bg-green-500 absolute -top-4 right-0 transform -translate-x-1/2 translate-y-1/2' />
         </div>
       </div>
-      <div className='h-[80px] md:h-[150px]' />      
+      <div className='h-[80px] md:h-[130px]' />      
     </div>
   )
 }

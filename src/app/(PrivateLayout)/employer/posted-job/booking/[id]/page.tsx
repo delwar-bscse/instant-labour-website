@@ -21,7 +21,7 @@ const BookingWorkerDetailsSuspense = () => {
       <WorkerDetailsTop />
 
       {/* ------------------- Contact & Review Button ------------------- */}
-      <div className='maxWidth my-10 flex gap-4 items-center'>
+      <div className='maxWidth mb-8 flex gap-4 items-center'>
         <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
         <CustomModal
           title="Feedback"

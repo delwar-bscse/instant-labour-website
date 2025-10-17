@@ -29,7 +29,7 @@ const CompleteProfile = () => {
   return (
     <div>
       {/* ------------------- Profile & Cover ------------------- */}
-      <div className='maxWidth pt-4 pb-4'>
+      <div className='maxWidth pt-4 pb-1'>
         <div className='relative'>
           <Image src={coverImage} width={1200} height={240} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[240px] object-fit' />
           <div onClick={() => document.getElementById("coverImageId")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-gray-500/50 flex items-center justify-center absolute bottom-7 right-0 transform -translate-x-1/2 translate-y-1/2'>
@@ -49,7 +49,8 @@ const CompleteProfile = () => {
       </div>
 
       {/* ------------------- Personal Info ------------------- */}
-      <div className='w-full max-w-[1100px] mx-auto px-4'>
+      <div className='w-full max-w-[1100px] mx-auto px-4 py-10'>
+        <p className='text-2xl md:text-3xl font-semibold md:font-bold text-gray-700 pb-4'>Complete Your Profile</p>
         <EditProfileComponent />
       </div>
     </div>
