@@ -1,18 +1,20 @@
+"use client"
+
 import ReviewCard from '@/components/card/ReviewCard';
+import TakeReview from '@/components/cui/TakeReview';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
+import { CustomModal } from '@/components/modal/CustomModal';
 import { reviewDatas } from '@/data/reviewData';
 import Link from 'next/link';
-import React from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { Suspense } from 'react'
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-const BookingWorkerDetails = ({ searchParams }: Props) => {
-  const type = searchParams.type;
+const BookingWorkerDetailsSuspense = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
   console.log("Status", type)
+
   return (
     <div className='maxWidth pt-4 pb-20'>
       {/* ------------------- Worker Top ------------------- */}
@@ -21,7 +23,12 @@ const BookingWorkerDetails = ({ searchParams }: Props) => {
       {/* ------------------- Contact & Review Button ------------------- */}
       <div className='maxWidth my-10 flex gap-4 items-center'>
         <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
-        <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+        <CustomModal
+          title="Feedback"
+          trigger={<button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm cursor-pointer hover:border-blue-700 transition-colors duration-300'>Feed Back</button>}
+        >
+          <TakeReview />
+        </CustomModal>
       </div>
 
       {/* ------------------- Worker Details Body ------------------- */}
@@ -36,6 +43,14 @@ const BookingWorkerDetails = ({ searchParams }: Props) => {
         ))}
       </div>
     </div>
+  )
+}
+
+const BookingWorkerDetails = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <BookingWorkerDetailsSuspense />
+    </Suspense>
   )
 }
 
