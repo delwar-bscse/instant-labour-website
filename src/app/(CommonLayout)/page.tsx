@@ -176,7 +176,7 @@ export default function Home() {
 
       {/* -------------- 20% Offers-------------- */}
       {!getUserRoleWorker() && <div className="maxWidth py-8 md:py-20">
-        <OfferSection />
+        <OfferSection button={true} />
       </div>}
 
       {/* -------------- Why instant labour? -------------- */}
