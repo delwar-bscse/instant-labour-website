@@ -17,11 +17,11 @@ export const navbarItemsAll: navItemsType[] = [
     url: '/workers',
   },
   {
-    title: 'About us',
+    title: 'About Us',
     url: '/about-us',
   },
   {
-    title: 'Contact us',
+    title: 'Contact Us',
     url: '/contact-us',
   },
 ];
@@ -36,11 +36,11 @@ export const navbarItemsEmployer: navItemsType[] = [
     url: '/workers',
   },
   {
-    title: 'About us',
+    title: 'About Us',
     url: '/about-us',
   },
   {
-    title: 'Contact us',
+    title: 'Contact Us',
     url: '/contact-us',
   },
 ];
@@ -54,11 +54,11 @@ export const navbarItemsWorker: navItemsType[] = [
     url: '/jobs',
   },
   {
-    title: 'About us',
+    title: 'About Us',
     url: '/about-us',
   },
   {
-    title: 'Contact us',
+    title: 'Contact Us',
     url: '/contact-us',
   },
 ];

@@ -12,6 +12,7 @@ import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from "@/utils/get
 import { BsExclamationCircle } from "react-icons/bs";
 import Link from "next/link";
 import { CustomModal } from "@/components/modal/CustomModal";
+import OfferSection from "@/components/sections/OfferSection";
 
 
 {/* --------------------- Components Start --------------------- */ }
@@ -98,7 +99,7 @@ export default function Home() {
             </div>}
 
             {getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
+              <Link href="/workers?type=instantLabour" className="font-semibold text-gray-800">Instant Labour</Link>
             </div>}
 
           </div> : <div className="flex flex-wrap gap-4 w-full">
@@ -169,31 +170,23 @@ export default function Home() {
 
       {/* -------------- Industries We Support -------------- */}
       <div className="maxWidth py-8 md:py-20">
-        <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12">Industries We Support</h2>
+        <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12 text-center">Industries We Support</h2>
         <IndustriesSlider />
       </div>
 
       {/* -------------- 20% Offers-------------- */}
       {!getUserRoleWorker() && <div className="maxWidth py-8 md:py-20">
-        <div className="bg-brandClr2 p-8 rounded-xl space-y-8">
-          <h3 className="text-xl md:text-3xl font-semibold  inline-block px-8 py-3 rounded-sm bg-blue-600 text-white">20% Offer</h3>
-          <div className="flex flex-col sm:flex-row justify-between gap-4">
-            <p className="text-gray-700 text-xl md:text-3xl font-semibold">Today all packages 20% off</p>
-            <div className="w-32">
-              <Link href="/subscription" className="px-4 py-2.5 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-600 text-lg font-semibold rounded-sm transition-colors duration-200">Buy Now</Link>
-            </div>
-          </div>
-        </div>
+        <OfferSection />
       </div>}
 
       {/* -------------- Why instant labour? -------------- */}
-      <div className="maxWidth py-8 md:py-20">
+      <div className="maxWidth py-8 md:py-20 flex flex-col items-center">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12">why instant labour?</h2>
         <ul className="pl-4 text-gray-600 font-medium grid grid-cols-1 sm:grid-cols-2 gap-2">
           {instantLabour?.map((item, index) => (
             <li key={index} className="flex gap-4">
               <IoCheckmarkCircle className="text-3xl text-green-500" />
-              <p>{item}</p>
+              <p className="md:text-xl">{item}</p>
             </li>
           ))}
         </ul>

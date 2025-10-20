@@ -1,3 +1,5 @@
+"use client"
+
 import ReviewCard from '@/components/card/ReviewCard';
 import TakeReview from '@/components/cui/TakeReview';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
@@ -5,15 +7,12 @@ import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
 import { CustomModal } from '@/components/modal/CustomModal';
 import { reviewDatas } from '@/data/reviewData';
 import Link from 'next/link';
-import React from 'react'
+import { useSearchParams } from 'next/navigation';
+import React, { Suspense } from 'react'
 
-interface Props {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-}
-
-const ApproveAppliedWorkerDetails = ({ searchParams }: Props) => {
-  const type = searchParams.type;
+const ApproveAppliedWorkerDetailsSuspense = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
   return (
     <div className='pb-12'>
       {/* ------------------- Worker Details Top ------------------- */}
@@ -33,10 +32,11 @@ const ApproveAppliedWorkerDetails = ({ searchParams }: Props) => {
       </div>}
 
       {/* ------------------- Worker Details Body ------------------- */}
-      <WorkerDetailsBody />
+      <WorkerDetailsBody jobType="Full Time" />
 
       {/* --------------------- Rating list --------------------- */}
       <div className='maxWidth space-y-8 mt-12'>
+        <p className='py-2 px-3 border-2 border-blue-600 font-semibold text-blue-700 rounded-sm text-xl'>Reviews</p>
         {reviewDatas.map((item, index) => (
           <div key={index} className=''>
             <ReviewCard item={item} />
@@ -53,4 +53,11 @@ const ApproveAppliedWorkerDetails = ({ searchParams }: Props) => {
   )
 }
 
+export const ApproveAppliedWorkerDetails = () =>{
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ApproveAppliedWorkerDetailsSuspense />
+    </Suspense>
+  );
+}
 export default ApproveAppliedWorkerDetails

@@ -9,7 +9,7 @@ import CustomButton from '../cui/CustomButton';
 const JobPostCard = ({ item, url }: { item: Record<string, any>, url: string }) => {
   return (
     <div key={item._id} className='space-y-2 bg-white customShadow p-4'>
-      <div>
+      <div className=''>
         <Image src={item.jobImg} width={500} height={400} alt={item.companyName} className='w-full h-[260px]' />
       </div>
       <div className='space-y-3'>

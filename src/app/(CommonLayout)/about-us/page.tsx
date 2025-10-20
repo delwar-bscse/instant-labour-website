@@ -52,7 +52,7 @@ const AboutUs = () => {
       {/* --------------------- About Us Content --------------------- */}
       <div className='bg-[#72A1E9]'>
         <div className="maxWidth flex flex-col items-center justify-center gap-8 py-20">
-          <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Start ?</h1>
+          <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Started ?</h1>
           {/* <div className="flex justify-center gap-6 w-full max-w-80">
             {!getUserRoleWorker() && <div>
               <CustomButton text="I'm hiring" url="/workers" variant="button01" /></div>}
@@ -69,7 +69,7 @@ const AboutUs = () => {
             </div>}
 
             {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
+              <Link href="/workers?type=instantLabour" className="font-semibold text-gray-800">Instant Labour</Link>
             </div>}
           </div>
         </div>

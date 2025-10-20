@@ -22,13 +22,14 @@ const WorkerCard = ({ item }: { item: Record<string, any>, url?: string, status?
 
   return (
     <>
-      <div>
+      <div className=''>
         <Image src={item.workerImg} width={500} height={400} alt={item.name} className='w-full h-[260px]' />
       </div>
       <div className='space-y-3'>
         <div className='flex items-center gap-4'>
-          <div className=''>
+          <div className='relative'>
             <Image src={item.workerImg} width={40} height={40} alt={item.name} className='object-cover w-[40px] h-[40px] rounded-full' />
+            <div className='size-3 rounded-full absolute top-0 right-0 bg-green-500' />
           </div>
           <div>
             <h3 className='font-semibold text-xl text-gray-800'>{item.name}</h3>

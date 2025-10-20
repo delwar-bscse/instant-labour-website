@@ -122,7 +122,7 @@ const SignIn = () => {
                   <div className="relative">
                     <Input
                       type={showPassword ? "text" : "password"}
-                      placeholder="Enter password"
+                      placeholder="Enter Your Password"
                       variant="yelloBg2"
                       className="pr-10"
                       {...field}

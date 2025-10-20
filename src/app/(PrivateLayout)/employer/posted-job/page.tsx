@@ -44,8 +44,8 @@ function PostedJobPageSuspense () {
 
   return (
     <div className='maxWidth flex flex-col gap-8 py-8'>
-      <div className='flex justify-between items-center'>
-        <ul className='flex gap-4'>
+      <div className='flex flex-wrap gap-3 justify-between items-center'>
+        <ul className='flex flex-wrap gap-4'>
           {profileSidebar?.map((item) => (
             <li onClick={() => router.push(`${pathname}?type=${item.query}`)} key={item.id} className={` gap-2 py-2 cursor-pointer rounded-sm px-3 shadow font-semibold text-center border-2 border-brandClr1 ${item.query === type ? "bg-brandClr1 text-gray-50" : "bg-white text-gray-800"}`}>
               {item.title}

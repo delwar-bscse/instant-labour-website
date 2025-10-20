@@ -14,7 +14,7 @@ export default function CommonLayout({children}: Readonly<{children: React.React
 
   
   return (
-    <div>
+    <div className="">
       <Navbar />
       {children}
       <Footer />

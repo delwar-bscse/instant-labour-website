@@ -68,6 +68,7 @@ const page = () => {
 
       {/* --------------------- Rating list --------------------- */}
       <div className='space-y-8 mt-12'>
+        <p className='py-2 px-3 border-2 border-blue-600 font-semibold text-blue-700 rounded-sm text-xl'>Reviews</p>
         {reviewDatas.map((item, index) => (
           <div key={index} className=''>
             <ReviewCard item={item} />

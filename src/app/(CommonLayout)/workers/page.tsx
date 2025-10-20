@@ -20,6 +20,7 @@ const WorkersSuspense = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const workers = searchParams.get("workers");
+  const type = searchParams.get("type");
 
   const handlePost = () => {
     if (getUserRoleEmployer()) {
@@ -33,7 +34,7 @@ const WorkersSuspense = () => {
   return (
     <div className='maxWidth'>
       {/* --------------------- Hero Worker Section --------------------- */}
-      {getUserRoleEmployer() && <>
+      {getUserRoleEmployer() && type !== "instantLabour" && <>
         <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-20">
           <div className="flex-1 space-y-6">
             <h1 className="text-3xl sm:text-4xl lg:text-7xl text-gray-800 font-bold leading-20 capitalize">find labour for <br />your short-term <br />or day job</h1>

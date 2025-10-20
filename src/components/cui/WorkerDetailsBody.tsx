@@ -3,7 +3,7 @@ import { MdOutlineStarPurple500, MdOutlineVerifiedUser } from "react-icons/md";
 import { workerDetails } from '@/data/workerDatas';
 import { FaCheckSquare } from "react-icons/fa";
 
-const WorkerDetailsBody = () => {
+const WorkerDetailsBody = ({jobType}:{jobType?:string}) => {
   return (
     <div className='maxWidth'>
       <div className='space-y-5'>
@@ -20,6 +20,7 @@ const WorkerDetailsBody = () => {
             </div>
           </div>
           <p className='text-gray-700 text-xl'>{workerDetails.category} / {workerDetails.experience}</p>
+          {jobType && <p className='text-gray-700 text-xl'>{jobType}</p>}
           <p className='text-gray-800 font-semibold text-xl'>£{workerDetails.price} Per Day</p>
         </div>
         <div className='space-y-1'>

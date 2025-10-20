@@ -256,9 +256,9 @@ const SignUp = () => {
                 <input type="checkbox" className="mr-2" />
                 <div className="flex flex-wrap text-gray-700 gap-2">
                   <span>By continue</span>
-                  <span className="text-blue-600"> policy and terms </span>
+                  <Link href="/privacy-policy" className="text-blue-600"> Privacy Policy </Link>
                   <span>and</span>
-                  <span className="text-blue-600">terms & condition</span>
+                  <Link href="/terms-and-conditions" className="text-blue-600">Terms & Conditions</Link>
                 </div>
               </div>
 
