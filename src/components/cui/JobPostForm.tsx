@@ -118,7 +118,7 @@ const JobPostForm = () => {
             name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Company Name</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">Company Name (Optional)</FormLabel>
                 <FormControl>
                   <Input variant="borderblack" placeholder="Enter company name" {...field} />
                 </FormControl>

@@ -25,7 +25,7 @@ const BookingList = () => {
             <WorkerCard item={item} />
             {item.status && <p className={` font-semibold ${handleStatus(item.status)}`}>{item.status}</p>}
             {/* <CustomButton text="View Profile" url={`/workers/${item._id}`} variant="button01" className='w-full' /> */}
-            <Link id={"viewWorkerProfile"+index} href={`/employer/posted-job/booking/${item._id}?type=${item.status}`} className='hidden'>View Profile</Link>
+            <Link id={"viewWorkerProfile"+index} href={`/employer/posted-jobs/booking/${item._id}?type=${item.status}`} className='hidden'>View Profile</Link>
           </div>
         ))}
       </div>

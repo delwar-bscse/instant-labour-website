@@ -24,7 +24,7 @@ const WorkersSuspense = () => {
 
   const handlePost = () => {
     if (getUserRoleEmployer()) {
-      router.push("/employer/posted-job/post-job");
+      router.push("/employer/posted-jobs/post-job");
     } else {
       toast.error("Please login first");
     }

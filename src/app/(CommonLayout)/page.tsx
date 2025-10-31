@@ -95,7 +95,7 @@ export default function Home() {
             </div>}
 
             {getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">I Need A Job</Link>
+              <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
             </div>}
 
             {getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
@@ -115,7 +115,7 @@ export default function Home() {
             </div>
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">I Need A Job</Link>
+              <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
               {!getUserRole() && <CustomModal
                 title="For Workers"
                 trigger={<BsExclamationCircle />}
@@ -146,8 +146,8 @@ export default function Home() {
 
       {/* -------------- guaranteed a response within 7-14 days. -------------- */}
       {!getUserRoleEmployer() && <div className="maxWidth">
-        <div className="py-8 md:py-12 bg-brandClr2/40 rounded-md px-4">
-          <h3 className="text-2xl md:text-3xl xl:text-5xl text-gray-700 font-semibold capitalize text-center">guaranteed a response within 7-14 days.</h3>
+        <div className="py-6 md:py-8 bg-brandClr2 rounded-md px-4 md:px-8">
+          <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-18">All Applicants guaranteed a response within <br/>7-14 days</h3>
         </div>
       </div>}
 

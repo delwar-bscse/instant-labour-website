@@ -15,7 +15,7 @@ const AboutUs = () => {
 
   // const handlePost = () => {
   //   if (getUserRoleEmployer()) {
-  //     router.push("/employer/posted-job/post-job");
+  //     router.push("/employer/posted-jobs/post-job");
   //   } else {
   //     toast.error("Please login first");
   //   }
@@ -65,7 +65,7 @@ const AboutUs = () => {
             </div>}
 
             {!getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">I Need A Job</Link>
+              <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
             </div>}
 
             {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
@@ -104,5 +104,33 @@ const SubComponent = ({ item, position }: { item: Record<string, any>, position:
     </div>
   )
 }
+
+{/* ------------- About Us Content Sub Component ------------- */ }
+// const SubComponent2 = ({ item, position,  }: { item: Record<string, any>, position: string }) => {
+
+//   return (
+//     <div className={`flex flex-col gap-8 lg:gap-16  ${position === "right" ? "md:flex-row" : "md:flex-row-reverse"}`}>
+//       <div className='flex-1'>
+//         <h3 className='font-semibold text-4xl text-gray-800'>{item.title}</h3>
+//         <p className="text-gray-600 mt-4">To make finding work and hiring staff as fast and simple as ordering a taxi</p>
+//         <p className="text-gray-600 mt-4">We believe:</p>
+//         {Array.isArray(item.content) ? (
+//           <ul className='list-disc pl-8'>
+//             {item.content.map((i: string, index: number) => (
+//               <li key={index} className="text-gray-600 mt-4">
+//                 {i}
+//               </li>
+//             ))}
+//           </ul>
+//         ) : (
+//           <p className="text-gray-600 mt-4">{item.content}</p>
+//         )}
+//       </div>
+//       <div className='flex-1'>
+//         <Image src={item.img} alt="Hero Image" width={1000} height={600} className={`w-full h-[260px] md:h-[300px] lg:h-[360px] object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
+//       </div>
+//     </div>
+//   )
+// }
 
 export default AboutUs

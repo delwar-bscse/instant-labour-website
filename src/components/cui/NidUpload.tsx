@@ -29,7 +29,7 @@ const NidUpload = () => {
           <Image src={nidFornt} width={300} height={100} alt="nidFornt" className=' object-cover w-full h-full' />
         ) : (
           <div className='w-full h-full flex items-center justify-center bg-gray-200'>
-            <span className='text-gray-600 font-semibold text-xl'>Upload NID Front</span>
+            <span className='text-gray-600 font-semibold text-xl'>Upload National ID Front</span>
           </div>
         )}
         <div onClick={() => document.getElementById("nidForntImg")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-[#E6EEFC] flex items-center justify-center absolute top-0 right-0 transform -translate-x-1/2 translate-y-1/2'>
@@ -42,7 +42,7 @@ const NidUpload = () => {
           <Image src={nidBack} width={300} height={100} alt="nidFornt" className=' object-cover w-full h-full' />
         ) : (
           <div className='w-full h-full flex items-center justify-center bg-gray-200'>
-            <span className='text-gray-600 font-semibold text-xl'>Upload NID Back</span>
+            <span className='text-gray-600 font-semibold text-xl'>Upload National ID Back</span>
           </div>
         )}
         <div onClick={() => document.getElementById("nidBackImg")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-[#E6EEFC] flex items-center justify-center absolute top-0 right-0 transform -translate-x-1/2 translate-y-1/2'>

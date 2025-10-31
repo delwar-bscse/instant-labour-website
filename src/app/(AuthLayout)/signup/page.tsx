@@ -149,7 +149,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Number</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter email" {...field} />
+                      <Input variant="yelloBg2" placeholder="Enter phone number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -164,7 +164,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Location</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter email" {...field} />
+                      <Input variant="yelloBg2" placeholder="Enter Your Location" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

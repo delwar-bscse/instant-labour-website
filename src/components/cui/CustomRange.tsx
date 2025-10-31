@@ -15,7 +15,7 @@ const CustomRange = React.forwardRef<HTMLInputElement, CustomRangeProps>(
     {
       className,
       min = 0,
-      max = 100,
+      max = 1000,
       value,
       onChange,
       tooltipClassName,

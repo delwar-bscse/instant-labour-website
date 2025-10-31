@@ -4,21 +4,25 @@ export const aboutUsData = {
   whoWeAre: {
     img: about01,
     title: "Who We Are",
-    content: "We are a dedicated employment marketplace built to connect talent with opportunity. Our platform brings together job seekers, employers, and recruiters in one seamless space, making the hiring process faster, fairer, and more transparent. Whether you’re searching for your next career move or looking to build the perfect team, we provide the tools, insights, and support to help you succeed. With a focus on trust, efficiency, and human connection, we’re here to bridge the gap between ambition and achievement."
+    content: `InstantLabour is the UK”s on-demand work platform that connects employers and workers in real time weather you need to last-minutes labourer,acleaner for tonight, or a driver tommorow morning-InstantLabour makes it happen in minutes. we remove the old-school hassle of agencies,phone calls,and waiting lists. with instantlabour,your post,macth,and start-instantly`
   },
   ourMission: {
     img: about02,
     title: "Our Mission",
-    content: "Our mission is to empower individuals and businesses by making the job market more accessible, transparent, and efficient. We strive to remove barriers to employment, connect the right people with the right opportunities, and create a space where talent is valued and potential is realized. Through innovation, integrity, and a commitment to fairness, we aim to transform the way people find work and the way companies find talent."
+    content: [
+      "Everyone deserves instant access to fair work opportunities.",
+      "Employers should be able to hire qualified people instantly — without agency fees or delays.",
+      "Technology can make local hiring faster, fairer, and easier for everyone."
+    ]
   },
   whatWeDo: {
     img: about03,
-    title: " What We Do",
+    title: " Where We Operate",
     content: "We connect job seekers with employers through a smart, easy-to-use platform designed for today’s job market. Our technology matches skills to opportunities, helping candidates find roles that fit their ambitions while enabling businesses to hire faster and with greater confidence."
   },
   whyChooseInstantLabour: {
     img: about04,
-    title: "Who We Are",
+    title: "Why Choose InstantLabour",
     content: [
       "All-in-One Platform : Post, hire, communicate, and pay — in one place.",
       "Trusted Network : Verified professionals and businesses.",

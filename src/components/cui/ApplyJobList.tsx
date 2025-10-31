@@ -9,7 +9,7 @@ const ApplyJobList = () => {
       <div className=''>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
           {jobDatas?.map((item) => (
-            <JobPostCard key={item._id} item={item} url={`/worker/applied-job/${item._id}`} />
+            <JobPostCard key={item._id} item={item} url={`/worker/applied-jobs/${item._id}`} />
           ))}
         </div>
       </div>

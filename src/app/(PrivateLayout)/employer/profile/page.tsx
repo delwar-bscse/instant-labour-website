@@ -26,7 +26,7 @@ const profileSidebar = [
   },
   {
     id: 2,
-    title: "NID Card",
+    title: "National ID",
     icon: <TbEPassport className='text-gray-700 text-xl' />,
   },
   {

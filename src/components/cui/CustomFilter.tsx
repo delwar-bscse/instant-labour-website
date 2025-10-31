@@ -2,7 +2,7 @@
 
 "use client"
 
-import React, { Suspense } from 'react'
+import React, { Suspense, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,6 +33,7 @@ const defaultValues = {
 };
 
 function CustomFilterSuspense() {
+  const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
@@ -161,13 +162,18 @@ function CustomFilterSuspense() {
             name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-600">Price</FormLabel>
+                <FormLabel className="text-gray-800 text-xl flex gap-2 items-center my-4">
+                  <span  className="text-gray-600 text-sm">Price : </span>
+                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Hour</span>
+                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Day</span>
+                  <span onClick={() => setBudgetDuration("salary")} className={`${budgetDuration === "salary" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Salary</span>
+                </FormLabel>
                 <FormControl>
                   <div>
                     <PriceRange {...field} />
                     <div className='flex justify-between text-[11px] text-gray-500'>
                       <p>£ 0</p>
-                      <p>£ 100</p>
+                      <p>£ 1000</p>
                     </div>
                   </div>
                 </FormControl>

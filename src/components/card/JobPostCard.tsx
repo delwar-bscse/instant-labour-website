@@ -31,10 +31,10 @@ const JobPostCard = ({ item, url }: { item: Record<string, any>, url: string }) 
             <span>{item.postDate}</span>
           </li>
         </ul>
-        <div className='flex items-center justify-between py-1 font-semibold'>
+        {/* <div className='flex items-center justify-between py-1 font-semibold'>
           <p className={`${item.status === "Ongoing" ? "text-green-500" : "text-red-500"}`}>{item.status}</p>
-          <p className='text-red-500'>{item.apply} apply</p>
-        </div>
+          <p className='text-red-500'>{item.apply} applied</p>
+        </div> */}
         <CustomButton text="View Job" url={url} variant="button01" className='w-full' />
       </div>
     </div>

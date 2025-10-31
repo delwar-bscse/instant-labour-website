@@ -6,10 +6,11 @@ import BookingList from '@/components/cui/BookingList';
 import CustomButton from '@/components/cui/CustomButton';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
+
 const profileSidebar = [
   {
     id: 1,
-    title: "My Posted Job",
+    title: "My Posted Jobs",
     query: "posted-job"
   },
   {
@@ -54,7 +55,7 @@ function PostedJobPageSuspense () {
         </ul>
         {type === "posted-job" && <div className='flex items-center justify-end pb-2'>
           <div className='w-full max-w-50'>
-            <CustomButton text="+ Post a job" url="/employer/posted-job/post-job" variant="button01" className='w-full border-2 border-brandClr2' />
+            <CustomButton text="+ Post a job" url="/employer/posted-jobs/post-job" variant="button01" className='w-full border-2 border-brandClr2' />
           </div>
         </div>}
       </div>
@@ -69,7 +70,7 @@ function PostedJobPageSuspense () {
 }
 
 
-export const PostedJobPage = () =>{
+const PostedJobPage = () =>{
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <PostedJobPageSuspense />

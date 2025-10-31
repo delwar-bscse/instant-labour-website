@@ -44,6 +44,7 @@ export const navbarItemsEmployer: navItemsType[] = [
     url: '/contact-us',
   },
 ];
+
 export const navbarItemsWorker: navItemsType[] = [
   {
     title: 'Home',
@@ -70,8 +71,12 @@ export const employerMenus: navItemsType[] = [
     url: '/employer/profile',
   },
   {
-    title: 'Posted Job',
-    url: '/employer/posted-job',
+    title: 'Posted Jobs',
+    url: '/employer/posted-jobs?type=posted-job',
+  },
+  {
+    title: 'My Bookings',
+    url: '/employer/posted-jobs?type=booking-list',
   },
   {
     title: 'Inbox',
@@ -94,8 +99,12 @@ export const workerMenus: navItemsType[] = [
     url: '/worker/profile',
   },
   {
-    title: 'Applied Job',
-    url: '/worker/applied-job',
+    title: 'Applied Jobs',
+    url: '/worker/applied-jobs?type=my-applied-list',
+  },
+  {
+    title: 'My Offers',
+    url: '/worker/applied-jobs?type=my-offers-list',
   },
   {
     title: 'Inbox',
