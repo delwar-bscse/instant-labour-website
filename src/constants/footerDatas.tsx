@@ -30,7 +30,7 @@ export const quickLinks = [
 
 export const contactInfo= [
   {
-    title: "shamimnadir@example.com",
+    title: "admin@instantlabour.co.uk",
     icon: <FiMail/>
   },
 ];
@@ -38,14 +38,14 @@ export const contactInfo= [
 export const followUs = [
   {
     icon: <SlSocialFacebook/>,
-    url: "https://www.facebook.com/share/19b3DdSvMx/?mibextid=wwXIfr"
+    url: "https://www.facebook.com"
   },
   {
     icon: <SlSocialInstagram/>,
-    url: "https://www.instagram.com/thesocialchance?igsh=cW15MXhwZ21sOHFu&utm_source=qr"
+    url: "https://www.instagram.com"
   },
   {
     icon: <PiTiktokLogoThin />,
-    url: "https://www.tiktok.com/@thesocialchance?_t=ZN-8yWcc2oq9LS&_r=1"
+    url: "https://www.tiktok.com"
   },
 ]

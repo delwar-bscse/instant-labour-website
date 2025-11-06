@@ -50,14 +50,13 @@ const Footer = () => {
               key={index}
               className="inline-block mx-4 border border-white rounded-full p-1.5 md:p-2 cursor-pointer hover:bg-white/10 transition-colors duration-200"
             >
-              <Link
+              <a target='_blank'
                 href={item?.url}
                 className="text-white hover:text-white text-xl md:text-2xl"
               >
                 {item?.icon}
-              </Link>
+              </a>
             </li>
-
           ))}
         </ul>
       </div>
