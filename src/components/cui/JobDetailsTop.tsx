@@ -8,7 +8,7 @@ import { FiClock } from "react-icons/fi";
 import { jobDetails } from '@/data/jobDatas';
 import { HiOutlineCurrencyPound } from "react-icons/hi";
 import { MdArrowBack, MdOutlineStarPurple500, MdOutlineVerifiedUser } from 'react-icons/md';
-import { getUserRole, getUserRoleWorker } from '@/utils/getUserRole';
+import { getUserRole, getUserRoleWorker } from '@/utils/getUserRoleClient';
 import { toast } from 'sonner';
 import { CustomModal } from '../modal/CustomModal';
 import Link from 'next/link';

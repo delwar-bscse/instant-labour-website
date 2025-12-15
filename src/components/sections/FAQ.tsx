@@ -19,7 +19,6 @@ const FAQ = () => {
           method: "GET",
         });
         setCategoryDatas(res?.data);
-        console.log("Faq res : ", res?.data)
       };
       fetchCategories();
     }, []);

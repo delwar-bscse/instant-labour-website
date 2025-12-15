@@ -5,7 +5,7 @@ import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { getUserRoleEmployer } from '@/utils/getUserRole';
+import { getUserRoleEmployer } from '@/utils/getUserRoleClient';
 import { reviewDatas } from '@/data/reviewData';
 import ReviewCard from '@/components/card/ReviewCard';
 import { useRouter } from 'next/navigation';

@@ -1,18 +1,17 @@
-"use client"
-//use client will be remove later
-
-import Image from "next/image"
-import heroImg from "@/assets/landHero.png";
-import { clientSay, instantLabour, howItWorksWorkers, howItWorksEmployers } from "@/data/homeData";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import Image from "next/image";
+import { clientSay } from "@/data/homeData";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import IndustriesSlider from "@/components/sections/IndustriesSlider";
 import ClientSayCard from "@/components/card/ClientSayCard";
 import FAQ from "@/components/sections/FAQ";
-import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from "@/utils/getUserRole";
+import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from "@/utils/getUserRoleServer";
 import { BsExclamationCircle } from "react-icons/bs";
 import Link from "next/link";
 import { CustomModal } from "@/components/modal/CustomModal";
 import OfferSection from "@/components/sections/OfferSection";
+import { myFetch } from "@/utils/myFetch";
+import { formatUrl } from "@/utils/formatUrl";
 
 
 {/* --------------------- Components Start --------------------- */ }
@@ -29,7 +28,7 @@ const ForEmployersComponent = () => (
 )
 
 const ForWorkersComponent = () => (
-  <div className="max-h-[360px] overflow-y-auto scrollbar-hide">
+  <div className="max-h-90 overflow-y-auto scrollbar-hide">
     <div>
 
       <p className="capitalize pb-2">Looking for same-day or flexible work?</p>
@@ -61,7 +60,7 @@ const ForWorkersComponent = () => (
 )
 
 const InstantLabourComponent = () => (
-  <div className="max-h-[360px] overflow-y-auto scrollbar-hide">
+  <div className="max-h-90 overflow-y-auto scrollbar-hide">
     <div>
       <p className="capitalize">Hire local labourers, cleaners, drivers, and more — instantly. InstantLabour connects employers and workers in minutes using smart matching. No agencies, no phone calls, no delays — just instant results.</p>
       <p className="text-lg font-semibold pt-6 pb-2 capitalize">Need A worker Today?</p>
@@ -73,9 +72,19 @@ const InstantLabourComponent = () => (
 )
 {/** --------------------- Components End --------------------- */ }
 
-export default function Home() {
+export default async function Home() {
+  const isUser = await getUserRole();
+  const isEmployer = await getUserRoleEmployer();
+  const isWorker = await getUserRoleWorker();
 
-  const howItWorks = getUserRoleEmployer() ? howItWorksEmployers : howItWorksWorkers;
+  
+  const res =  await myFetch("/content/section/home", { method: "GET" });
+  const homeData = res?.data[0];
+  const howItWorksEmployer = res?.data[1];
+  const howItWorksWorker = res?.data[2];
+  const howItWorks = isEmployer ? howItWorksEmployer : howItWorksWorker;
+  const whyInstantLabour = res?.data[3];
+  console.log("Home All : ", res)
 
 
 
@@ -84,21 +93,21 @@ export default function Home() {
       {/* --------------------- Hero Section --------------------- */}
       <div className="maxWidth flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-8 md:py-20">
         <div className="flex-1 space-y-6">
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl text-gray-800 font-semibold capitalize">Employment marketplace find trusted labour in minutes no phone calls  needed.</h1>
-          <p className="text-gray-700 mt-4 font-semibold">Instantly match with local tradesmen and temp workers!</p>
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl text-gray-800 font-semibold capitalize">{homeData?.title}</h1>
+          <p className="text-gray-700 mt-4 font-semibold">{homeData?.description}</p>
 
           {/* ---------------------Only Button & Button Modal --------------------- */}
-          {getUserRole() ? <div className="flex flex-wrap gap-4 w-full">
+          {isUser ? <div className="flex flex-wrap gap-4 w-full">
 
-            {getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {isEmployer && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
             </div>}
 
-            {getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {isWorker && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
             </div>}
 
-            {getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {isEmployer && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers?type=instantLabour" className="font-semibold text-gray-800">Instant Labour</Link>
             </div>}
 
@@ -106,7 +115,7 @@ export default function Home() {
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
-              {!getUserRole() && <CustomModal
+              {!isUser && <CustomModal
                 title="For Employers"
                 trigger={<BsExclamationCircle />}
               >
@@ -116,7 +125,7 @@ export default function Home() {
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
-              {!getUserRole() && <CustomModal
+              {!isUser && <CustomModal
                 title="For Workers"
                 trigger={<BsExclamationCircle />}
               >
@@ -126,7 +135,7 @@ export default function Home() {
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
-              {!getUserRole() && <CustomModal
+              {!isUser && <CustomModal
                 title="InstantLabour - Find Worker Or Work Instantly Near You"
                 trigger={<BsExclamationCircle />}
               >
@@ -139,28 +148,28 @@ export default function Home() {
 
         </div>
         <div className="flex justify-center items-center">
-          <Image src={heroImg} alt="Hero Image" width={1000} height={1000} className='w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] object-cover rounded-full' />
+          <Image src={formatUrl(homeData?.images[0])} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
         </div>
       </div>
 
 
       {/* -------------- guaranteed a response within 7-14 days. -------------- */}
-      {!getUserRoleEmployer() && <div className="maxWidth">
+      {!isEmployer && <div className="maxWidth">
         <div className="py-6 md:py-8 bg-brandClr2 rounded-md px-4 md:px-8">
           <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-18">All Applicants guaranteed a response within <br/>7-14 days</h3>
         </div>
       </div>}
 
       {/* --------------------- How It Works --------------------- */}
-      {getUserRole() && <div className="maxWidth py-8 md:py-20">
+      {isUser && <div className="maxWidth py-8 md:py-20">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6">How it works</h2>
         <div className="flex flex-wrap gap-4 md:gap-8 xl:gap-12">
-          {howItWorks?.map((item, index) => (
-            <div key={index} className="flex gap-3 w-[250px]">
+          {howItWorks?.content?.steps?.map((item:any, index:number) => (
+            <div key={index} className="flex gap-3 w-62.5">
               <p className="text-white bg-brandClr1 w-10 h-10 flex justify-center items-center rounded-full font-semibold text-lg">{index + 1}</p>
               <div className="flex-1">
                 <h3 className="font-semibold text-xl lg:text-2xl capitalize">{item.title}</h3>
-                <p className="capitalize text-gray-500 ">{item.des}</p>
+                <p className="capitalize text-gray-500 ">{item.subTitle}</p>
               </div>
             </div>
           ))}
@@ -175,7 +184,7 @@ export default function Home() {
       </div>
 
       {/* -------------- 20% Offers-------------- */}
-      {!getUserRoleWorker() && <div className="maxWidth py-8 md:py-20">
+      {!isWorker && <div className="maxWidth py-8 md:py-20">
         <OfferSection button={true} />
       </div>}
 
@@ -183,7 +192,7 @@ export default function Home() {
       <div className="maxWidth py-8 md:py-20 flex flex-col items-center">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12">why instant labour?</h2>
         <ul className="pl-4 text-gray-600 font-medium grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {instantLabour?.map((item, index) => (
+          {whyInstantLabour?.content?.texts?.map((item:any, index:number) => (
             <li key={index} className="flex gap-4">
               <IoCheckmarkCircle className="text-3xl text-green-500" />
               <p className="md:text-xl">{item}</p>
@@ -197,7 +206,7 @@ export default function Home() {
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12 text-center">What Our Clients Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {clientSay?.map((item, index) => (
-            <div key={index} className={`customShadow p-4 max-w-[400px] mx-auto ${index === 1 ? "lg:mb-16" : "lg:mt-16"}`}>
+            <div key={index} className={`customShadow p-4 max-w-100 mx-auto ${index === 1 ? "lg:mb-16" : "lg:mt-16"}`}>
               <ClientSayCard item={item} />
             </div>
           ))}

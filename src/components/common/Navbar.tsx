@@ -27,7 +27,7 @@ import { Menu } from 'lucide-react'
 import { workerMenus, employerMenus, navbarItemsEmployer, navbarItemsWorker, navbarItemsAll } from '@/constants/navbarDatas'
 import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
-import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
+import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleClient'
 import { deleteCookie } from 'cookies-next'
 
 
@@ -60,7 +60,7 @@ const Navbar = () => {
         method: "GET",
         tags: ["user"]
       });
-      console.log("Nav User Data:", response);
+      // console.log("Nav User Data:", response);
       setUser(response?.data);
     };
     getUser();

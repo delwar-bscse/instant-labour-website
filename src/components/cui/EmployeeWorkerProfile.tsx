@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm} from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +16,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { myFetch } from "@/utils/myFetch";
+import { toast } from "sonner";
 
 // Schema
 const contactUsFormSchema = z
@@ -37,6 +41,7 @@ const defaultValues: Partial<ContactUsFormValues> = {
 
 const EmployeeWorkerProfile = () => {
   const [isEditMode, setIsEditMode] = useState(false);
+  const [userProfile, setUserProfile] = useState<any>();
 
   const form = useForm<ContactUsFormValues>({
     resolver: zodResolver(contactUsFormSchema),
@@ -44,26 +49,50 @@ const EmployeeWorkerProfile = () => {
     mode: "onChange",
   });
 
+
+
+  const fetchProfile = async () => {
+    const res = await myFetch("/user/profile",
+      {
+        method: "GET",
+      }
+    );
+    console.log("Get User Data : ", res);
+
+    if (res.success) {
+      setUserProfile(res?.data);
+      form.reset({
+        name: res?.data?.name || "",
+        number: res?.data?.phone || "",
+        location: res?.data?.address || "",
+      })
+    }
+  }
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+  
   async function onSubmit(data: ContactUsFormValues) {
     console.log("Submitted Data:", data);
-    setIsEditMode(false);
 
-    // const res = await myFetch("/users/create", {
-    //   method: "POST",
-    //   body: {
-    //     fullName: data.name,
-    //     role: "user",
-    //   },
-    // });
+    const res = await myFetch("/user/profile", {
+      method: "PATCH",
+      body: {
+        name: data.name,
+        phone: data.number,
+        address: data.location
+      },
+    });
 
-    // // console.log("Response from server:", res);
-    // if (res.success) {
-    //   toast.success(`res.message || "Check your email!"`);
-    //   localStorage.setItem("createUserToken", JSON.stringify(res?.data?.createUserToken));
-    //   router.push("/brand-signup-otp");
-    // } else {
-    //   toast.error(res.message || "Something went wrong!");
-    // }
+    console.log("Profile Update :", res);
+    if (res.success) {
+      toast.success(res.message || "Profile updated!");
+      await fetchProfile();
+      setIsEditMode(false);
+    } else {
+      toast.error(res.message || "Something went wrong!");
+    }
 
   }
 
@@ -71,11 +100,11 @@ const EmployeeWorkerProfile = () => {
     <div className="w-full max-w-[320px] mx-auto">
       {!isEditMode && <div className="border rounded-md shadow p-4">
         <div className="space-y-3">
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Name</span>: John Doe</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Email</span>: bXm4o@example.com</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Contact</span>: +880 1234 567890</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Location</span>: Dhaka, Bangladesh</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Role</span>: Employer</p>
+          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Name</span>: {userProfile?.name}</p>
+          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Email</span>: {userProfile?.email}</p>
+          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Contact</span>: {userProfile?.phone}</p>
+          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Location</span>: {userProfile?.address}</p>
+          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Role</span>: {userProfile?.role}</p>
         </div>
         {/* Submit Button */}
         <div className="mt-2">

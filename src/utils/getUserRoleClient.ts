@@ -1,20 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
+import { EUserRole } from "@/types/types";
 import { getCookie } from "cookies-next";
 
-// getUserRole.ts
-
-
-export const EUserRole: { [key: string]: string } = {
-  EMPLOYER: "employer",
-  WORKER: "worker"
-}
 
 export const getUserRole = () => {
   const userRole: any = getCookie("role") || null;
-  // const userRole = "worker"
-
   return userRole;
 }
 

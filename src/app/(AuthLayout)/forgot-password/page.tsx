@@ -55,7 +55,7 @@ const ForgotPassword = () => {
       localStorage.setItem("userEmail", data.email);
       router.push(`/verify-otp?type=password`);
     } else {
-      toast.error(res?.message || "Failed to send reset code.");
+      toast.error(res?.message ?? "Failed to send reset code.");
     }
   }
 

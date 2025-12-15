@@ -57,24 +57,26 @@ const ChangePassword = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    toast.loading("Changing password...", {id:"loading"});
-    
+    toast.loading("Changing password...", { id: "loading" });
+
     const res = await myFetch("/auth/change-password", {
-      method: "PATCH",
+      method: "POST",
       body: {
-        oldPassword: data.oldPassword,
+        currentPassword: data.oldPassword,
         newPassword: data.password,
+        confirmPassword: data.confirmPassword
       },
     })
-    if(res.success) {
-      toast.success(res.message || "Password changed successfully!", {id:"loading"});
-    } else{
-      toast.error(res.message || "Failed to change password.", {id:"loading"});
+    console.log("Password change : ", res)
+    if (res.success) {
+      toast.success(res.message || "Password changed successfully!", { id: "loading" });
+    } else {
+      toast.error(res.message || "Failed to change password.", { id: "loading" });
     }
   }
 
   return (
-    <div className="w-full max-w-[400px] mx-auto flex text-center justify-center px-4">
+    <div className="w-full max-w-100 mx-auto flex text-center justify-center px-4">
       <div className="bg-white customShadow px-4 md:px-8 py-6 md:py-8 w-full rounded-md">
         {/* <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-12">Change Password</h2> */}
         <Form {...form}>
@@ -100,7 +102,7 @@ const ChangePassword = () => {
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-100 hover:text-gray-200 z-10"
                         onClick={() => setShowPassword(prev => !prev)}
                       >
-                        {showPassword ? <EyeOff size={20} className="text-gray-400"/> : <Eye size={20} className="text-gray-400"/>}
+                        {showPassword ? <EyeOff size={20} className="text-gray-400" /> : <Eye size={20} className="text-gray-400" />}
                       </div>
                     </div>
                   </FormControl>
@@ -128,7 +130,7 @@ const ChangePassword = () => {
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-100 hover:text-gray-200 z-10"
                         onClick={() => setShowConfirmPassword(prev => !prev)}
                       >
-                        {showConfirmPassword ? <EyeOff size={20} className="text-gray-400"/> : <Eye size={20} className="text-gray-400"/>}
+                        {showConfirmPassword ? <EyeOff size={20} className="text-gray-400" /> : <Eye size={20} className="text-gray-400" />}
                       </div>
                     </div>
                   </FormControl>
@@ -157,7 +159,7 @@ const ChangePassword = () => {
                         className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-100 hover:text-gray-200 z-10"
                         onClick={() => setShowConfirmPassword(prev => !prev)}
                       >
-                        {showConfirmPassword ? <EyeOff size={20} className="text-gray-400"/> : <Eye size={20} className="text-gray-400"/>}
+                        {showConfirmPassword ? <EyeOff size={20} className="text-gray-400" /> : <Eye size={20} className="text-gray-400" />}
                       </div>
                     </div>
                   </FormControl>

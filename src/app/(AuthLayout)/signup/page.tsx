@@ -95,7 +95,7 @@ const SignUp = () => {
       localStorage.setItem("userEmail", data.email);
       router.push("/verify-otp?type=account");
     } else {
-      toast.error(res.message || "Something went wrong!");
+      toast.error(res.message ?? "Something went wrong!");
     }
 
   }
@@ -254,7 +254,7 @@ const SignUp = () => {
               />
 
               <div className="flex items-center pt-3">
-                <input type="checkbox" className="mr-2" />
+                <input type="checkbox" className="mr-2" required/>
                 <div className="flex flex-wrap text-gray-700 gap-2">
                   <span>By continue</span>
                   <Link href="/privacy-policy" className="text-blue-600"> Privacy Policy </Link>

@@ -1,30 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+// "use client"
 import { aboutHeroImg } from '@/assets/assets'
 import CustomButton from '@/components/cui/CustomButton'
 import { aboutUsData } from '@/data/aboutUsData'
-import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
+import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleServer'
+import { myFetch } from '@/utils/myFetch'
 import Image from 'next/image'
 import Link from 'next/link'
 // import { useRouter } from 'next/navigation'
 import React from 'react'
 // import { toast } from 'sonner'
 
-const AboutUs = () => {
-  // const router = useRouter();
+const AboutUs = async () => {
+  const isEmployer = await getUserRoleEmployer();
+  const isWorker = await getUserRoleWorker();
 
-  // const handlePost = () => {
-  //   if (getUserRoleEmployer()) {
-  //     router.push("/employer/posted-jobs/post-job");
-  //   } else {
-  //     toast.error("Please login first");
-  //   }
-  // }
+  const res = await myFetch("/content/section/about");
+  console.log("About : ", res);
 
   return (
     <div className=''>
       {/* --------------------- About Hero Section --------------------- */}
-      <div className=" py-20 bg-[#0057DC]">
+      <div className=" py-20 bg-brandClr1">
         <div className="maxWidth flex flex-col-reverse sm:flex-row items-center justify-between gap-16 md:gap-8">
           <div className="flex-1 space-y-6">
             <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Connecting Talent with Opportunity, Seamlessly</h1>
@@ -54,21 +51,21 @@ const AboutUs = () => {
         <div className="maxWidth flex flex-col items-center justify-center gap-8 py-20">
           <h1 className="text-3xl sm:text-4xl lg:text-6xl text-gray-50 font-semibold capitalize">Ready To Get Started ?</h1>
           {/* <div className="flex justify-center gap-6 w-full max-w-80">
-            {!getUserRoleWorker() && <div>
+            {!isWorker && <div>
               <CustomButton text="I'm hiring" url="/workers" variant="button01" /></div>}
-            {!getUserRoleEmployer() && <div>
+            {!isEmployer && <div>
               <CustomButton text="I need a job" url="/jobs" variant="button01" /></div>}
           </div> */}
           <div className="flex flex-wrap justify-center gap-6">
-            {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {!isWorker && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
             </div>}
 
-            {!getUserRoleEmployer() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {!isEmployer && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/jobs" className="font-semibold text-gray-800">I Need A Job</Link>
             </div>}
 
-            {!getUserRoleWorker() && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
+            {!isWorker && <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers?type=instantLabour" className="font-semibold text-gray-800">Instant Labour</Link>
             </div>}
           </div>
@@ -99,7 +96,7 @@ const SubComponent = ({ item, position }: { item: Record<string, any>, position:
         )}
       </div>
       <div className='flex-1'>
-        <Image src={item.img} alt="Hero Image" width={1000} height={600} className={`w-full h-[260px] md:h-[300px] lg:h-[360px] object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
+        <Image src={item.img} alt="Hero Image" width={1000} height={600} className={`w-full h-65 md:h-75 lg:h-90 object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
       </div>
     </div>
   )

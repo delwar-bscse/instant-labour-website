@@ -1,10 +1,19 @@
 // "use client"
+import { myFetch } from '@/utils/myFetch'
 import React from 'react'
 
-const PrivacyPolicy = () => {
+const PrivacyPolicy = async() => {
+  const res = await myFetch(`/public/privacy-policy`, {
+    method: "GET",
+  })
+  console.log("Privacy Policy : ", res)
+
   return (
-    <div className='h-screen'>
-      <h1 className='text-3xl sm:text-4xl lg:text-5xl text-gray-700 font-semibold capitalize py-12 text-center'>Privacy Policy</h1>
+    <div className='maxWidth min-h-screen'>
+      <div
+        className="prose jodit-wysiwyg"
+        dangerouslySetInnerHTML={{ __html: res?.data?.content ?? "" }}
+      />
     </div>
   )
 }
