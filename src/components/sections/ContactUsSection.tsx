@@ -16,12 +16,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea"
 import { TfiEmail } from "react-icons/tfi";
+import { myFetch } from "@/utils/myFetch";
+import { toast } from "sonner";
 
 // Schema
 const contactUsFormSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters."),
+  fullName: z.string().min(2, "Name must be at least 2 characters."),
   email: z.string().email("Please enter a valid email address."),
-  phoneNumber: z.string().min(10, "Phone number must be at least 10 digits."),
+  phone: z.string().min(10, "Phone number must be at least 10 digits."),
   message: z.string().min(2, "Full name must be at least 2 characters."),
 });
 
@@ -31,7 +33,7 @@ type ContactUsFormValues = z.infer<typeof contactUsFormSchema>;
 const defaultValues: Partial<ContactUsFormValues> = {
   fullName: "",
   email: "",
-  phoneNumber: "",
+  phone: "",
   message: "",
 };
 
@@ -45,17 +47,22 @@ const ContactUsSection = () => {
 
   async function onSubmit(data: ContactUsFormValues) {
     console.log("form data:", data);
-    // toast.loading("Sending message...", { id: "contactus" });
-    // const res = await myFetch("/contact-us/create-contact", {
-    //   method: "POST",
-    //   body: data
-    // })
-    // if (res.success) {
-    //   // console.log("Contact Us Response from server:", res);
-    //   toast.success(res.message || "Message send successfully!", { id: "contactus" });
-    // } else {
-    //   toast.error(res.message || "Something went wrong!", { id: "contactus" });
-    // }
+    toast.loading("Sending ...", { id: "contact-us" });
+    const res = await myFetch("/public/contact", {
+      method: "POST",
+      body: {
+        name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        message: data.message,
+      },
+    })
+
+    if (res.success) {
+      toast.success(res.message || "Send successfully!", { id: "contact-us" });
+    } else {
+      toast.error(res.message || "Something went wrong!", { id: "contact-us" });
+    }
   }
 
   return (
@@ -108,7 +115,7 @@ const ContactUsSection = () => {
             {/* Phone Number */}
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Phone Number</FormLabel>

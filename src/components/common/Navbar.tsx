@@ -28,6 +28,7 @@ import { workerMenus, employerMenus, navbarItemsEmployer, navbarItemsWorker, nav
 import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
 import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRole'
+import { deleteCookie } from 'cookies-next'
 
 
 
@@ -55,19 +56,21 @@ const Navbar = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await myFetch("/users/my-profile", {
+      const response = await myFetch("/user/profile", {
         method: "GET",
         tags: ["user"]
       });
-      // console.log("Nav User Data:", response);
+      console.log("Nav User Data:", response);
       setUser(response?.data);
     };
     getUser();
   }, [pathname]);
 
   const hadleRedirect = (url: string) => {
-    if (url === "/logout") {
-      return router.push("/");
+    if (url === "/login") {
+      deleteCookie('role');
+      deleteCookie('accessToken');
+      deleteCookie('refreshToken');
     }
     router.push(url);
   };
@@ -83,15 +86,15 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <ul className='hidden grow lg:flex justify-center items-center gap-1 font-semibold text-gray-700'>
-          {navbarItems.map((item, index) => (
+          {navbarItems?.length > 0 && navbarItems?.map((item, index) => (
             <li
               key={index}
-              className={`cursor-pointer px-3 py-1 rounded-sm transition-all duration-300 ${isActive(item.url)
+              className={`cursor-pointer px-3 py-1 rounded-sm transition-all duration-300 ${isActive(item?.url)
                 ? 'bg-brandClr1 text-white font-bold'
                 : 'hover:bg-brandClr1 hover:text-white'
                 }`}
             >
-              <Link href={item.url}>{item.title}</Link>
+              <Link href={item?.url}>{item?.title}</Link>
             </li>
           ))}
         </ul>
@@ -116,10 +119,10 @@ const Navbar = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 {dropdownItems.map((item, index) => (
-                  <DropdownMenuItem key={index} onClick={() => hadleRedirect(item.url)} className={`${isActive(item.url)
+                  <DropdownMenuItem key={index} onClick={() => hadleRedirect(item?.url)} className={`${isActive(item?.url)
                     ? 'bg-brandClr1 text-white font-bold'
                     : 'hover:bg-brandClr1 hover:text-white'
-                    }`}>{item.title}</DropdownMenuItem>
+                    }`}>{item?.title}</DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
@@ -165,12 +168,12 @@ const Navbar = () => {
                     <li
                       key={index}
                       onClick={() => setOpen(false)}
-                      className={`cursor-pointer px-3 py-1 rounded transition-colors duration-200 ${isActive(item.url)
+                      className={`cursor-pointer px-3 py-1 rounded transition-colors duration-200 ${isActive(item?.url)
                         ? 'bg-gray-200 text-primary font-semibold'
                         : 'hover:bg-gray-100'
                         }`}
                     >
-                      <Link href={item.url}>{item.title}</Link>
+                      <Link href={item?.url}>{item?.title}</Link>
                     </li>
                   ))}
 

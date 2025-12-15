@@ -8,13 +8,9 @@ import Image from 'next/image'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
 import JobPostCard from '@/components/card/JobPostCard'
-import { getUserRole } from '@/utils/getUserRole'
 
 
 const Jobs = () => {
-
-  const userRole = getUserRole();
-  console.log("User Role:", userRole);
 
 
   return (

@@ -25,6 +25,8 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { myFetch } from "@/utils/myFetch";
+import { toast } from "sonner";
 
 // Schema
 const contactUsFormSchema = z
@@ -75,27 +77,26 @@ const SignUp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Submitted Data:", data);
-    router.push("/login");
 
-    // const res = await myFetch("/users/create", {
-    //   method: "POST",
-    //   body: {
-    //     fullName: data.name,
-    //     email: data.email,
-    //     password: data.password,
-    //     role: "user",
-    //   },
-    // });
+    const res = await myFetch("/auth/signup", {
+      method: "POST",
+      body: {
+        name: data.name,
+        email: data.email,
+        phone: data.number,
+        password: data.password,
+        address: data.location,
+        role: data.role,
+      },
+    });
 
-    // // console.log("Response from server:", res);
-    // if (res.success) {
-    //   toast.success(`res.message || "Check your email!"`);
-    //   localStorage.setItem("createUserToken", JSON.stringify(res?.data?.createUserToken));
-    //   router.push("/brand-signup-otp");
-    // } else {
-    //   toast.error(res.message || "Something went wrong!");
-    // }
+    if (res.success) {
+      toast.success(`${res.message} || "Check your email!"`);
+      localStorage.setItem("userEmail", data.email);
+      router.push("/verify-otp?type=account");
+    } else {
+      toast.error(res.message || "Something went wrong!");
+    }
 
   }
 
@@ -185,8 +186,8 @@ const SignUp = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Employer">Employer</SelectItem>
-                        <SelectItem value="Worker">Worker</SelectItem>
+                        <SelectItem value="employer">Employer</SelectItem>
+                        <SelectItem value="worker">Worker</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

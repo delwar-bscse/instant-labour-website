@@ -15,6 +15,7 @@ export interface FetchResponse {
     totalPage: number;
   };
   error?: string | null;
+  statusCode?: number;
 }
 
 type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
@@ -67,8 +68,9 @@ export const myFetch = async (
         success: data?.success ?? true,
         message: data?.message,
         data: data?.data,
-        pagination: data?.pagination,
+        pagination: data?.meta,
         error: null,
+        statusCode: response.status,
       };
     }
 
@@ -77,9 +79,11 @@ export const myFetch = async (
       message: data?.message,
       data: null,
       error: data?.errorSources || "Request failed",
+      statusCode: response.status,
     };
   } catch (error) {
     return {
+      statusCode: 500,
       success: false,
       data: null,
       message: "Network error",

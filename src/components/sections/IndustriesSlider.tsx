@@ -7,21 +7,28 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import '@/app/styles.css';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { categoryDatas } from '@/data/homeData';
 import Image from 'next/image';
+import { myFetch } from '@/utils/myFetch';
+import { formatUrl } from '@/utils/formatUrl';
 
 export default function IndustriesSlider() {
+  const [categoryDatas, setCategoryDatas] = React.useState<any>([]);
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const swiperRef = useRef<any>(null); //
 
   useEffect(() => {
-    const getVideos = async () => {
-      // const res = await myFetch(`${url}`, {
-      //   method: "GET",
-      // });
+    const fetchCategories = async () => {
+      const res = await myFetch("/category", {
+        method: "GET",
+      });
+      const modifyCategory = res?.data?.map((item: any) => ({
+        title: item?.title,
+        icon: formatUrl(item?.icon),
+      }))
+      setCategoryDatas(modifyCategory);
     };
-    getVideos();
+    fetchCategories();
   }, []);
 
   return (
@@ -75,9 +82,9 @@ export default function IndustriesSlider() {
           <SwiperSlide key={index}>
             <div className='pb-12 flex items-center justify-center flex-col gap-2'>
               <div className='w-[50px] h-[50px] '>
-                <Image src={item?.img} alt={item?.category} width={50} height={50} className='w-[50px] h-[50px] object-cover' />
+                <Image src={item?.icon} alt={item?.title} width={50} height={50} className='w-[50px] h-[50px] object-cover' />
               </div>
-              <p>{item?.category}</p>
+              <p>{item?.title}</p>
             </div>
           </SwiperSlide>
         ))}

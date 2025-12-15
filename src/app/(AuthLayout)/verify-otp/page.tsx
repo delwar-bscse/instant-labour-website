@@ -17,7 +17,9 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp"
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+import { myFetch } from "@/utils/myFetch";
 
 // Schema
 const contactUsFormSchema = z
@@ -33,6 +35,8 @@ const defaultValues: Partial<ContactUsFormValues> = {
 };
 
 const VerifyOtp = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
   const router = useRouter();
 
   const form = useForm<ContactUsFormValues>({
@@ -42,33 +46,49 @@ const VerifyOtp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Submitted Data:", data);
-    router.push("/reset-password");
-    // const res = await myFetch("/auth/forgot-password-otp-match", {
-    //   method: "PATCH",
-    //   body: {
-    //     otp: data.verifyOtp,
-    //   },
-    //   headers: {
-    //     token: localStorage.getItem("forgetPasswordToken") || "",
-    //   },
-    // });
+    const userEmail = localStorage.getItem("userEmail") || ""
+    const res = await myFetch("/auth/verify-account", {
+      method: "POST",
+      body: {
+        email: userEmail,
+        oneTimeCode: data.verifyOtp,
+      },
+    });
 
-    // // console.log("Response Verify OTP:", res);
-    // if (res.success) {
-    //   toast.success(res.message || "OTP verified successfully!");
-    //   localStorage.removeItem("forgetPasswordToken");
-    //   localStorage.setItem("forgetOtpMatchToken", res?.data?.forgetOtpMatchToken);
-    //   router.push("/reset-password");
-    // } else {
-    //   toast.error(res.message || "Invalid OTP, please try again.");
-    // }
+    if (res.success) {
+      localStorage.removeItem("userEmail");
+      if (type === "password") {
+        localStorage.setItem("authToken", res?.data?.token);
+        router.push("/reset-password");
+      } else {
+        router.push("/login");
+      }
+    } else {
+      toast.error(res.message || "Invalid OTP, please try again.");
+    }
+  }
+
+  const handleResend = async () => {
+    const userEmail = localStorage.getItem("userEmail") || ""
+    const res = await myFetch("/auth/forget-password", {
+      method: "POST",
+      body: {
+        email: userEmail,
+        authType: "resetPassword"
+      },
+    });
+    if (res.success) {
+      toast.success(res.message || "OTP sent successfully!");
+    } else {
+      toast.error(res.message || "Please try again.");
+    }
   }
 
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <div className="px-2 sm:px-4 md:px-8 py-6 md:py-8 w-full overflow-hidden">
-        <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-12 text-center">Verify OTP</h2>
+        <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-2 text-center">Verify OTP</h2>
+        <p className="text-gray-600 text-center pb-8">We’ve sent a one-time password (OTP) to your email/phone. Please enter the code below to continue.</p>
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -93,6 +113,10 @@ const VerifyOtp = () => {
                 </FormItem>
               )}
             />
+            <div className="flex justify-between">
+              <div></div>
+              <button type="button" onClick={handleResend} className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors duration-200">Resend OTP</button>
+            </div>
 
             <Button variant="yelloBtn" type="submit" size="llg" className="w-full">
               Submit

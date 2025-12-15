@@ -37,7 +37,6 @@ function PostedJobPageSuspense () {
       //   method: "GET",
       //   tags: ["user"]
       // });
-      // console.log("Profile User Data:", response);
       // setUser(response?.data);
     };
     getUser();

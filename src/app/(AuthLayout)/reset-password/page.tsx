@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { myFetch } from "@/utils/myFetch";
+import { toast } from "sonner";
 // Schema
 const contactUsFormSchema = z
   .object({
@@ -52,26 +54,24 @@ const ResetPassword = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Submitted Data:", data);
-    // const res = await myFetch("/auth/forgot-password-reset", {
-    //   method: "PATCH",
-    //   body: {
-    //     newPassword: data.password,
-    //     confirmPassword: data.confirmPassword,
-    //   },
-    //   headers: {
-    //     token: localStorage.getItem("forgetOtpMatchToken") || "", // Include email in the request header
-    //   },
-    // });
-    // // console.log("Response Verify OTP:", res);
-    // if (res.success) {
-    //   toast.success(res.message || "OTP verified successfully!");
-    //   localStorage.removeItem("forgetOtpMatchToken");
-    //   router.push("/login");
-    // } else {
-    //   toast.error(res.message || "Invalid OTP, please try again.");
-    // }
-    router.push("/login");
+    const authToken = localStorage.getItem("authToken") || "";
+    const res = await myFetch("/auth/reset-password", {
+      method: "POST",
+      body: {
+        newPassword: data.password,
+        confirmPassword: data.confirmPassword,
+      },
+      headers: {
+        Authorization: authToken
+      },
+    });
+
+    if (res.success) {
+      localStorage.removeItem("userEmail");
+      router.push("/login");
+    } else {
+      toast.error(res.message || "please try again.");
+    }
   }
 
   return (

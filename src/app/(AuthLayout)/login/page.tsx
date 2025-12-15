@@ -19,8 +19,9 @@ import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { EUserRole } from "@/utils/getUserRole";
 import { deleteCookie, setCookie } from "cookies-next";
+import { myFetch } from "@/utils/myFetch";
+import { toast } from "sonner";
 
 // Schema
 const contactUsFormSchema = z
@@ -51,40 +52,32 @@ const SignIn = () => {
     mode: "onChange",
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     deleteCookie('role');
-  },[]);
+  }, []);
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Submitted Data:", data);
-    if (data.email === "employer@gmail.com" && data.password === "123456") {
-      setCookie("role", EUserRole.EMPLOYER);
-      router.push("/");
+
+    const res = await myFetch("/auth/login", {
+      method: "POST",
+      body: {
+        email: data.email,
+        password: data.password,
+      },
+    });
+
+    if (res.success) {
+      if (res?.data?.isVerified === false) {
+        router.push("/verify-otp");
+      } else {
+        setCookie("accessToken", res?.data?.accessToken);
+        setCookie("refreshToken", res?.data?.refreshToken);
+        setCookie("role", res?.data?.role);
+        router.push("/");
+      }
+    } else {
+      toast.error(res?.message || "Login failed!");
     }
-
-    if (data.email === "worker@gmail.com" && data.password === "123456") {
-      setCookie("role", EUserRole.WORKER);
-      router.push("/");
-    }
-
-    // const res = await myFetch("/auth/login", {
-    //   method: "POST",
-    //   body: {
-    //     email: data.email,
-    //     password: data.password,
-    //   },
-    // });
-    // // console.log("Response Login:", res);
-    // if (res.success) {
-    //   setCookie("bloom_brand_accessToken", res?.data?.accessToken);
-    //   toast.success("Login Success");
-    //   router.push("/");
-    // } else {
-    //   // Handle error, e.g., show a toast notification
-    //   toast.error(res?.message || "Login failed!");
-    //   console.error("Login failed:", res.message);
-    // }
-
   }
 
 
