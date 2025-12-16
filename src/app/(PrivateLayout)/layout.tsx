@@ -2,6 +2,7 @@
 import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import { Metadata } from "next";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Katiem",
@@ -15,6 +16,7 @@ export default function CommonLayout({children}: Readonly<{children: React.React
     <div>
       <Navbar />
       {children}
+      <Toaster />
       <Footer />
     </div>
   );

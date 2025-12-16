@@ -59,9 +59,9 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
             name="post"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-600 text-lg">Name</FormLabel>
+                <FormLabel className="text-gray-600 text-lg">Job Title</FormLabel>
                 <FormControl>
-                  <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                  <Input variant="borderblack" placeholder="Enter job title" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -73,9 +73,9 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
             name="des"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>About Me</FormLabel>
+                <FormLabel>Description</FormLabel>
                 <FormControl>
-                  <Textarea variant="borderblack" placeholder="Enter your message" {...field} className="" />
+                  <Textarea variant="borderblack" placeholder="Enter description" {...field} className="" />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -12,6 +12,8 @@ import { CustomModal } from "@/components/modal/CustomModal";
 import OfferSection from "@/components/sections/OfferSection";
 import { myFetch } from "@/utils/myFetch";
 import { formatUrl } from "@/utils/formatUrl";
+import { filteredSectionData } from "@/utils/filteredSectionData";
+import { sectionTypeEnum } from "@/types/types";
 
 
 {/* --------------------- Components Start --------------------- */ }
@@ -77,14 +79,15 @@ export default async function Home() {
   const isEmployer = await getUserRoleEmployer();
   const isWorker = await getUserRoleWorker();
 
+
+  const res = await myFetch("/content/section/home", { method: "GET" });
+  console.log("Home All : ", res);
   
-  const res =  await myFetch("/content/section/home", { method: "GET" });
-  const homeData = res?.data[0];
-  const howItWorksEmployer = res?.data[1];
-  const howItWorksWorker = res?.data[2];
+  const homeHero = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HERO });
+  const howItWorksEmployer = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HOW_IT_WORKS });
+  const howItWorksWorker = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HOW_IT_WORKS_WORKER });
   const howItWorks = isEmployer ? howItWorksEmployer : howItWorksWorker;
-  const whyInstantLabour = res?.data[3];
-  console.log("Home All : ", res)
+  const whyInstantLabour = filteredSectionData({ data: res?.data, section: sectionTypeEnum.WHY_US });
 
 
 
@@ -93,8 +96,8 @@ export default async function Home() {
       {/* --------------------- Hero Section --------------------- */}
       <div className="maxWidth flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-8 md:py-20">
         <div className="flex-1 space-y-6">
-          <h1 className="text-2xl sm:text-4xl lg:text-6xl text-gray-800 font-semibold capitalize">{homeData?.title}</h1>
-          <p className="text-gray-700 mt-4 font-semibold">{homeData?.description}</p>
+          <h1 className="text-2xl sm:text-4xl lg:text-6xl text-gray-800 font-semibold capitalize">{homeHero?.title}</h1>
+          <p className="text-gray-700 mt-4 font-semibold">{homeHero?.description}</p>
 
           {/* ---------------------Only Button & Button Modal --------------------- */}
           {isUser ? <div className="flex flex-wrap gap-4 w-full">
@@ -148,7 +151,7 @@ export default async function Home() {
 
         </div>
         <div className="flex justify-center items-center">
-          <Image src={formatUrl(homeData?.images[0])} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
+          <Image src={formatUrl(homeHero?.images[0])} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
         </div>
       </div>
 
@@ -156,7 +159,7 @@ export default async function Home() {
       {/* -------------- guaranteed a response within 7-14 days. -------------- */}
       {!isEmployer && <div className="maxWidth">
         <div className="py-6 md:py-8 bg-brandClr2 rounded-md px-4 md:px-8">
-          <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-18">All Applicants guaranteed a response within <br/>7-14 days</h3>
+          <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-18">All Applicants guaranteed a response within <br />7-14 days</h3>
         </div>
       </div>}
 
@@ -164,7 +167,7 @@ export default async function Home() {
       {isUser && <div className="maxWidth py-8 md:py-20">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6">How it works</h2>
         <div className="flex flex-wrap gap-4 md:gap-8 xl:gap-12">
-          {howItWorks?.content?.steps?.map((item:any, index:number) => (
+          {howItWorks?.content?.steps?.map((item: any, index: number) => (
             <div key={index} className="flex gap-3 w-62.5">
               <p className="text-white bg-brandClr1 w-10 h-10 flex justify-center items-center rounded-full font-semibold text-lg">{index + 1}</p>
               <div className="flex-1">
@@ -192,7 +195,7 @@ export default async function Home() {
       <div className="maxWidth py-8 md:py-20 flex flex-col items-center">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12">why instant labour?</h2>
         <ul className="pl-4 text-gray-600 font-medium grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {whyInstantLabour?.content?.texts?.map((item:any, index:number) => (
+          {whyInstantLabour?.content?.texts?.map((item: any, index: number) => (
             <li key={index} className="flex gap-4">
               <IoCheckmarkCircle className="text-3xl text-green-500" />
               <p className="md:text-xl">{item}</p>

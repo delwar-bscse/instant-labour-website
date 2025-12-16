@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 import React from 'react'
 import { Button } from '../ui/button'
 import { myFetch } from '@/utils/myFetch';
@@ -8,6 +8,10 @@ const DeleteAccount = () => {
   const [password, setPassword] = React.useState('');
 
   async function onSubmit() {
+    if (password.length < 6) {
+      toast.error("Please enter your password properly.");
+      return;
+    }
     toast.loading("Deleting account...", { id: "loading" });
 
     const res = await myFetch("/auth/change-password", {
@@ -16,7 +20,7 @@ const DeleteAccount = () => {
         password: password
       },
     })
-    console.log("Delete account res : ", res)
+    // console.log("Delete account res : ", res)
     if (res.success) {
       toast.success(res.message || "Account deleted successfully!", { id: "loading" });
     } else {

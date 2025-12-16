@@ -9,7 +9,7 @@ const goBack = () => {
 
 const EditProfile = () => {
   return (
-    <div  className="w-full max-w-[700px] mx-auto pb-12">
+    <div  className="w-full max-w-175 mx-auto pb-12">
       <div onClick={goBack} className='flex items-center gap-2 md:gap-4 cursor-pointer pb-4 md:pb-6 group'>
         <span className='size-9 bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-gray-300 transition-colors duration-200'>
           < MdArrowBack className='size-6'/>

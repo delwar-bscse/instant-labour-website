@@ -10,15 +10,15 @@ export const metadata: Metadata = {
 };
 
 
-export default function CommonLayout({children}: Readonly<{children: React.ReactNode}>) {
+export default function CommonLayout({ children }: Readonly<{ children: React.ReactNode }>) {
 
-  
+
   return (
     <div className="">
       <Navbar />
       {children}
-      <Footer />
       <Toaster />
+      <Footer />
     </div>
   );
 }
