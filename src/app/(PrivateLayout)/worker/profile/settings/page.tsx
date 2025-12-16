@@ -13,6 +13,10 @@ import { workerDetails } from '@/data/workerDatas';
 import { IoCameraOutline } from "react-icons/io5";
 import { TbEPassport } from 'react-icons/tb';
 import NidUpload from '@/components/cui/NidUpload';
+import { updateImage } from '@/utils/updateImages';
+import { myFetch } from '@/utils/myFetch';
+import { formatUrl } from '@/utils/formatUrl';
+import { deleteCookie } from 'cookies-next';
 
 const profileSidebar = [
   {
@@ -48,6 +52,7 @@ const WorkerSettings = () => {
     if (!file) return;
     const url = URL.createObjectURL(file);
     setProfileImage(url);
+    updateImage({ image: file, type: "profile" });
   };
 
   const handleCoverImage = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,22 +60,32 @@ const WorkerSettings = () => {
     if (!file) return;
     const url = URL.createObjectURL(file);
     setCoverImage(url);
+    updateImage({ image: file, type: "cover" });
   };
 
 
+  const fetchProfile = async () => {
+    const res = await myFetch("/user/profile");
+    console.log("Get User Data : ", res);
 
+    if (res.success) {
+      const coverImage = formatUrl(res?.data?.cover);
+      const profileImage = formatUrl(res?.data?.profile);
+      setCoverImage(coverImage);
+      setProfileImage(profileImage);
+    }
+  }
 
   useEffect(() => {
-    const getUser = async () => {
-      // const response = await myFetch("/users/my-profile", {
-      //   method: "GET",
-      //   tags: ["user"]
-      // });
-      // console.log("Profile User Data:", response);
-      // setUser(response?.data);
-    };
-    getUser();
+    fetchProfile();
   }, []);
+
+  const handleLogout = () => {
+    deleteCookie('role');
+    deleteCookie('accessToken');
+    deleteCookie('refreshToken');
+    router.push("/")
+  }
 
   return (
     <div>
@@ -110,7 +125,7 @@ const WorkerSettings = () => {
               <span>
                 <MdOutlineLogout className='text-gray-700 text-xl' />
               </span>
-              <span className='text-lg font-semibold text-gray-600 hidden md:block'>Log Out</span>
+              <span onClick={handleLogout} className='text-lg font-semibold text-gray-600 hidden md:block'>Log Out</span>
             </li>
           </ul>
         </div>

@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { getToken } from "./getToken";
+
+
 export interface FetchResponse {
   success: boolean;
   message?: string;
@@ -18,21 +21,25 @@ type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 interface FetchOptions {
   method?: HttpMethod;
   body?: any;
+  tags?: string[];
   token?: string;
   headers?: Record<string, string>;
-  baseUrl?: string;
+  cache?: RequestCache;
 }
 
-export const myFetchClient = async (
-  endpoint: string,
+export const myFetch = async (
+  url: string,
   {
     method = "GET",
     body,
+    tags,
     token,
     headers = {},
-    baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "",
+    cache = "no-cache",
   }: FetchOptions = {}
 ): Promise<FetchResponse> => {
+  const accessToken = await getToken();
+
   const isFormData = body instanceof FormData;
   const hasBody = body !== undefined && method !== "GET";
 
@@ -40,14 +47,17 @@ export const myFetchClient = async (
     Accept: "application/json",
     ...headers,
     ...(isFormData ? {} : { "Content-Type": "application/json" }),
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    ...(token ? { Authorization: `${token}` } : {}),
   };
 
   try {
-    const response = await fetch(`${baseUrl}${endpoint}`, {
+    const response = await fetch(`${process.env.BASE_URL}${url}`, {
       method,
       headers: reqHeaders,
       ...(hasBody && { body: isFormData ? body : JSON.stringify(body) }),
+      ...(tags && { next: { tags } }),
+      ...(!(method === "GET") ? { cache: "no-store" } : { cache: cache }),
     });
 
     const data = await response.json();
@@ -77,3 +87,4 @@ export const myFetchClient = async (
     };
   }
 };
+ 

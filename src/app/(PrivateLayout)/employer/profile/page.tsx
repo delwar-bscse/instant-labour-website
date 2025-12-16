@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import React, { useEffect, useState } from 'react'
@@ -16,6 +17,9 @@ import { workerDetails } from '@/data/workerDatas';
 import NidUpload from '@/components/cui/NidUpload';
 import { TbEPassport } from 'react-icons/tb';
 import SubscriptionInfo from '@/components/cui/SubscriptionInfo';
+import { myFetch } from '@/utils/myFetch';
+import { formatUrl } from '@/utils/formatUrl';
+import { updateImage } from '@/utils/updateImages';
 
 const profileSidebar = [
   {
@@ -46,28 +50,32 @@ const profileSidebar = [
 ];
 
 const EmployeeProfile = () => {
+  const [userProfile, setUserProfile] = useState<any>();
   const [step, setStep] = useState(1);
   const router = useRouter();
-  const [profileImage, setProfileImage] = useState<string | StaticImageData>(workerDetails.workerImg);
+  const [profileImage, setProfileImage] = useState<string>();
 
   const handleProfileImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     const url = URL.createObjectURL(file);
     setProfileImage(url);
+    updateImage({ image: file, type: "profile" });
   };
 
 
+
+  const fetchProfile = async () => {
+    const res = await myFetch("/user/profile");
+    console.log("Get User Data : ", res);
+
+    if (res.success) {
+      setUserProfile(res?.data);
+    }
+  }
+
   useEffect(() => {
-    const getUser = async () => {
-      // const response = await myFetch("/users/my-profile", {
-      //   method: "GET",
-      //   tags: ["user"]
-      // });
-      // console.log("Profile User Data:", response);
-      // setUser(response?.data);
-    };
-    getUser();
+    fetchProfile();
   }, []);
 
   return (
@@ -78,7 +86,7 @@ const EmployeeProfile = () => {
           <div className='bg-[#FFECAC] h-20 sm:h-28 md:h-40 w-full' />
 
           <div className='absolute bottom-0 left-6 md:left-16 rounded-full transform translate-y-1/2 bg-white/50'>
-            <Image src={profileImage} width={320} height={320} alt={workerDetails.name} className='w-25 h-25 md:w-40 md:h-40 rounded-full' />
+            <Image src={profileImage ?? formatUrl(userProfile?.profile)} width={320} height={320} alt={userProfile?.name} className='w-25 h-25 md:w-40 md:h-40 rounded-full' />
 
             <div onClick={() => document.getElementById("profileImageId")?.click()} className='w-6 h-6 md:w-8 md:h-8 rounded-full border bg-gray-500/50 flex items-center justify-center absolute bottom-4 md:bottom-10 -right-2 md:-right-4 transform -translate-x-1/2 translate-y-1/2'>
               <IoCameraOutline className='text-white text-lg md:text-xl' />

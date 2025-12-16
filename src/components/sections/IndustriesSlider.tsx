@@ -81,8 +81,8 @@ export default function IndustriesSlider() {
         {categoryDatas?.map((item: Record<string, any>, index: number) => (
           <SwiperSlide key={index}>
             <div className='pb-12 flex items-center justify-center flex-col gap-2'>
-              <div className='w-[50px] h-[50px] '>
-                <Image src={item?.icon} alt={item?.title} width={50} height={50} className='w-[50px] h-[50px] object-cover' />
+              <div className='w-12.5 h-12.5 '>
+                <Image src={item?.icon} alt={item?.title} width={50} height={50} className='w-12.5 h-12.5 object-cover' />
               </div>
               <p>{item?.title}</p>
             </div>

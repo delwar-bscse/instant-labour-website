@@ -1,21 +1,26 @@
-"use client"
+
 
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
-import { workerDetails } from '@/data/workerDatas'
+// import { workerDetails } from '@/data/workerDatas'
 import Image from 'next/image'
 import React from 'react'
 import { RiSettings5Line } from "react-icons/ri";
 import { BiEdit } from "react-icons/bi";
 import Link from 'next/link';
+import { myFetch } from '@/utils/myFetch';
+import { formatUrl } from '@/utils/formatUrl';
 
-const Profile = () => {
+const Profile = async () => {
+  const res = await myFetch("/user/profile");
+  const workerDetails = res?.data
+  console.log("Get User Data : ", res);
   return (
     <div className='pb-20'>
       {/* ------------------- Profile & Cover ------------------- */}
       <div className='maxWidth relative'>
-        <Image src={workerDetails.workerCover} width={1200} height={300} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[300px] object-fit' />
+        <Image src={formatUrl(workerDetails.cover)} width={1200} height={300} alt={workerDetails.name} className='w-full sm:h-[200px] md:h-[300px] object-fit' />
         <div className='absolute bottom-0 left-6 md:left-16 rounded-full transform translate-y-1/2'>
-          <Image src={workerDetails.workerImg} width={400} height={400} alt={workerDetails.name} className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full' />
+          <Image src={formatUrl(workerDetails.profile)} width={400} height={400} alt={workerDetails.name} className='w-[100px] h-[100px] md:w-[200px] md:h-[200px] rounded-full' />
         </div>
       </div>
       <div className='maxWidth flex items-center justify-end gap-2 md:gap-4 pt-2 md:pt-4'>
@@ -29,10 +34,10 @@ const Profile = () => {
           <span className='text-gray-600 text-lg font-semibold hidden md:block'>Settings</span>
         </Link>
       </div>
-      <div className='h-[20px] md:h-[80px]' />
+      <div className='h-5 md:h-20' />
 
       {/* ------------------- Personal Info ------------------- */}
-      <WorkerDetailsBody />
+      <WorkerDetailsBody workerDetails={workerDetails} />
     </div>
   )
 }

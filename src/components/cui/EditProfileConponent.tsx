@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
@@ -25,10 +26,10 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { Textarea } from "../ui/textarea";
-import { WorkExperienceModal } from "./WorkExperienceModal";
 import { CustomModal } from "../modal/CustomModal";
 import InputList from "./InputList";
 import { toast } from "sonner";
+import WorkExperienceModal from "./WorkExperienceModal";
 
 const SALARY_TYPE = {
   Hourly: 'Hourly',
@@ -50,12 +51,12 @@ const AVAILABILITY = {
 
 // Schema
 const editProfileFormSchema = z.object({
-  name: z.string(),
-  category: z.string(),
-  subCategory: z.string(),
-  workOverview: z.string(),
-  about: z.string(),
-  salary: z.string(),
+  name: z.string().optional(),
+  category: z.string().optional(),
+  subCategory: z.string().optional(),
+  workOverview: z.string().optional(),
+  about: z.string().optional(),
+  salary: z.number().optional(),
   availability: z.array(z.string()),
 });
 
@@ -67,20 +68,26 @@ const defaultValues: Partial<EditProfileFormValues> = {
   category: "",
   subCategory: "",
   about: "",
-  salary: "",
+  salary: 0,
   workOverview: "",
   availability: [],
 };
 
 const EditProfileComponent = () => {
   // const [payRequired, setPayRequired] = useState<string>();
+
+  const [categoryDatas, setCategoryDatas] = useState<any>([]);
+  const [subCategories, setSubCategories] = useState<any>([]);
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
   const [salaryType, setSalaryType] = useState<string>("");
-  const [workExperiences, setWorkExperiences] = useState<Record<string, string>[]>([]);
+  const [workExperiences, setWorkExperiences] = useState<Record<string, string>[]>([{
+    title: "",
+    description: "",
+  }]);
   const [attachment, setAttachment] = useState<File | null>(null);
   const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
-    post: "",
-    des: ""
+    title: "",
+    description: ""
   });
 
   const form = useForm<EditProfileFormValues>({
@@ -95,6 +102,15 @@ const EditProfileComponent = () => {
       setAttachment(file);
     }
   };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await myFetch("/category", {
+        method: "GET",
+      });
+      setCategoryDatas(res?.data);
+    };
+    fetchCategories();
+  }, []);
 
   // Submit for Edit Profile
   async function onSubmit(data: EditProfileFormValues) {
@@ -113,6 +129,7 @@ const EditProfileComponent = () => {
         workOverview: data.workOverview,
         availability: data.availability,
         coreSkills: coreSkills,
+        workExperiences: workExperiences
       },
     });
 
@@ -136,6 +153,8 @@ const EditProfileComponent = () => {
     if (response.success) {
       setCoreSkills(response?.data?.coreSkills);
       setSalaryType(response?.data?.salaryType);
+      const modifiedWorkExperiences = response?.data?.workExperiences?.map((item: Record<string, string>) => ({ title: item?.title, description: item?.description }));
+      setWorkExperiences(modifiedWorkExperiences);
       form.reset({
         name: response?.data?.name || "",
         category: response?.data?.category || "",
@@ -155,7 +174,7 @@ const EditProfileComponent = () => {
 
   useEffect(() => {
     console.log("workExperienceInput : ", workExperienceInput)
-    if (workExperienceInput?.post !== "" && workExperienceInput?.des !== "") {
+    if (workExperienceInput?.title !== "" && workExperienceInput?.description !== "") {
       setWorkExperiences([...workExperiences, workExperienceInput]);
     }
   }, [workExperienceInput]);
@@ -188,15 +207,24 @@ const EditProfileComponent = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    const selectedItem = categoryDatas?.find((item: any) => item.title === value);
+                    setSubCategories(selectedItem?.subCategories);
+                  }}
+                  defaultValue={field.value}
+                >
+
                   <FormControl>
                     <SelectTrigger variant="borderblack" size="lg" className="w-full">
                       <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Category 01">Category 01</SelectItem>
-                    <SelectItem value="Category 02">Category 02</SelectItem>
+                    {categoryDatas?.map((item: Record<string, string>) => (
+                      <SelectItem onClick={() => console.log(item)} key={item?._id} value={item?.title}>{item?.title}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -218,8 +246,9 @@ const EditProfileComponent = () => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Sub Category 01">Sub Category 01</SelectItem>
-                    <SelectItem value="Sub Category 02">Sub Category 02</SelectItem>
+                    {subCategories?.map((item: string, index: number) => (
+                      <SelectItem key={index} value={item}>{item}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -258,7 +287,7 @@ const EditProfileComponent = () => {
             )}
           />
 
-          {/* Budget */}
+          {/* Salary */}
           <FormField
             control={form.control}
             name="salary"
@@ -335,7 +364,7 @@ const EditProfileComponent = () => {
               {workExperiences?.length > 0 && workExperiences?.map((item, index) => (
                 <li key={index} className='flex flex-col items-start gap-1'>
                   <span className='flex items-center justify-between w-full'>
-                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.post}</span>
+                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.title}</span>
                     <span
                       className="text-red-500 cursor-pointer"
                       onClick={() => {
@@ -346,7 +375,7 @@ const EditProfileComponent = () => {
                       Delete
                     </span>
                   </span>
-                  <span className='text-gray-600 text-sm ps-4'>{item?.des}</span>
+                  <span className='text-gray-600 text-sm ps-4'>{item?.description}</span>
                 </li>
               ))}
             </ul>

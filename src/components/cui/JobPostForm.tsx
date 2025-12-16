@@ -21,20 +21,22 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 import InputList from "./InputList";
+import { SALARY_TYPE } from "@/constants/salaryObject";
+import { AVAILABILITY } from "@/constants/availabilityObject";
+import { myFetch } from "@/utils/myFetch";
 
 // Schema
 const editProfileFormSchema = z.object({
-  companyName: z.string(),
-  category: z.string(),
-  subCategory: z.string(),
-  location: z.string(),
-  // deadline: z.string(),
-  availability: z.array(z.string()),
-  budget: z.string(),
-  overview: z.string(),
+  companyName: z.string().optional(),
+  category: z.string().optional(),
+  subCategory: z.string().optional(),
+  location: z.string().optional(),
+  salary: z.number().optional(),
+  availability: z.array(z.string()).optional(),
+  overview: z.string().optional(),
 });
 
 // Type
@@ -45,16 +47,15 @@ const defaultValues: Partial<EditProfileFormValues> = {
   category: "",
   subCategory: "",
   location: "",
-  // deadline: "",
   availability: [],
-  budget: "",
+  salary: 10,
   overview: "",
 };
 
 const JobPostForm = () => {
 
   const [keyResponsibilities, setKeyResponsibilities] = useState<string[]>([]);
-  const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
+  const [salaryType, setSalaryType] = useState<string>("");
   const [skillRequirements, setSkillRequirements] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
   const [image, setImage] = useState<File | null>(null);
@@ -74,36 +75,36 @@ const JobPostForm = () => {
   });
 
   async function onSubmit(data: EditProfileFormValues) {
-    console.log("Submitted Data:", data);
-    const formData = new FormData();
-    formData.append("companyName", data.companyName);
-    formData.append("category", data.category);
-    formData.append("subCategory", data.subCategory);
-    formData.append("email", data.location);
-    formData.append("deadline", deadline.toString());
-    formData.append("phone", data.availability.join(","));
-    if (image) {
-      formData.append("image", image);
+
+    const modifiedData = {
+      title: "Dummy Job",
+      companyName: data.companyName,
+      category: data.category,
+      subCategory: data.subCategory,
+      address: data.location,
+      postDuration: deadline,
+      overview: data.overview,
+      salaryType: salaryType,
+      salary: data.salary,
+      availability: data.availability,
+      responsibilities: keyResponsibilities,
+      skillRequirements: skillRequirements,
+      benifits: benefits,
     }
-    formData.append("budget", data.budget);
-    formData.append("keyResponsibilities", JSON.stringify(keyResponsibilities));
-    formData.append("skillRequirements", JSON.stringify(skillRequirements));
-    formData.append("benefits", JSON.stringify(benefits));
+    console.log("Submitted Data:", modifiedData);
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(modifiedData));
 
-    // const response = await myFetch("/users/update-my-profile", {
-    //   method: "PATCH",
-    //   body: formData,
-    // });
-    // console.log("User Data:", response);
+    if (image) {
+      formData.append("images", image);
+    }
+
+    const response = await myFetch("/job", {
+      method: "POST",
+      body: formData,
+    });
+    console.log("Job Post Data:", response);
   }
-
-  useEffect(() => {
-    console.log("Key Responsibilities:", keyResponsibilities);
-    console.log("Skill Requirements:", skillRequirements);
-    console.log("Benefits:", benefits);
-    console.log("Deadline:", deadline);
-    console.log("jobType", budgetDuration)
-  }, [keyResponsibilities, skillRequirements, benefits, deadline, budgetDuration]);
 
 
 
@@ -199,32 +200,6 @@ const JobPostForm = () => {
 
 
           {/* Availability */}
-          {/* <FormField
-            control={form.control}
-            name="availability"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                      <SelectValue placeholder="Select a availability" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Full-Time">Full-Time</SelectItem>
-                    <SelectItem value="Part-Time">Part-Time</SelectItem>
-                    <SelectItem value="Flexible">Flexible</SelectItem>
-                    <SelectItem value="One Day">One Day</SelectItem>
-                    <SelectItem value="Weekly">Weekly</SelectItem>
-                    <SelectItem value="Monthly">Monthly</SelectItem>
-                    <SelectItem value="Yearly">Yearly</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
           <FormField
             control={form.control}
             name="availability"
@@ -232,111 +207,23 @@ const JobPostForm = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
                 <div className="space-y-2 flex gap-3 flex-wrap items-center border border-gray-400 py-2 px-3">
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="Full-Time"
-                      checked={field.value.includes("Full-Time")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Full-Time")
-                          ? field.value.filter((item) => item !== "Full-Time")
-                          : [...field.value, "Full-Time"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Full-Time
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="Part-Time"
-                      checked={field.value.includes("Part-Time")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Part-Time")
-                          ? field.value.filter((item) => item !== "Part-Time")
-                          : [...field.value, "Part-Time"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Part-Time
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="Flexible"
-                      checked={field.value.includes("Flexible")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Flexible")
-                          ? field.value.filter((item) => item !== "Flexible")
-                          : [...field.value, "Flexible"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Flexible
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="One Day"
-                      checked={field.value.includes("One Day")}
-                      onChange={() => {
-                        const newValue = field.value.includes("One Day")
-                          ? field.value.filter((item) => item !== "One Day")
-                          : [...field.value, "One Day"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    One Day
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="Weekly"
-                      checked={field.value.includes("Weekly")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Weekly")
-                          ? field.value.filter((item) => item !== "Weekly")
-                          : [...field.value, "Weekly"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Weekly
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value="Monthly"
-                      checked={field.value.includes("Monthly")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Monthly")
-                          ? field.value.filter((item) => item !== "Monthly")
-                          : [...field.value, "Monthly"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Monthly
-                  </label>
-                  <label className="flex items-center pb-1">
-                    <input
-                      type="checkbox"
-                      value="Yearly"
-                      checked={field.value.includes("Yearly")}
-                      onChange={() => {
-                        const newValue = field.value.includes("Yearly")
-                          ? field.value.filter((item) => item !== "Yearly")
-                          : [...field.value, "Yearly"];
-                        field.onChange(newValue);
-                      }}
-                      className="mr-2"
-                    />
-                    Yearly
-                  </label>
+                  {Object.entries(AVAILABILITY).map(([key, value]) => (
+                    <label key={key} className="flex items-center">
+                      <input
+                        type="checkbox"
+                        value={value}
+                        checked={field.value.includes(value)}
+                        onChange={() => {
+                          const newValue = field.value.includes(value)
+                            ? field.value.filter((item) => item !== value)
+                            : [...field.value, value];
+                          field.onChange(newValue);
+                        }}
+                        className="mr-2"
+                      />
+                      {value}
+                    </label>
+                  ))}
                 </div>
                 <FormMessage />
               </FormItem>
@@ -351,19 +238,19 @@ const JobPostForm = () => {
             <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
           </div>
 
-          {/* Budget */}
+          {/* Salary */}
           <FormField
             control={form.control}
-            name="budget"
+            name="salary"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
-                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Hour</span>
-                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Day</span>
-                  <span onClick={() => setBudgetDuration("salary")} className={`${budgetDuration === "salary" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Salary</span>
+                  {Object.entries(SALARY_TYPE).map(([key, value]) => (
+                    <span key={key} onClick={() => setSalaryType(value)} className={`${salaryType === value ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>{value}</span>
+                  ))}
                 </FormLabel>
                 <FormControl>
-                  <Input type="number" min={0} variant="borderblack" placeholder="Enter job budget" {...field} />
+                  <Input type="number" min={0} variant="borderblack" placeholder="Enter Your Salary" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

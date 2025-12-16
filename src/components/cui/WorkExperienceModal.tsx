@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Suspense } from 'react'
+
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,18 +10,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useSearchParams } from 'next/navigation';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 
 const defaultValues = {
-  post: "",
-  des: "",
+  title: "",
+  description: "",
 };
 
-function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
-  const searchParams = useSearchParams();
-  const params = new URLSearchParams(searchParams);
+export default function WorkExperienceModal({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
 
   const form = useForm({
     defaultValues,
@@ -31,16 +28,10 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
 
   async function onSubmit(data: any) {
     console.log("Submitted Data:", data);
-    if (data.category) {
-      params.set("post", data.post);
-    }
-    if (data.subCategory) {
-      params.set("des", data.des);
-    }
 
     setWorkExperienceInput({
-      post: data.post,
-      des: data.des
+      title: data.title,
+      description: data.description
     });
 
 
@@ -56,7 +47,7 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
           {/* Name */}
           <FormField
             control={form.control}
-            name="post"
+            name="title"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-600 text-lg">Job Title</FormLabel>
@@ -70,7 +61,7 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
           {/* About Me */}
           <FormField
             control={form.control}
-            name="des"
+            name="description"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Description</FormLabel>
@@ -90,12 +81,4 @@ function WorkExperienceModalSuspense({setWorkExperienceInput}:{setWorkExperience
       </Form>
     </div>
   )
-}
-
-export function WorkExperienceModal({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <WorkExperienceModalSuspense  setWorkExperienceInput={setWorkExperienceInput}/>
-    </Suspense>
-  );
 }

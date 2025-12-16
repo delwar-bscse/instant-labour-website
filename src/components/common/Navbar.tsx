@@ -29,6 +29,8 @@ import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
 import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleClient'
 import { deleteCookie } from 'cookies-next'
+import { format } from 'path'
+import { formatUrl } from '@/utils/formatUrl'
 
 
 
@@ -71,8 +73,10 @@ const Navbar = () => {
       deleteCookie('role');
       deleteCookie('accessToken');
       deleteCookie('refreshToken');
+      router.push("/");
+    } else {
+      router.push(url);
     }
-    router.push(url);
   };
 
 
@@ -104,7 +108,7 @@ const Navbar = () => {
           {getUserRole() && <Link href="/notifications" className='w-9 h-9 md:w-12 md:h-12 rounded-full  bg-gray-200 flex items-center justify-center'>
             <span className='relative'>
               <MdOutlineNotificationsNone className='size-6 md:size-7 text-gray-600 hover:text-gray-800 cursor-pointer' />
-              <span className='absolute -top-[2px] -right-[2px] min-w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px]'>9</span>
+              <span className='absolute -top-0.5 -right-0.5 min-w-4 h-4 bg-red-500 text-white rounded-full flex items-center justify-center text-[10px]'>9</span>
             </span>
           </Link>}
           {getUserRole() ? (
@@ -112,9 +116,9 @@ const Navbar = () => {
               <DropdownMenuTrigger>
                 <div className='flex items-center gap-2 cursor-pointer'>
                   <div className='w-9 h-9 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-primary'>
-                    <Image src={user ? user?.profile : profileImg} alt="User Profile" width={200} height={200} className='object-fit' />
+                    <Image src={user ? formatUrl(user?.profile) : profileImg} alt="User Profile" width={400} height={400} className='object-cover h-9 w-9 md:h-12 md:w-12' />
                   </div>
-                  <p className='hidden xl:inline-block font-bold text-gray-700'>Md. Kamran Ali</p>
+                  <p className='hidden xl:inline-block font-bold text-gray-700'>{user?.name}</p>
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
@@ -127,7 +131,7 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <div className='hidden lg:flex items-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+            <div className='hidden lg:flex items-center gap-1 border-2 border-brandClr2 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
               <Link href="/signup">Sign Up</Link>
               <span className='text-xl'>/</span>
               <Link href="/login">Log In</Link>
@@ -155,10 +159,10 @@ const Navbar = () => {
                     <li onClick={() => setOpen(false)} className='cursor-pointer hover:bg-gray-100 py-2 rounded'>
                       <Link href="/profile" className='flex gap-2 items-center'>
                         <span className='w-12 h-12 block rounded-full overflow-hidden border-2 border-primary'>
-                          <Image src={user ? user?.profile : profileImg} alt="User Profile" width={100} height={100} />
+                          <Image src={user ? formatUrl(user?.profile) : profileImg} alt="User Profile" width={100} height={100} className='object-cover h-12 w-12' />
                         </span>
                         <span className='flex flex-col text-gray-600 text-sm'>
-                          {user?.fullName}
+                          {user?.name}
                         </span>
                       </Link>
                     </li>
@@ -180,14 +184,14 @@ const Navbar = () => {
                   {/* Sign Up / Log In and Log Out Button */}
                   <div className='py-6 flex items-center justify-center'>
                     {!getUserRole() ? (
-                      <div className='flex items-center justify-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+                      <div className='flex items-center justify-center gap-1 border-2 border-brandClr2 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
                         <Link href="/signup" className='text-sm'>Sign Up</Link>
                         <span className=''>/</span>
                         <Link href="/login" className='text-sm'>Log In</Link>
                       </div>
                     ) : (
-                      <div className='flex items-center justify-center gap-1 border-2 border-[#FFC823] text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
-                        <Link href="/login" className='text-sm '>Log out</Link>
+                      <div className='flex items-center justify-center gap-1 border-2 border-brandClr2 text-brandClr1 font-semibold py-1 px-4 rounded-full customShadow4 '>
+                        <button onClick={()=>hadleRedirect("/login")} className='text-sm '>Log out</button>
                       </div>
                     )}
                   </div>
