@@ -1,32 +1,25 @@
-"use client"
-
-
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
 import React from 'react'
 import JobDetailsTop from '@/components/cui/JobDetailsTop'
 import { reviewDatas } from '@/data/reviewData'
 import ReviewCard from '@/components/card/ReviewCard'
-// import { MdArrowBack } from 'react-icons/md'
+import { myFetch } from '@/utils/myFetch'
 
-const page = () => {
-
-  // const handleApply = () => {
-  //   if (getUserRoleWorker()) {
-  //     document.getElementById("cancel")?.click()
-  //   } else {
-  //     toast.error("Please login first");
-  //   }
-  // }
+const page = async ({ params }: { params: { id: string } }) => {
+  const { id } = params;
+  const res = await myFetch(`/job/${id}`);
+  const jobDetails = res?.data || [];
+  console.log("Job get res : ", jobDetails);
 
 
   return (
     <div className='maxWidth pt-4 pb-20'>
 
       {/* --------------------- Job Header --------------------- */}
-      <JobDetailsTop />
+      <JobDetailsTop jobDetails={jobDetails}/>
 
       {/* --------------------- Job body (description) --------------------- */}
-      <JobDetailsBody />
+      <JobDetailsBody jobDetails={jobDetails}/>
 
 
       {/* --------------------- Rating list --------------------- */}

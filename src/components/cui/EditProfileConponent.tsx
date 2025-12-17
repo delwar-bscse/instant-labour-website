@@ -102,6 +102,7 @@ const EditProfileComponent = () => {
       setAttachment(file);
     }
   };
+  
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await myFetch("/category", {

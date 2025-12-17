@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
@@ -6,13 +6,20 @@ import React from 'react'
 import { reviewDatas } from '@/data/reviewData'
 import ReviewCard from '@/components/card/ReviewCard'
 import Image from 'next/image'
-import { jobDetails } from '@/data/jobDatas'
+// import { jobDetails } from '@/data/jobDatas'
 import JobDetailsTopRight from '@/components/cui/JobDetailsTopRight'
 import Link from 'next/link'
 import { CustomModal } from '@/components/modal/CustomModal'
 import TakeReview from '@/components/cui/TakeReview'
+import { formatUrl } from '@/utils/formatUrl'
+import { myFetch } from '@/utils/myFetch'
 
-const page = () => {
+const page = async({ params }: { params: { id: string } }) => {
+  
+    const { id } = params;
+    const res = await myFetch(`/job/${id}`);
+    const jobDetails = res?.data || [];
+    console.log("Job get res : ", jobDetails);
 
   const randomResult = (): boolean => {
     const Matches = Math.random();
@@ -33,14 +40,14 @@ const page = () => {
 
         {/* --------------------- Job Image --------------------- */}
         <div>
-          <Image src={jobDetails.jobImg} width={500} height={400} alt={jobDetails.companyName} className='w-full sm:w-[400px] h-[270px] rounded-md' />
+          <Image src={formatUrl(jobDetails.images[0])} width={500} height={400} alt={jobDetails.companyName} className='w-full sm:w-100 h-67.5 rounded-md' />
         </div>
 
         {/* --------------------- Job Header --------------------- */}
         <div className='space-y-3'>
           <div className='space-y-3'>
 
-            <JobDetailsTopRight />
+            <JobDetailsTopRight jobDetails={jobDetails}/>
 
 
             {/* ------------------- Contact & Review Button ------------------- */}
@@ -63,7 +70,7 @@ const page = () => {
       </div>
 
       {/* --------------------- Job body (description) --------------------- */}
-      <JobDetailsBody />
+      <JobDetailsBody jobDetails={jobDetails}/>
 
 
       {/* --------------------- Rating list --------------------- */}

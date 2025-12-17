@@ -1,36 +1,66 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { LuLayers2 } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
 import { FiClock } from "react-icons/fi";
-import { jobDetails } from '@/data/jobDatas';
+// import { jobDetails } from '@/data/jobDatas';
 import { HiOutlineCurrencyPound } from "react-icons/hi";
 import { MdArrowBack, MdOutlineStarPurple500, MdOutlineVerifiedUser } from 'react-icons/md';
 import { getUserRole, getUserRoleWorker } from '@/utils/getUserRoleClient';
 import { toast } from 'sonner';
 import { CustomModal } from '../modal/CustomModal';
 import Link from 'next/link';
+import { formatUrl } from '@/utils/formatUrl';
+import dayjs from 'dayjs';
+import { myFetch } from '@/utils/myFetch';
 
-const JobDetailsTop = () => {
+const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
+
+  const [myApplicationList, setMyApplicationList] = useState([]);
+  const [appliedDetails, setAppliedDetails] = useState({});
+
+  useEffect(() => {
+    const fetchApplicationList = async () => {
+      const res = await myFetch(`/application/my-applications`)
+      console.log("Apply list res : ", res);
+      if (res.success) {
+        const isApplied = res?.data?.filter((item: any) => item._id === jobDetails._id)
+        console.log("Is Apply Details : ", isApplied);
+        setMyApplicationList(res?.data);
+      }
+    }
+    fetchApplicationList();
+  }, [])
 
 
   const goBack = () => {
     window.history.back()
   }
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (getUserRoleWorker()) {
-      document.getElementById("cancel")?.click()
+      const res = await myFetch(`/application/${jobDetails._id}`, {
+        method: "POST",
+      })
+      console.log("Apply res : ", res);
+      if (res.success) {
+        toast.success(res.message || "Applied successfully!");
+        document.getElementById("cancel")?.click()
+      } else {
+        toast.error(res.message || "Please login as a worker first");
+      }
     } else {
-      toast.error("Please login first");
+      toast.error("Please login as a worker first");
     }
   }
 
   const randomResult = (): boolean => {
     const Matches = Math.random();
-    if (Matches > 0.3) {
+    if (Matches > 0.8) {
       return true;
     } else {
       return false
@@ -49,7 +79,7 @@ const JobDetailsTop = () => {
 
         {/* --------------------- Job Image --------------------- */}
         <div>
-          <Image src={jobDetails.jobImg} width={500} height={400} alt={jobDetails.companyName} className='w-full sm:w-[400px] h-[270px] rounded-md' />
+          <Image src={formatUrl(jobDetails.images[0])} width={500} height={400} alt={jobDetails.companyName} className='w-full sm:w-100 h-67.5 rounded-md' />
         </div>
 
         {/* --------------------- Job Header --------------------- */}
@@ -69,19 +99,19 @@ const JobDetailsTop = () => {
               </li>
               <li className='flex items-center gap-3'>
                 <GrLocation />
-                <span>{jobDetails.location}</span>
+                <span>{jobDetails.address}</span>
               </li>
               <li className='flex items-center gap-3'>
                 <FiClock />
-                <span>{jobDetails.postDate}</span>
+                <span>{dayjs(jobDetails.createdAt).format("DD, MMMM YYYY")}</span>
               </li>
               <li className='flex items-center gap-3'>
                 <HiOutlineCurrencyPound />
-                <span>{jobDetails.price}</span>
+                <span>{jobDetails.salary}</span>
               </li>
-              <li className={`flex items-center gap-3 ${jobDetails.isVerified ? "text-green-500" : "text-red-500"}`}>
+              <li className={`flex items-center gap-3 ${true ? "text-green-500" : "text-red-500"}`}>
                 <MdOutlineVerifiedUser />
-                <span>{jobDetails.isVerified ? "Verified" : "Not Verified"}</span>
+                <span>{true ? "Verified" : "Not Verified"}</span>
               </li>
             </ul>
 
@@ -90,11 +120,11 @@ const JobDetailsTop = () => {
             {!getUserRole() && <div className='flex'>
               <CustomModal title="" trigger={<button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Apply Now</button>} >
                 <p className='text-center text-2xl text-gray-700 font-bold'>Are You Sure You Want To Apply</p>
-                <div className='w-full max-w-[200px] mx-auto flex justify-center gap-4'>
-                  <div className='flex-1 max-w-[200px] mx-auto mt-12'>
+                <div className='w-full max-w-50 mx-auto flex justify-center gap-4'>
+                  <div className='flex-1 max-w-50 mx-auto mt-12'>
                     <button onClick={() => document.getElementById("cancel")?.click()} className='w-full border border-red-500 px-4 py-1.5 rounded-sm'>No</button>
                   </div>
-                  <div className='flex-1 max-w-[200px] mx-auto mt-12'>
+                  <div className='flex-1 max-w-50 mx-auto mt-12'>
                     <button onClick={handleApply} className='w-full bg-green-500 text-white px-4 py-1.5 rounded-sm'>Yes</button>
                   </div>
                 </div>
@@ -109,11 +139,11 @@ const JobDetailsTop = () => {
             </div> : <div className='flex'>
               <CustomModal title="" trigger={<button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Apply Now</button>} >
                 <p className='text-center text-2xl text-gray-700 font-bold'>Are You Sure You Want To Apply</p>
-                <div className='w-full max-w-[200px] mx-auto flex justify-center gap-4'>
-                  <div className='flex-1 max-w-[200px] mx-auto mt-12'>
+                <div className='w-full max-w-50 mx-auto flex justify-center gap-4'>
+                  <div className='flex-1 max-w-50 mx-auto mt-12'>
                     <button onClick={() => document.getElementById("cancel")?.click()} className='w-full border border-red-500 px-4 py-1.5 rounded-sm'>No</button>
                   </div>
-                  <div className='flex-1 max-w-[200px] mx-auto mt-12'>
+                  <div className='flex-1 max-w-50 mx-auto mt-12'>
                     <button onClick={handleApply} className='w-full bg-green-500 text-white px-4 py-1.5 rounded-sm'>Yes</button>
                   </div>
                 </div>

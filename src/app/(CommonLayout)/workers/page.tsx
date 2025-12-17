@@ -1,4 +1,6 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+// "use client"
 import { heroWorkerImg, mapImg } from '@/assets/assets'
 import { CustomFilter } from '@/components/cui/CustomFilter'
 import { CustomSearchBar } from '@/components/cui/CustomSearchBar'
@@ -7,44 +9,43 @@ import Image from 'next/image'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
 import WorkerCard from '@/components/card/workerCard'
-import { workerDatas } from '@/data/workerDatas'
-import { Button } from '@/components/ui/button'
-import { getUserRoleEmployer } from '@/utils/getUserRoleClient'
-import { toast } from 'sonner'
-import { useRouter, useSearchParams } from 'next/navigation'
+// import { workerDatas } from '@/data/workerDatas'
+import { getUserRoleEmployer } from '@/utils/getUserRoleServer'
 import Link from 'next/link'
-import { Suspense } from 'react'
+import { myFetch } from '@/utils/myFetch'
 
 
-const WorkersSuspense = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const workers = searchParams.get("workers");
-  const type = searchParams.get("type");
+const Workers = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
+  const isEmployer = await getUserRoleEmployer();
+  const newSearchParams = await searchParams;
+  const workers = newSearchParams.workers;
+  const type = newSearchParams.type;
 
-  const handlePost = () => {
-    if (getUserRoleEmployer()) {
-      router.push("/employer/posted-jobs/post-job");
-    } else {
-      toast.error("Please login first");
-    }
-  }
+   const page = newSearchParams?.page || 1;
+    const limit = newSearchParams?.pageSize || 10;
+    // const res = await myFetch(`/job?category=${category}&subCategory=${subCategory}&location=${location}&price=${price}&radius=${radius}`);
+  
+    const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
+    const workerDatas = res?.data?.data || [];
+    const meta:any = res?.data?.pagination || {};
+    console.log("worker get res : ", workerDatas);
+
 
 
   return (
     <div className='maxWidth'>
       {/* --------------------- Hero Worker Section --------------------- */}
-      {getUserRoleEmployer() && type !== "instantLabour" && <>
+      {isEmployer && type !== "instantLabour" && <>
         <div className="flex flex-col-reverse sm:flex-row items-center justify-between gap-8 py-20">
           <div className="flex-1 space-y-6">
             <h1 className="text-3xl sm:text-4xl lg:text-7xl text-gray-800 font-bold leading-20 capitalize">find labour for <br />your short-term <br />or day job</h1>
             <p className="text-gray-600 mt-4">connects with local labour available now for temporary work.</p>
-            {workers !== "instantLabour" && <div className='max-w-[200px] mt-12'>
-              <Button onClick={handlePost} variant="yelloBtn" className='w-full md:h-11'>Post A Job</Button>
+            {workers !== "instantLabour" && <div className='max-w-50 mt-12'>
+              <Link href="/employer/posted-jobs/post-job" className='block w-full bg-brandClr2 text-gray-50 hover:bg-brandClr2/80 py-2 rounded-sm text-center font-semibold'>Post A Job</Link>
             </div>}
           </div>
           <div className="flex justify-center items-center">
-            <Image src={heroWorkerImg} alt="Hero Image" width={1000} height={1000} className='w-[300px] h-[300px] lg:w-[400px] lg:h-[400px] object-cover rounded-full' />
+            <Image src={heroWorkerImg} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
           </div>
         </div>
 
@@ -56,7 +57,7 @@ const WorkersSuspense = () => {
 
       {/* --------------- Google Map --------------- */}
       <div>
-        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-[200px] sm:h-[300px] md:h-[400px] object-cover' />
+        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-50 sm:h-75 md:h-100 object-cover' />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}
@@ -77,31 +78,21 @@ const WorkersSuspense = () => {
       {/* --------------- Workers --------------- */}
       <div className=''>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
-          {workerDatas?.map((item) => (
-            <div onClick={() => { document.getElementById("workerCardCommon")?.click() }} key={item._id} className='space-y-2 bg-white hover:bg-gray-50 customShadow p-4 cursor-pointer transition-colors duration-100'>
+          {workerDatas?.map((item: any) => (
+            <Link href={`/workers/${item._id}`} key={item._id} className='space-y-2 bg-white hover:bg-gray-50 customShadow p-4 cursor-pointer transition-colors duration-100'>
               <WorkerCard item={item} />
-              {/* <CustomButton text="View Profile" url={`/workers/${item._id}`} variant="button01" className='w-full' /> */}
-              <Link id='workerCardCommon' href={`/workers/${item._id}`} className='hidden'></Link>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
 
       {/* --------------- Pagination --------------- */}
       <div className='py-12'>
-        <CustomPagination TOTAL_PAGES={10} />
+        <CustomPagination TOTAL_PAGES={meta?.totalPages} />
       </div>
 
     </div>
   )
-}
-
-export const Workers = () =>{
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <WorkersSuspense />
-    </Suspense>
-  );
 }
 
 export default Workers

@@ -5,30 +5,32 @@ import { LuLayers2 } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
 import { FiClock } from "react-icons/fi";
 import CustomButton from '../cui/CustomButton';
+import { formatUrl } from '@/utils/formatUrl';
+import dayjs from 'dayjs';
 
-const JobPostCard = ({ item, url }: { item: Record<string, any>, url: string }) => {
+const JobPostCard = ({ item, url }: { item: any, url: string }) => {
   return (
     <div key={item._id} className='space-y-2 bg-white customShadow p-4'>
       <div className=''>
-        <Image src={item.jobImg} width={500} height={400} alt={item.companyName} className='w-full h-[260px]' />
+        <Image src={formatUrl(item?.images[0])} width={500} height={400} alt={item.companyName} className='w-full h-65' />
       </div>
       <div className='space-y-3'>
         <div className='flex items-center justify-between'>
-          <h3 className='font-semibold text-2xl text-gray-800'>{item.companyName}</h3>
-          <p className='font-semibold text-xl text-gray-800'>£ {item.price}</p>
+          <h3 className='font-semibold text-2xl text-gray-800'>{item?.companyName}</h3>
+          <p className='font-semibold text-xl text-gray-800'>£ {typeof item?.salary === "number" && item?.salary}</p>
         </div>
         <ul className='space-y-1 text-lg text-gray-500 font-semibold'>
           <li className='flex items-center gap-3'>
             <LuLayers2 />
-            <span>{item.companyName}</span>
+            <span>{item?.companyName}</span>
           </li>
           <li className='flex items-center gap-3'>
             <GrLocation />
-            <span>{item.location}</span>
+            <span>{item?.address}</span>
           </li>
           <li className='flex items-center gap-3'>
             <FiClock />
-            <span>{item.postDate}</span>
+            <span>{dayjs(item?.createdAt).format("DD, MMMM YYYY")}</span>
           </li>
         </ul>
         {/* <div className='flex items-center justify-between py-1 font-semibold'>
