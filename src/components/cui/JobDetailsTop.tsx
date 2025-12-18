@@ -23,13 +23,18 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
   const [myApplicationList, setMyApplicationList] = useState([]);
   const [appliedDetails, setAppliedDetails] = useState({});
 
+
+  // -------------------------------------- ramain this work..... todo
   useEffect(() => {
     const fetchApplicationList = async () => {
       const res = await myFetch(`/application/my-applications`)
       console.log("Apply list res : ", res);
       if (res.success) {
-        const isApplied = res?.data?.filter((item: any) => item._id === jobDetails._id)
-        console.log("Is Apply Details : ", isApplied);
+        const isAppliedDetails = res?.data?.filter((item: any) => item.job === jobDetails._id)[0];
+        const isApplied = isAppliedDetails ? true : false;
+
+        console.log("Is Apply Details : ", isAppliedDetails);
+        console.log("Is Apply  : ", isApplied);
         setMyApplicationList(res?.data);
       }
     }
