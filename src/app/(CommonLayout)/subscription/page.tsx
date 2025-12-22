@@ -17,7 +17,7 @@ const Subscriptions = async() => {
         <OfferSection />
       </div>
       <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 mt-10'>
-        {res?.data.length > 0 && res?.data.map((data:any, index:number) => (
+        {res?.data?.length > 0 && res?.data?.map((data:any, index:number) => (
           <div key={index}>
             <SubscriptionCard data={data} />
           </div>

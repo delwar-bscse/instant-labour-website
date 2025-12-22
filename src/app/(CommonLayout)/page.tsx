@@ -151,7 +151,7 @@ export default async function Home() {
 
         </div>
         <div className="flex justify-center items-center">
-          <Image src={formatUrl(homeHero?.images[0])} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
+          <Image src={formatUrl(homeHero?.images?.[0])} alt="Hero Image" width={1000} height={1000} className='w-75 h-75 lg:w-100 lg:h-100 object-cover rounded-full' />
         </div>
       </div>
 

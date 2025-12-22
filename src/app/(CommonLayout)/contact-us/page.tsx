@@ -23,7 +23,7 @@ const ContactUs = async() => {
           <p className="text-gray-600 mt-4">{contactHero?.description}</p>
         </div>
         <div className="basis-[40%] flex justify-center items-center">
-          <Image src={formatUrl(contactHero?.images[0])} alt="Hero Image" width={1000} height={600} className='w-full h-full max-h-80 object-cover' />
+          <Image src={formatUrl(contactHero?.images?.[0])} alt="Hero Image" width={1000} height={600} className='w-full h-full max-h-80 object-cover' />
         </div>
       </div>
       {/* --------------------- Contact Us --------------------- */}

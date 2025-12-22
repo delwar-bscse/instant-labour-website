@@ -39,7 +39,7 @@ const AboutUs = async () => {
             </div>
           </div>
           <div className="basis-1/2 flex justify-center items-center relative">
-            <Image src={formatUrl(aboutHero?.images[0])} alt="Hero Image" width={1000} height={1000} className='w-full relative bottom-10' />
+            <Image src={formatUrl(aboutHero?.images?.[0])} alt="Hero Image" width={1000} height={1000} className='w-full relative bottom-10' />
             <Image src={aboutHeroImg} alt="Hero Image" width={1000} height={1000} className='w-full absolute top-10' />
           </div>
         </div>
@@ -98,7 +98,7 @@ const SubComponent = ({ item, position }: { item: Record<string, any>, position:
         )}
       </div>
       <div className='flex-1'>
-        <Image src={formatUrl(item?.images[0])} alt="Hero Image" width={1000} height={600} className={`w-full h-65 md:h-75 lg:h-90 object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
+        <Image src={formatUrl(item?.images?.[0])} alt="Hero Image" width={1000} height={600} className={`w-full h-65 md:h-75 lg:h-90 object-cover ${position === "right" ? "rounded-bl-2xl rounded-tr-2xl" : "rounded-br-2xl rounded-tl-2xl"}`} />
       </div>
     </div>
   )
