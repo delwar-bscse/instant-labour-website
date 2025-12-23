@@ -90,6 +90,8 @@ const SignUp = () => {
       },
     });
 
+    console.log("Sign Up : ", res);
+
     if (res.success) {
       toast.success(`${res.message} || "Check your email!"`);
       localStorage.setItem("userEmail", data.email);

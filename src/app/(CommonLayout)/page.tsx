@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Image from "next/image";
-import { clientSay } from "@/data/homeData";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import IndustriesSlider from "@/components/sections/IndustriesSlider";
 import ClientSayCard from "@/components/card/ClientSayCard";
@@ -80,9 +79,13 @@ export default async function Home() {
   const isWorker = await getUserRoleWorker();
 
 
+  const resClientReview = await myFetch("/clientreview", { method: "GET" });
+  const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
+  console.log("Coupon Data : ", resCoupon);
+
   const res = await myFetch("/content/section/home", { method: "GET" });
   console.log("Home All : ", res);
-  
+
   const homeHero = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HERO });
   const howItWorksEmployer = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HOW_IT_WORKS });
   const howItWorksWorker = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HOW_IT_WORKS_WORKER });
@@ -187,8 +190,8 @@ export default async function Home() {
       </div>
 
       {/* -------------- 20% Offers-------------- */}
-      {!isWorker && <div className="maxWidth py-8 md:py-20">
-        <OfferSection button={true} />
+      {!isWorker && resCoupon?.data && <div className="maxWidth py-8 md:py-20">
+        <OfferSection button={true} data={resCoupon?.data}/>
       </div>}
 
       {/* -------------- Why instant labour? -------------- */}
@@ -208,8 +211,8 @@ export default async function Home() {
       <div className="maxWidth py-8 md:py-20">
         <h2 className="text-3xl lg:text-5xl text-gray-700 font-semibold capitalize mb-6 sm:mb-8 dm:mb-10 xl:mb-12 text-center">What Our Clients Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {clientSay?.map((item, index) => (
-            <div key={index} className={`customShadow p-4 max-w-100 mx-auto ${index === 1 ? "lg:mb-16" : "lg:mt-16"}`}>
+          {resClientReview?.data?.map((item: any, index: number) => (
+            <div key={index} className={`customShadow p-4 w-full max-w-100 mx-auto ${index === 1 ? "lg:mb-16" : "lg:mt-16"}`}>
               <ClientSayCard item={item} />
             </div>
           ))}

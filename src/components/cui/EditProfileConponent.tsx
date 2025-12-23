@@ -56,7 +56,7 @@ const editProfileFormSchema = z.object({
   subCategory: z.string().optional(),
   workOverview: z.string().optional(),
   about: z.string().optional(),
-  salary: z.number().optional(),
+  salary: z.any().optional(),
   availability: z.array(z.string()),
 });
 
@@ -161,7 +161,7 @@ const EditProfileComponent = () => {
         category: response?.data?.category || "",
         subCategory: response?.data?.subCategory || "",
         about: response?.data?.about || "",
-        salary: response?.data?.salary || "",
+        salary: Number(response?.data?.salary) || 0,
         workOverview: response?.data?.workOverview || "",
         availability: response?.data?.availability || [],
       });

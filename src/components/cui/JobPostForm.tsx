@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
@@ -30,7 +31,6 @@ import { SALARY_TYPE } from "@/constants/salaryObject";
 import { AVAILABILITY } from "@/constants/availabilityObject";
 import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
-import { url } from "inspector";
 
 
 // ==============================
@@ -47,6 +47,7 @@ import { url } from "inspector";
 //   availability: z.array(z.string()).default([]),
 //   overview: z.string().optional(),
 // });
+
 const editProfileFormSchema = z.object({
   companyName: z.string(),
   category: z.string(),
@@ -164,14 +165,14 @@ const JobPostForm = () => {
     if (image) {
       formData.append("images", image);
     }
-    // let url = `/job`
-    // if (jobId) {
-    //   url = `/job/${jobId}`
-    // }
+    let url = `/job`
+    if (jobId) {
+      url = `/job/${jobId}`
+    }
 
-    const response = await myFetch(`/job/${jobId}`, {
-      // method: jobId ? "PATCH" : "POST",
-      method: "PATCH",
+    const response = await myFetch(url, {
+      method: jobId ? "PATCH" : "POST",
+      // method: "POST",
       body: formData,
     });
 
