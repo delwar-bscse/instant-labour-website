@@ -3,7 +3,7 @@
 "use client"
 
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { LuLayers2 } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
 import { FiClock } from "react-icons/fi";
@@ -20,8 +20,8 @@ import { myFetch } from '@/utils/myFetch';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
-  const [myApplicationList, setMyApplicationList] = useState([]);
-  const [appliedDetails, setAppliedDetails] = useState({});
+  // const [myApplicationList, setMyApplicationList] = useState([]);
+  // const [appliedDetails, setAppliedDetails] = useState({});
 
 
   // -------------------------------------- ramain this work..... todo
@@ -35,7 +35,7 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
         console.log("Is Apply Details : ", isAppliedDetails);
         console.log("Is Apply  : ", isApplied);
-        setMyApplicationList(res?.data);
+        // setMyApplicationList(res?.data);
       }
     }
     fetchApplicationList();

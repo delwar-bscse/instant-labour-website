@@ -34,7 +34,7 @@ const defaultValues: Partial<ContactUsFormValues> = {
   verifyOtp: "",
 };
 
-const VerifyOtp = () => {
+const VerifyOtpSuspense = () => {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
   const router = useRouter();
@@ -85,47 +85,53 @@ const VerifyOtp = () => {
   }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className="px-2 sm:px-4 md:px-8 py-6 md:py-8 w-full overflow-hidden">
-        <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-2 text-center">Verify OTP</h2>
-        <p className="text-gray-600 text-center pb-8">We’ve sent a one-time password (OTP) to your email/phone. Please enter the code below to continue.</p>
+    <div className="px-2 sm:px-4 md:px-8 py-6 md:py-8 w-full overflow-hidden">
+      <h2 className="text-2xl md:text-3xl xl:text-4xl font-bold text-gray-600 pb-2 text-center">Verify OTP</h2>
+      <p className="text-gray-600 text-center pb-8">We’ve sent a one-time password (OTP) to your email/phone. Please enter the code below to continue.</p>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="verifyOtp"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <InputOTP maxLength={6} {...field}>
-                      <InputOTPGroup className="">
-                        <InputOTPSlot index={0} />
-                        <InputOTPSlot index={1} />
-                        <InputOTPSlot index={2} />
-                        <InputOTPSlot index={3} />
-                        <InputOTPSlot index={4} />
-                        <InputOTPSlot index={5} />
-                      </InputOTPGroup>
-                    </InputOTP>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div className="flex justify-between">
-              <div></div>
-              <button type="button" onClick={handleResend} className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors duration-200">Resend OTP</button>
-            </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="verifyOtp"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <InputOTP maxLength={6} {...field}>
+                    <InputOTPGroup className="">
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex justify-between">
+            <div></div>
+            <button type="button" onClick={handleResend} className="text-blue-500 cursor-pointer hover:text-blue-600 transition-colors duration-200">Resend OTP</button>
+          </div>
 
-            <Button variant="yelloBtn" type="submit" size="llg" className="w-full">
-              Submit
-            </Button>
-          </form>
-        </Form>
-      </div>
-    </Suspense>
+          <Button variant="yelloBtn" type="submit" size="llg" className="w-full">
+            Submit
+          </Button>
+        </form>
+      </Form>
+    </div>
   );
 };
 
-export default VerifyOtp;
+const VerifyOtp = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <VerifyOtpSuspense />
+    </Suspense>
+  );
+}
+
+export default VerifyOtp

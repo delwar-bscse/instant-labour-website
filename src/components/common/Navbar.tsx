@@ -29,7 +29,6 @@ import { myFetch } from '@/utils/myFetch'
 import { brandLogo, profileImg } from '@/assets/assets'
 import { getUserRole, getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleClient'
 import { deleteCookie } from 'cookies-next'
-import { format } from 'path'
 import { formatUrl } from '@/utils/formatUrl'
 
 
