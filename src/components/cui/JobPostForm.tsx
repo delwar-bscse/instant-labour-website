@@ -80,7 +80,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
 // ==============================
 const JobPostForm = () => {
   const params = useParams();
-  const jobId = params?.id;
+  const jobId = params?.id || "";
   console.log("Job Id : ", jobId);
   const [categoryDatas, setCategoryDatas] = useState<any>([]);
   const [subCategories, setSubCategories] = useState<any>([]);
