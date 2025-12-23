@@ -21,14 +21,30 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const workers = newSearchParams.workers;
   const type = newSearchParams.type;
 
-   const page = newSearchParams?.page || 1;
-    const limit = newSearchParams?.pageSize || 10;
-    // const res = await myFetch(`/job?category=${category}&subCategory=${subCategory}&location=${location}&price=${price}&radius=${radius}`);
-  
-    const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
-    const workerDatas = res?.data?.data || [];
-    const meta:any = res?.data?.pagination || {};
-    console.log("worker get res : ", workerDatas);
+  const page = newSearchParams?.page || 1;
+  const limit = newSearchParams?.pageSize || 10;
+  // const res = await myFetch(`/job?category=${category}&subCategory=${subCategory}&location=${location}&price=${price}&radius=${radius}`);
+
+  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
+  const refineRes = res?.data?.data?.map((item: any) => {
+    return {
+      _id: item?._id,
+      profile: item?.profile,
+      name: item?.name,
+      verified: item?.isAccountVerified,
+      createdAt: item?.createdAt,
+      category: item?.category,
+      location: item?.address,
+      salary: item?.salary,
+      salaryType: item?.salaryType,
+      status: item?.status
+    };
+  }) || [];
+  console.log("worker refine res : ", refineRes);
+
+  const workerDatas = res?.data?.data || [];
+  const meta: any = res?.data?.pagination || {};
+  console.log("worker get res : ", workerDatas);
 
 
 
@@ -78,7 +94,7 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
       {/* --------------- Workers --------------- */}
       <div className=''>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12'>
-          {workerDatas?.map((item: any) => (
+          {refineRes?.map((item: any) => (
             <Link href={`/workers/${item._id}`} key={item._id} className='space-y-2 bg-white hover:bg-gray-50 customShadow p-4 cursor-pointer transition-colors duration-100'>
               <WorkerCard item={item} />
             </Link>

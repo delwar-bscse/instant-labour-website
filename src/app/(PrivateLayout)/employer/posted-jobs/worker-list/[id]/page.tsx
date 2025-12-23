@@ -16,7 +16,7 @@ const ApproveAppliedWorkerDetailsSuspense = () => {
   return (
     <div className='pb-12'>
       {/* ------------------- Worker Details Top ------------------- */}
-      <WorkerDetailsTop />
+      <WorkerDetailsTop workerDetails={null} />
 
 
 
@@ -32,7 +32,7 @@ const ApproveAppliedWorkerDetailsSuspense = () => {
       </div>}
 
       {/* ------------------- Worker Details Body ------------------- */}
-      <WorkerDetailsBody jobType="Full Time" />
+      <WorkerDetailsBody workerDetails={null} jobType="Full Time" />
 
       {/* --------------------- Rating list --------------------- */}
       <div className='maxWidth space-y-8 mt-12'>
@@ -53,7 +53,7 @@ const ApproveAppliedWorkerDetailsSuspense = () => {
   )
 }
 
-export const ApproveAppliedWorkerDetails = () =>{
+export const ApproveAppliedWorkerDetails = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <ApproveAppliedWorkerDetailsSuspense />

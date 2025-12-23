@@ -49,7 +49,7 @@ const WorkerCard = ({ item }: { item: any, url?: string, status?: string }) => {
           </li>
           <li className='flex items-center gap-3'>
             <GrLocation size={20} />
-            {/* <span>{item?.location}</span> */}
+            <span>{item?.location}</span>
           </li>
           <li className='flex items-center gap-3 text-gray-800'>
             <HiOutlineCurrencyPound size={20} />

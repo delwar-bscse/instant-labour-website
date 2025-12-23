@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
+import { getUserRoleEmployer } from '@/utils/getUserRoleClient';
 import { myFetch } from '@/utils/myFetch';
 import React from 'react'
 import { toast } from 'sonner';
@@ -8,6 +9,11 @@ const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolea
   const afterDiscount = data.regularPrice - (data.regularPrice * (data.discountPercent / 100));
 
   const handleSubscribe = async () => {
+    const isEmployer = await getUserRoleEmployer();
+    if (!isEmployer) {
+      toast.error("Please login as Employer!");
+      return
+    }
     const res = await myFetch(`/subscription/checkout/${data?._id}`, {
       method: "POST",
     })
