@@ -1,22 +1,30 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import React from 'react'
+import ApplicationApproveDeclineButtons from '@/components/actions/ApplicationApproveDeclineButtons';
 import ReviewCard from '@/components/card/ReviewCard';
 import TakeReview from '@/components/cui/TakeReview';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
 import { CustomModal } from '@/components/modal/CustomModal';
 import { reviewDatas } from '@/data/reviewData';
+import { APPLICATION_STATUS } from '@/types/jobTypes';
+import { myFetch } from '@/utils/myFetch';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
-import React, { Suspense } from 'react'
 
-const ApproveAppliedWorkerDetailsSuspense = () => {
-  const searchParams = useSearchParams();
-  const type = searchParams.get("type");
+const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchParams: any, params: any }) => {
+  const { type, jobId } = await searchParams
+  const { id } = await params
+
+  const res = await myFetch(`/user/workers/${id}`);
+  const workerDetails = res?.data
+  console.log("Get Worker Details Data : ", workerDetails);
+
+
   return (
     <div className='pb-12'>
       {/* ------------------- Worker Details Top ------------------- */}
-      <WorkerDetailsTop workerDetails={null} />
+      <WorkerDetailsTop workerDetails={workerDetails} />
 
 
 
@@ -27,12 +35,12 @@ const ApproveAppliedWorkerDetailsSuspense = () => {
           title="Feedback"
           trigger={<button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm cursor-pointer hover:border-blue-700 transition-colors duration-300'>Feed Back</button>}
         >
-          <TakeReview />
+          <TakeReview id={id} />
         </CustomModal>
       </div>}
 
       {/* ------------------- Worker Details Body ------------------- */}
-      <WorkerDetailsBody workerDetails={null} jobType="Full Time" />
+      <WorkerDetailsBody workerDetails={workerDetails} jobType="Full Time" />
 
       {/* --------------------- Rating list --------------------- */}
       <div className='maxWidth space-y-8 mt-12'>
@@ -45,19 +53,11 @@ const ApproveAppliedWorkerDetailsSuspense = () => {
       </div>
 
       {/* ------------------- Action Buttons - Decline, Approve ------------------- */}
-      {type === 'applied' && <div className='maxWidth my-10 flex gap-4 items-center'>
-        <button className='border-2 border-red-600 text-red-600 font-semibold py-2 px-8 rounded-sm hover:border-red-700 transition-colors duration-300'>Decline</button>
-        <button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Approve</button>
-      </div>}
+      {type === APPLICATION_STATUS.PENDING && <ApplicationApproveDeclineButtons applicationId={workerDetails._id} workerId={workerDetails?._id} jobId={jobId} />}
+
+
     </div>
   )
 }
 
-export const ApproveAppliedWorkerDetails = () => {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ApproveAppliedWorkerDetailsSuspense />
-    </Suspense>
-  );
-}
 export default ApproveAppliedWorkerDetails

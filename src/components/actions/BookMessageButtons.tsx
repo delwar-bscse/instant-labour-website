@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { getUserRoleEmployer } from '@/utils/getUserRoleClient';
 import { myFetch } from '@/utils/myFetch';
 import { useRouter } from 'next/navigation';
+import { BOOKING_STATUS } from '@/types/jobTypes';
 
 const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
   const router = useRouter();
@@ -29,7 +30,11 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
 
   const handleMessage = () => {
     if (getUserRoleEmployer()) {
-      router.push("/inbox");
+      if (workerDetails?.bookingStatus === BOOKING_STATUS?.APPROVED) {
+        router.push("/inbox");
+      } else {
+        toast.error("Booking not approved yet");
+      }
     } else {
       toast.error("Please login first");
     }
@@ -39,10 +44,10 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
   return (
     <div className='maxWidth flex gap-2 pb-8'>
       <div className=''>
-        <Button onClick={handleBooked} variant="yelloBtn" className='w-full text-gray-700 rounded-sm'>Book Now</Button>
+        <Button onClick={handleBooked} disabled={workerDetails?.isBooked} variant="yelloBtn" className='w-full text-gray-700 rounded-sm'>Book Now</Button>
       </div>
       <div className=''>
-        <Button onClick={handleMessage} variant="yelloBtn" className='w-full text-gray-600 rounded-sm'>Message</Button>
+        <Button onClick={handleMessage} disabled={!workerDetails?.isBooked} variant="yelloBtn" className='w-full text-gray-600 rounded-sm'>Message</Button>
       </div>
     </div>
   )

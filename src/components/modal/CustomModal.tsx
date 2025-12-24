@@ -28,7 +28,7 @@ export function CustomModal({
         <DialogTrigger asChild>
           {trigger}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-106.25">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>

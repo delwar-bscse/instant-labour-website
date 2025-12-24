@@ -1,45 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { LuLayers2 } from "react-icons/lu";
 import { GrLocation } from "react-icons/gr";
 import { FiClock } from "react-icons/fi";
 // import { jobDetails } from '@/data/jobDatas';
 import { HiOutlineCurrencyPound } from "react-icons/hi";
 import { MdArrowBack, MdOutlineStarPurple500, MdOutlineVerifiedUser } from 'react-icons/md';
-import { getUserRole, getUserRoleWorker } from '@/utils/getUserRoleClient';
+import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleClient';
 import { toast } from 'sonner';
 import { CustomModal } from '../modal/CustomModal';
 import Link from 'next/link';
 import { formatUrl } from '@/utils/formatUrl';
 import dayjs from 'dayjs';
 import { myFetch } from '@/utils/myFetch';
+import { APPLICATION_STATUS } from '@/types/jobTypes';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
-
-  // const [myApplicationList, setMyApplicationList] = useState([]);
-  // const [appliedDetails, setAppliedDetails] = useState({});
-
-
-  // -------------------------------------- ramain this work..... todo
-  useEffect(() => {
-    const fetchApplicationList = async () => {
-      const res = await myFetch(`/application/my-applications`)
-      console.log("Apply list res : ", res);
-      if (res.success) {
-        const isAppliedDetails = res?.data?.filter((item: any) => item.job === jobDetails._id)[0];
-        const isApplied = isAppliedDetails ? true : false;
-
-        console.log("Is Apply Details : ", isAppliedDetails);
-        console.log("Is Apply  : ", isApplied);
-        // setMyApplicationList(res?.data);
-      }
-    }
-    fetchApplicationList();
-  }, [])
 
 
   const goBack = () => {
@@ -60,15 +39,6 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
       }
     } else {
       toast.error("Please login as a worker first");
-    }
-  }
-
-  const randomResult = (): boolean => {
-    const Matches = Math.random();
-    if (Matches > 0.8) {
-      return true;
-    } else {
-      return false
     }
   }
 
@@ -121,26 +91,14 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
             </ul>
 
 
-            {/* --------------------- Apply Now Button --------------------- */}
-            {!getUserRole() && <div className='flex'>
-              <CustomModal title="" trigger={<button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Apply Now</button>} >
-                <p className='text-center text-2xl text-gray-700 font-bold'>Are You Sure You Want To Apply</p>
-                <div className='w-full max-w-50 mx-auto flex justify-center gap-4'>
-                  <div className='flex-1 max-w-50 mx-auto mt-12'>
-                    <button onClick={() => document.getElementById("cancel")?.click()} className='w-full border border-red-500 px-4 py-1.5 rounded-sm'>No</button>
-                  </div>
-                  <div className='flex-1 max-w-50 mx-auto mt-12'>
-                    <button onClick={handleApply} className='w-full bg-green-500 text-white px-4 py-1.5 rounded-sm'>Yes</button>
-                  </div>
-                </div>
-              </CustomModal>
-            </div>}
-
-
-            {/* ------------------- Contact & Review Button ------------------- */}
-            {getUserRoleWorker() && (randomResult() ? <div className='flex gap-4 items-center'>
-              <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
-              <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+            {/* -------------------Apply Now, Contact & Review Button ------------------- */}
+            {!getUserRoleEmployer() && (jobDetails.isApplied ? <div>
+              {jobDetails.applicationStatus === APPLICATION_STATUS.APPROVED ? <div className='flex gap-4 items-center'>
+                <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
+                <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
+              </div> : <div>
+                <p>Status : {jobDetails.applicationStatus}</p>
+              </div>}
             </div> : <div className='flex'>
               <CustomModal title="" trigger={<button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Apply Now</button>} >
                 <p className='text-center text-2xl text-gray-700 font-bold'>Are You Sure You Want To Apply</p>
@@ -154,7 +112,6 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
                 </div>
               </CustomModal>
             </div>)}
-
           </div>
 
         </div>

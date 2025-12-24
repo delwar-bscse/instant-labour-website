@@ -5,6 +5,7 @@ import React, { useEffect } from 'react'
 import WorkerCard from '../card/workerCard'
 import Link from 'next/link'
 import { myFetch } from '@/utils/myFetch';
+import { BOOKING_STATUS } from '@/types/jobTypes';
 
 const BookingList = () => {
   const [workerDatas, setWorkerDatas] = React.useState<any>([]);
@@ -39,9 +40,9 @@ const BookingList = () => {
   }, []);
 
   const handleStatus = (status: string) => {
-    if (status === "Approved") {
+    if (status === BOOKING_STATUS.APPROVED) {
       return "text-green-500"
-    } else if (status === "Pending") {
+    } else if (status === BOOKING_STATUS.PENDING) {
       return "text-blue-500"
     } else {
       return "text-red-500"
