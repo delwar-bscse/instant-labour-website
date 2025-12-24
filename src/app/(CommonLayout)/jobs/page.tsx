@@ -32,6 +32,7 @@ const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } 
   const jobDatas = res?.data || [];
   const meta: any = res?.pagination || {};
   console.log("Job get res : ", jobDatas);
+  console.log("Job meta res : ", res);
 
 
   return (
