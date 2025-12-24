@@ -199,7 +199,7 @@ const InboxClient = ({ chatList }: InboxClientProps) => {
     <div className="maxWidth h-[calc(100vh-100px)] md:h-[calc(100vh-120px)] pb-4 md:pb-0">
       <div className="flex h-full gap-4 md:gap-6">
         {/* Sidebar */}
-        <div className="hidden md:block w-[320px] lg:w-[380px] shrink-0 h-full">
+        <div className="hidden md:block w-[320px] lg:w-95 shrink-0 h-full">
           <InboxSidebar
             chatList={dynamicChatList}
             selectedChat={clickedChat}

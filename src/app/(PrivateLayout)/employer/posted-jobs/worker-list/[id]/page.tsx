@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 
 import React from 'react'
 import ApplicationApproveDeclineButtons from '@/components/actions/ApplicationApproveDeclineButtons';
@@ -7,7 +7,7 @@ import TakeReview from '@/components/cui/TakeReview';
 import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
 import { CustomModal } from '@/components/modal/CustomModal';
-import { reviewDatas } from '@/data/reviewData';
+// import { reviewDatas } from '@/data/reviewData';
 import { APPLICATION_STATUS } from '@/types/jobTypes';
 import { myFetch } from '@/utils/myFetch';
 import Link from 'next/link';
@@ -19,6 +19,11 @@ const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchPar
   const res = await myFetch(`/user/workers/${id}`);
   const workerDetails = res?.data
   console.log("Get Worker Details Data : ", workerDetails);
+
+  
+  const resReview = await myFetch(`/review/${id}`);
+  
+  console.log("Worker reviews : ", resReview?.data);
 
 
   return (
@@ -45,7 +50,7 @@ const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchPar
       {/* --------------------- Rating list --------------------- */}
       <div className='maxWidth space-y-8 mt-12'>
         <p className='py-2 px-3 border-2 border-blue-600 font-semibold text-blue-700 rounded-sm text-xl'>Reviews</p>
-        {reviewDatas.map((item, index) => (
+        {resReview?.data?.map((item:any, index:number) => (
           <div key={index} className=''>
             <ReviewCard item={item} />
           </div>

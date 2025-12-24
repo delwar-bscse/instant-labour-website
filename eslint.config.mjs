@@ -23,6 +23,7 @@ const eslintConfig = [
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      "tailwindcss/no-arbitrary-value": "off",
     },
   },
 ];

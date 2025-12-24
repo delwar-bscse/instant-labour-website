@@ -14,7 +14,7 @@ const Message = ({ msgDetails }: { msgDetails: Record<string, any> }) => {
             alt={msgDetails.name}
             width={100}
             height={100}
-            className="w-[50px] h-[50px] object-fit rounded-full"
+            className="w-12.5 h-12.5 object-fit rounded-full"
           />
         </div>
         <div className="flex-1">
@@ -45,7 +45,7 @@ const Message = ({ msgDetails }: { msgDetails: Record<string, any> }) => {
                 key={item.id}
                 className={`${
                   item.role === "worker" ? "bg-[#6D6DFF]" : "bg-[#E6E6E6]"
-                } p-4 rounded-2xl w-[500px]`}
+                } p-4 rounded-2xl w-125`}
               >
                 <p
                   className={`${
