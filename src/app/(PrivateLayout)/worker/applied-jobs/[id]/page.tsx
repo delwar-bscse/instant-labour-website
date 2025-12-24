@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // "use client"
 
 
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
 import React from 'react'
-import { reviewDatas } from '@/data/reviewData'
+// import { reviewDatas } from '@/data/reviewData'
 import ReviewCard from '@/components/card/ReviewCard'
 import Image from 'next/image'
 // import { jobDetails } from '@/data/jobDatas'
@@ -21,6 +22,10 @@ const page = async({ params }: { params: { id: string } }) => {
     const res = await myFetch(`/job/${id}`);
     const jobDetails = res?.data || [];
     console.log("Job Details res : ", jobDetails);
+
+    
+      const resReview = await myFetch(`/review/${jobDetails?.createdBy?._id}`);
+      console.log("Employee reviews : ", resReview?.data);
 
 
   return (
@@ -68,7 +73,7 @@ const page = async({ params }: { params: { id: string } }) => {
       {/* --------------------- Rating list --------------------- */}
       <div className='space-y-8 mt-12'>
         <p className='py-2 px-3 border-2 border-blue-600 font-semibold text-blue-700 rounded-sm text-xl'>Reviews</p>
-        {reviewDatas.map((item, index) => (
+        {resReview?.data?.map((item: any, index: number) => (
           <div key={index} className=''>
             <ReviewCard item={item} />
           </div>

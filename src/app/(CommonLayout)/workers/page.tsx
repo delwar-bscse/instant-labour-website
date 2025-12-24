@@ -21,11 +21,37 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const workers = newSearchParams.workers;
   const type = newSearchParams.type;
 
+  const category = newSearchParams.category || "";
+  const subCategory = newSearchParams.subCategory || "";
+  const price = newSearchParams.price || "";
+  const radius = newSearchParams.radius || "";
+  const salaryType = newSearchParams.salaryType || "";
+  const location = newSearchParams.location || "";
+
   const page = newSearchParams?.page || 1;
   const limit = newSearchParams?.pageSize || 10;
-  // const res = await myFetch(`/job?category=${category}&subCategory=${subCategory}&location=${location}&price=${price}&radius=${radius}`);
 
-  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
+  // searchTerm?: string;
+  // companyName?: string;
+  // category?: string;
+  // subCategory?: string;
+  // latitude?: number;
+  // longitude?: number;
+  // minSalary?: number;
+  // maxSalary?: number;
+  // address?: string;
+  // minRating?: number;
+  // maxRating?: number;
+  // radius?: number;
+  // postDuration?: string;
+  // overview?: string;
+
+
+
+  // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&maxSalary=${price}&radius=${radius}`);
+
+  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}`);
+  
   const refineRes = res?.data?.data?.map((item: any) => {
     return {
       _id: item?._id,

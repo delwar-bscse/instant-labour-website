@@ -2,7 +2,7 @@
 
 "use client"
 
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,20 +23,41 @@ import {
 import PriceRange from '@/components/cui/CustomRange'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../ui/input';
+import { myFetch } from '@/utils/myFetch';
 
 const defaultValues = {
   category: "",
   subCategory: "",
   location: "",
-  price: 50,
-  radius: 50
+  price: 600,
+  radius: 300
 };
 
+const SALARY_TYPE = {
+  Hourly: 'Hourly',
+  DAILY: 'Daily',
+  // WEEKLY : 'Weekly',
+  MONTHLY: 'Monthly',
+  // YEARLY : 'Yearly',
+}
+
 function CustomFilterSuspense() {
-  const [budgetDuration, setBudgetDuration] = useState<string>("perHour");
   const searchParams = useSearchParams();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
+  const [categoryDatas, setCategoryDatas] = useState<any>([]);
+  const [subCategories, setSubCategories] = useState<any>([]);
+  const [salaryType, setSalaryType] = useState<string>("");
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await myFetch("/category", {
+        method: "GET",
+      });
+      setCategoryDatas(res?.data);
+    };
+    fetchCategories();
+  }, []);
 
   const form = useForm({
     defaultValues,
@@ -54,6 +75,9 @@ function CustomFilterSuspense() {
     }
     if (data.location) {
       params.set("location", data.location);
+    }
+    if(salaryType) {
+      params.set("salaryType", salaryType);
     }
     if (data.price) {
       params.set("price", data.price.toString());
@@ -80,16 +104,25 @@ function CustomFilterSuspense() {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-600">Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(value);
+                    const selectedItem = categoryDatas?.find((item: any) => item.title === value);
+                    setSubCategories(selectedItem?.subCategories);
+                  }}
+                  defaultValue={field.value}
+                >
+
                   <FormControl>
-                    <SelectTrigger variant="yelloBg" size="lg" className="w-full">
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
                       <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="Category01">Category 1</SelectItem>
-                    <SelectItem value="Category02">Category 2</SelectItem>
+                    {categoryDatas?.map((item: Record<string, string>) => (
+                      <SelectItem onClick={() => console.log(item)} key={item?._id} value={item?.title}>{item?.title}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -97,22 +130,23 @@ function CustomFilterSuspense() {
             )}
           />
 
-          {/* Sub Category */}
+          {/* Sub-Category */}
           <FormField
             control={form.control}
             name="subCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-600">Sub Category</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger variant="yelloBg" size="lg" className="w-full">
+                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
                       <SelectValue placeholder="Select a Sub Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="SubCategory01">Sub Category 1</SelectItem>
-                    <SelectItem value="SubCategory02">Sub Category 2</SelectItem>
+                    {subCategories?.map((item: string, index: number) => (
+                      <SelectItem key={index} value={item}>{item}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -162,11 +196,10 @@ function CustomFilterSuspense() {
             name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl flex gap-2 items-center my-4">
-                  <span  className="text-gray-600 text-sm">Price : </span>
-                  <span onClick={() => setBudgetDuration("perHour")} className={`${budgetDuration === "perHour" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Hour</span>
-                  <span onClick={() => setBudgetDuration("perDay")} className={`${budgetDuration === "perDay" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Per Day</span>
-                  <span onClick={() => setBudgetDuration("salary")} className={`${budgetDuration === "salary" ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>Salary</span>
+                <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
+                  {Object.entries(SALARY_TYPE).map(([key, value]) => (
+                    <span key={key} onClick={() => setSalaryType(value)} className={`${salaryType === value ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>{value}</span>
+                  ))}
                 </FormLabel>
                 <FormControl>
                   <div>

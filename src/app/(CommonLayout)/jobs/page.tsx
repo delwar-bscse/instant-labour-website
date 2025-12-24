@@ -13,20 +13,24 @@ import JobPostCard from '@/components/card/JobPostCard'
 
 
 const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
-  const mainSearchParams = await searchParams;
-  console.log("Main Search Params : ", mainSearchParams);
-  // const category = mainSearchParams?.category || null;
-  // const subCategory = mainSearchParams?.subCategory || null;
-  // const location = mainSearchParams?.location || null;
-  // const price = mainSearchParams?.price || null;
-  // const radius = mainSearchParams?.radius || null;
-  const page = mainSearchParams?.page || 1;
-  const limit = mainSearchParams?.pageSize || 10;
-  // const res = await myFetch(`/job?category=${category}&subCategory=${subCategory}&location=${location}&price=${price}&radius=${radius}`);
+  const newSearchParams = await searchParams;
+
+  // const category = newSearchParams.category || "";
+  // const subCategory = newSearchParams.subCategory || "";
+  // const price = newSearchParams.price || "";
+  // const radius = newSearchParams.radius || "";
+  // const salaryType = newSearchParams.salaryType || "";
+  // const location = newSearchParams.location || "";
+
+  const page = newSearchParams?.page || 1;
+  const limit = newSearchParams?.pageSize || 10;
+
+  // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}`);
 
   const res = await myFetch(`/job?page=${page}&limit=${limit}`);
+
   const jobDatas = res?.data || [];
-  const meta:any = res?.pagination || {};
+  const meta: any = res?.pagination || {};
   console.log("Job get res : ", jobDatas);
 
 

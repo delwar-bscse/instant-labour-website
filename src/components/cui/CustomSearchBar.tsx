@@ -17,7 +17,7 @@ function CustomSearchBarSuspense({ placeholder = "Search here...", query = "quer
     } else {
       params.delete(query);
     }
-    replace(`?${params.toString()}`);
+    replace(`?${params.toString()}`, { scroll: false });
   }, 300);
 
   return (
