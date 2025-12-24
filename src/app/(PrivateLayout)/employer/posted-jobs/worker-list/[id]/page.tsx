@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import React from 'react'
 import ApplicationApproveDeclineButtons from '@/components/actions/ApplicationApproveDeclineButtons';
 import ReviewCard from '@/components/card/ReviewCard';
 import TakeReview from '@/components/cui/TakeReview';
@@ -7,17 +8,17 @@ import WorkerDetailsBody from '@/components/cui/WorkerDetailsBody'
 import WorkerDetailsTop from '@/components/cui/WorkerDetailsTop'
 import { CustomModal } from '@/components/modal/CustomModal';
 import { reviewDatas } from '@/data/reviewData';
+import { APPLICATION_STATUS } from '@/types/jobTypes';
 import { myFetch } from '@/utils/myFetch';
 import Link from 'next/link';
-import React from 'react'
 
 const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchParams: any, params: any }) => {
-  const { type } = await searchParams
+  const { type, jobId } = await searchParams
   const { id } = await params
 
   const res = await myFetch(`/user/workers/${id}`);
   const workerDetails = res?.data
-  console.log("Get Worker Data : ", workerDetails);
+  console.log("Get Worker Details Data : ", workerDetails);
 
 
   return (
@@ -34,7 +35,7 @@ const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchPar
           title="Feedback"
           trigger={<button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm cursor-pointer hover:border-blue-700 transition-colors duration-300'>Feed Back</button>}
         >
-          <TakeReview />
+          <TakeReview id={id} />
         </CustomModal>
       </div>}
 
@@ -52,7 +53,7 @@ const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchPar
       </div>
 
       {/* ------------------- Action Buttons - Decline, Approve ------------------- */}
-      {type === 'applied' && <ApplicationApproveDeclineButtons applicationId={workerDetails._id} workerId={workerDetails?._id} />}
+      {type === APPLICATION_STATUS.PENDING && <ApplicationApproveDeclineButtons applicationId={workerDetails._id} workerId={workerDetails?._id} jobId={jobId} />}
 
 
     </div>

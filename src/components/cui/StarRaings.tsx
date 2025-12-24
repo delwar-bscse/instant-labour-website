@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 
-const StarRating = () => {
-  const [rating, setRating] = useState(3);
+const StarRating = ({rating, setRating}:{rating: number, setRating: React.Dispatch<React.SetStateAction<number>>}) => {
+  // const [rating, setRating] = useState(3);
   const [hoverRating, setHoverRating] = useState(0);
 
   const handleClick = (index: number) => {

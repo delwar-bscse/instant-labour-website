@@ -13,22 +13,14 @@ import { CustomModal } from '@/components/modal/CustomModal'
 import TakeReview from '@/components/cui/TakeReview'
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
+import { APPLICATION_STATUS } from '@/types/jobTypes'
 
 const page = async({ params }: { params: { id: string } }) => {
   
     const { id } = params;
     const res = await myFetch(`/job/${id}`);
     const jobDetails = res?.data || [];
-    console.log("Job get res : ", jobDetails);
-
-  const randomResult = (): boolean => {
-    const Matches = Math.random();
-    if (Matches > 0.4) {
-      return true;
-    } else {
-      return false
-    }
-  }
+    console.log("Job Details res : ", jobDetails);
 
 
   return (
@@ -51,7 +43,7 @@ const page = async({ params }: { params: { id: string } }) => {
 
 
             {/* ------------------- Contact & Review Button ------------------- */}
-            {randomResult() ? <p className='flex gap-4 items-center'>
+            {(jobDetails?.applicationStatus === APPLICATION_STATUS.APPROVED )? <p className='flex gap-4 items-center'>
               <span className='text-blue-600 font-semibold'>Status :</span>
               <span className='text-blue-600 font-semibold'>Ongoing</span>
             </p> : <div className='flex gap-4 items-center'>
@@ -60,7 +52,7 @@ const page = async({ params }: { params: { id: string } }) => {
                 title="Feedback"
                 trigger={<button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm cursor-pointer hover:border-blue-700 transition-colors duration-300'>Feed Back</button>}
               >
-                <TakeReview />
+                <TakeReview  id={jobDetails?.createdBy?._id}/>
               </CustomModal>
             </div>}
 

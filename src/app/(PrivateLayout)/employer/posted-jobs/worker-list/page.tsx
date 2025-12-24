@@ -5,34 +5,27 @@ import React from 'react'
 import Image from 'next/image'
 import CustomButton from '@/components/cui/CustomButton'
 // import { workerDatas } from '@/data/workerDatas'
-import { MdArrowBack } from 'react-icons/md'
 import { myFetch } from '@/utils/myFetch'
 import { formatUrl } from '@/utils/formatUrl'
+import GoBack from '@/components/actions/GoBack'
 // import { useSearchParams } from 'next/navigation'
 
-const WorkerList = async({searchParams}:{searchParams:any}) => {
-  const {type} = await searchParams;
+const WorkerList = async ({ searchParams }: { searchParams: any }) => {
+  const { type, jobId } = await searchParams;
 
-  const res = await myFetch(`/application/694a30edaf1cc9074d0b6441`,{
-    method:"GET"
+  console.log("Type : ", type);
+
+  const res = await myFetch(`/application/${jobId}?status=${type}`, {
+    method: "GET",
   })
-  console.log("Application List : ", res);
+  console.log("--------------Application List : ", res);
 
 
-
-  // const searchParams = useSearchParams();
-  // const goBack = () => {
-  //   window.history.back()
-  // }
 
   return (
     <div className='maxWidth pt-4 pb-20'>
-      <div className='flex items-center gap-2 md:gap-4 cursor-pointer pb-4 md:pb-6 group'>
-        <span className='size-6 md:size-9 bg-gray-200 rounded-full flex items-center justify-center group-hover:bg-gray-300 transition-colors duration-200'>
-          < MdArrowBack className='size-4 md:size-6' />
-        </span>
-        <h2 className='text-xl md:text-3xl font-semibold text-gray-600 capitalize'>View All {type} Workers</h2>
-      </div>
+      {/* ------------------- Go Back Button ------------------- */}
+      <GoBack type={type} />
       {/* <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold mb-6 text-center text-gray-700 capitalize'>{type} Workers</h2> */}
       <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
         {res?.data?.map((item: any, index: number) => (
@@ -46,7 +39,7 @@ const WorkerList = async({searchParams}:{searchParams:any}) => {
               </div>
             </div>
             <div>
-              <CustomButton text="View" url={`/employer/posted-jobs/worker-list/${item?.applicant._id}?type=${type}&applicationId=${item?._id}`} variant="button03" className='w-full md:w-auto' />
+              <CustomButton text="View" url={`/employer/posted-jobs/worker-list/${item?.applicant._id}?type=${type}&applicationId=${item?._id}&jobId=${jobId}`} variant="button03" className='w-full md:w-auto' />
             </div>
           </div>
         ))}
