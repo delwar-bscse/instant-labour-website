@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export const filteredSectionData = ({ data, section }: { data: any, section: string }) => {
   const isArray = Array.isArray(data);

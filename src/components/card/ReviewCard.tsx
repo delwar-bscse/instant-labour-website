@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatUrl } from '@/utils/formatUrl';
 import { relativeTime } from '@/utils/relativeTimes';
 import Image from 'next/image'

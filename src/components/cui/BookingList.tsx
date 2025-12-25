@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 // import { workerDatas } from '@/data/workerDatas'
 import React, { useEffect } from 'react'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { BOOKING_STATUS } from '@/types/jobTypes'
 import { formatUrl } from '@/utils/formatUrl'

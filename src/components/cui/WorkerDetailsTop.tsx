@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { formatUrl } from '@/utils/formatUrl';
 import Image from 'next/image'

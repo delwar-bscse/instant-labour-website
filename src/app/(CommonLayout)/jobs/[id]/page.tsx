@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import JobDetailsBody from '@/components/cui/JobDetailsBody'
 import React from 'react'
 import JobDetailsTop from '@/components/cui/JobDetailsTop'

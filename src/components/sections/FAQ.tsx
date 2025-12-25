@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React, { useEffect } from 'react'
 import {
@@ -24,7 +23,7 @@ const FAQ = () => {
     }, []);
 
   return (
-    <div className='max-w-[960px] w-full mx-auto px-2'>
+    <div className='max-w-240 w-full mx-auto px-2'>
       {/* <Title title="Frequently Asked Questions" /> */}
       <div>
         <Accordion type="single" collapsible>

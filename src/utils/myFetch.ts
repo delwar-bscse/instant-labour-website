@@ -1,7 +1,5 @@
 "use server";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { getToken } from "./getToken";
 
 export interface FetchResponse {

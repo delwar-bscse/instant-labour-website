@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { MdOutlineStarPurple500, MdOutlineVerifiedUser } from "react-icons/md";
 // import { workerDetails } from '@/data/workerDatas';

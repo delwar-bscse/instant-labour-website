@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // import { aboutHeroImg } from '@/assets/assets'
 import CustomButton from '@/components/cui/CustomButton'
 import { sectionTypeEnum } from '@/types/types'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { EUserRole } from "@/types/types";
 import { getCookie } from "cookies-next";
