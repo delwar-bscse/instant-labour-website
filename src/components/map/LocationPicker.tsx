@@ -39,12 +39,27 @@ export default function LocationPicker({ locations }: { locations: { lat: number
           onLoad={(map) => setMap(map)}
         >
           {/* For single marker */}
-          {/* {markerPosition && <Marker position={markerPosition} />} */}
+          {markerPosition && <Marker position={markerPosition} />}
 
           {/* For multiple markers */}
-          {locations.map(({ lat, lng }) => (
+          {/* {locations.map(({ lat, lng }) => (
             <Marker key={`${lat}-${lng}`} position={{ lat, lng }} />
-          ))}
+          ))} */}
+
+          {/* Radius circle */}
+          {/* {markerPosition && (
+            <Circle
+              center={markerPosition}
+              radius={50000} // 5 km
+              options={{
+                fillColor: "#2563eb",
+                fillOpacity: 0.15,
+                strokeColor: "#2563eb",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+              }}
+            />
+          )} */}
 
         </GoogleMap>
       </div>
