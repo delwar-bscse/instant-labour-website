@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { aboutHeroImg } from '@/assets/assets'
+// import { aboutHeroImg } from '@/assets/assets'
 import CustomButton from '@/components/cui/CustomButton'
 import { sectionTypeEnum } from '@/types/types'
 import { filteredSectionData } from '@/utils/filteredSectionData'
@@ -39,8 +39,8 @@ const AboutUs = async () => {
             </div>
           </div>
           <div className="basis-1/2 flex justify-center items-center relative">
-            <Image src={formatUrl(aboutHero?.images?.[0])} alt="Hero Image" width={1000} height={1000} className='w-full relative bottom-10' />
-            <Image src={aboutHeroImg} alt="Hero Image" width={1000} height={1000} className='w-full absolute top-10' />
+            <Image src={formatUrl(aboutHero?.images?.[0])} alt="Hero Image" width={1000} height={1000} className='w-full h-65 md:h-75 lg:h-100 object-cover relative bottom-10' />
+            {/* <Image src={aboutHeroImg} alt="Hero Image" width={1000} height={1000} className='w-full absolute top-10' /> */}
           </div>
         </div>
       </div>

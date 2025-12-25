@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import Image from "next/image";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import IndustriesSlider from "@/components/sections/IndustriesSlider";
@@ -81,7 +81,7 @@ export default async function Home() {
 
   const resClientReview = await myFetch("/clientreview", { method: "GET" });
   const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
-  console.log("Coupon Data : ", resCoupon);
+  console.log("What Our Client Says : ", resClientReview);
 
   const res = await myFetch("/content/section/home", { method: "GET" });
   console.log("Home All : ", res);
@@ -191,7 +191,7 @@ export default async function Home() {
 
       {/* -------------- 20% Offers-------------- */}
       {!isWorker && resCoupon?.data && <div className="maxWidth py-8 md:py-20">
-        <OfferSection button={true} data={resCoupon?.data}/>
+        <OfferSection button={true} data={resCoupon?.data} />
       </div>}
 
       {/* -------------- Why instant labour? -------------- */}

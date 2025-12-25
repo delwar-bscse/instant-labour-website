@@ -27,6 +27,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
+import { getCoordinates } from "@/utils/getCoordinate";
 
 // Schema
 const contactUsFormSchema = z
@@ -77,6 +78,7 @@ const SignUp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
+    const coordinates = await getCoordinates(data.location);
 
     const res = await myFetch("/auth/signup", {
       method: "POST",
@@ -84,6 +86,8 @@ const SignUp = () => {
         name: data.name,
         email: data.email,
         phone: data.number,
+        latitude: coordinates?.data?.[0].lat ?? 0,
+        longitude: coordinates?.data?.[0].lng ?? 0,
         password: data.password,
         address: data.location,
         role: data.role,
@@ -256,7 +260,7 @@ const SignUp = () => {
               />
 
               <div className="flex items-center pt-3">
-                <input type="checkbox" className="mr-2" required/>
+                <input type="checkbox" className="mr-2" required />
                 <div className="flex flex-wrap text-gray-700 gap-2">
                   <span>By continue</span>
                   <Link href="/privacy-policy" className="text-blue-600"> Privacy Policy </Link>

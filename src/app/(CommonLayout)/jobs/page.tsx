@@ -1,33 +1,46 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { mapImg } from '@/assets/assets'
 import { CustomFilter } from '@/components/cui/CustomFilter'
 import { CustomSearchBar } from '@/components/cui/CustomSearchBar'
 import { CustomModal } from '@/components/modal/CustomModal'
 // import { jobDatas } from '@/data/jobDatas'
-import Image from 'next/image'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
 import { myFetch } from '@/utils/myFetch'
 import JobPostCard from '@/components/card/JobPostCard'
+import LocationPicker from '@/components/map/LocationPicker';
+import { getCoordinates } from '@/utils/getCoordinate';
 
 
 const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
   const newSearchParams = await searchParams;
 
-  // const category = newSearchParams.category || "";
-  // const subCategory = newSearchParams.subCategory || "";
-  // const price = newSearchParams.price || "";
-  // const radius = newSearchParams.radius || "";
-  // const salaryType = newSearchParams.salaryType || "";
-  // const location = newSearchParams.location || "";
+  const category = newSearchParams.category || "";
+  const subCategory = newSearchParams.subCategory || "";
+  const price = newSearchParams.price || "";
+  const radius = newSearchParams.radius || "";
+  const salaryType = newSearchParams.salaryType || "";
+
+
+  const location = newSearchParams.location || "";
+  const fetchCors = await getCoordinates(location);
+  const cordinates = fetchCors?.data;
+  console.log(cordinates)
 
   const page = newSearchParams?.page || 1;
   const limit = newSearchParams?.pageSize || 10;
 
-  // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}`);
+  // const res = await myFetch(`/job?page=${page}&limit=${limit}`);
+  // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0].lat}&longitude=${cordinates?.[0].lng}`);
 
-  const res = await myFetch(`/job?page=${page}&limit=${limit}`);
+  const url = `/job?page=${page}&limit=${limit}`
+  if (category) url.concat(`&category=${category}`);
+  if (subCategory) url.concat(`&subCategory=${subCategory}`);
+  if (salaryType) url.concat(`&salaryType=${salaryType}`);
+  if (price) url.concat(`&maxSalary=${price}`);
+  if (radius) url.concat(`&radius=${radius}`);
+  if (location) url.concat(`&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
+  const res = await myFetch(url);
+
 
   const jobDatas = res?.data || [];
   const meta: any = res?.pagination || {};
@@ -39,7 +52,7 @@ const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } 
     <div className='maxWidth'>
       {/* --------------- Google Map --------------- */}
       <div>
-        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-50 sm:h-75 md:h-100 object-cover' />
+        <LocationPicker locations={cordinates || []} />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

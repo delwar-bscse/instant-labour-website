@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 
 // "use client"
-import { heroWorkerImg, mapImg } from '@/assets/assets'
+import { heroWorkerImg } from '@/assets/assets'
 import { CustomFilter } from '@/components/cui/CustomFilter'
 import { CustomSearchBar } from '@/components/cui/CustomSearchBar'
 import { CustomModal } from '@/components/modal/CustomModal'
@@ -13,6 +12,8 @@ import WorkerCard from '@/components/card/workerCard'
 import { getUserRoleEmployer } from '@/utils/getUserRoleServer'
 import Link from 'next/link'
 import { myFetch } from '@/utils/myFetch'
+import LocationPicker from '@/components/map/LocationPicker'
+import { getCoordinates } from '@/utils/getCoordinate'
 
 
 const Workers = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
@@ -21,35 +22,33 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const workers = newSearchParams.workers;
   const type = newSearchParams.type;
 
-  // const category = newSearchParams.category || "";
-  // const subCategory = newSearchParams.subCategory || "";
-  // const price = newSearchParams.price || "";
-  // const radius = newSearchParams.radius || "";
-  // const salaryType = newSearchParams.salaryType || "";
-  // const location = newSearchParams.location || "";
+  const category = newSearchParams.category || "";
+  const subCategory = newSearchParams.subCategory || "";
+  const price = newSearchParams.price || "";
+  const radius = newSearchParams.radius || "";
+  const salaryType = newSearchParams.salaryType || "";
+
+  const location = newSearchParams.location || "";
+  const fetchCors = await getCoordinates(location);
+  const cordinates = fetchCors?.data;
+
 
   const page = newSearchParams?.page || 1;
   const limit = newSearchParams?.pageSize || 10;
 
-  // searchTerm?: string;
-  // companyName?: string;
-  // category?: string;
-  // subCategory?: string;
-  // latitude?: number;
-  // longitude?: number;
-  // minSalary?: number;
-  // maxSalary?: number;
-  // address?: string;
-  // minRating?: number;
-  // maxRating?: number;
-  // radius?: number;
-  // postDuration?: string;
-  // overview?: string;
+  // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
+  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
 
-  // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}`);
+  // const url = `/user/workers?page=${page}&limit=${limit}`
+  // if (category) url.concat(`&category=${category}`);
+  // if (subCategory) url.concat(`&subCategory=${subCategory}`);
+  // if (salaryType) url.concat(`&salaryType=${salaryType}`);
+  // if (price) url.concat(`&maxSalary=${price}`);
+  // if (radius) url.concat(`&radius=${radius}`);
+  // if (location) url.concat(`&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
+  // const res = await myFetch(url);
 
-  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
-  
+
   const refineRes = res?.data?.data?.map((item: any) => {
     return {
       _id: item?._id,
@@ -98,7 +97,7 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
 
       {/* --------------- Google Map --------------- */}
       <div>
-        <Image src={mapImg} width={1000} height={400} alt="Map" className='w-full h-50 sm:h-75 md:h-100 object-cover' />
+        <LocationPicker locations={cordinates || []} />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

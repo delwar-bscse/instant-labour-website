@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { getUserRoleEmployer } from '@/utils/getUserRoleClient';
 import { myFetch } from '@/utils/myFetch';

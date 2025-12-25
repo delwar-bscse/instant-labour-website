@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import SubscriptionCard from '@/components/cui/SubscriptionCard'
 import OfferSection from '@/components/sections/OfferSection'
 import { myFetch } from '@/utils/myFetch'

@@ -1,9 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
+import { getCoordinates } from "@/utils/getCoordinate";
 
 // Schema
 const contactUsFormSchema = z
@@ -72,16 +72,20 @@ const EmployeeWorkerProfile = () => {
   useEffect(() => {
     fetchProfile();
   }, []);
-  
+
   async function onSubmit(data: ContactUsFormValues) {
     console.log("Submitted Data:", data);
+
+    const coordinates = await getCoordinates(data.location);
 
     const res = await myFetch("/user/profile", {
       method: "PATCH",
       body: {
         name: data.name,
         phone: data.number,
-        address: data.location
+        address: data.location,
+        latitude: coordinates?.data?.[0].lat ?? 0,
+        longitude: coordinates?.data?.[0].lng ?? 0,
       },
     });
 

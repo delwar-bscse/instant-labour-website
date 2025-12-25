@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,12 +30,13 @@ import { SALARY_TYPE } from "@/constants/salaryObject";
 import { AVAILABILITY } from "@/constants/availabilityObject";
 import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
+import { getCoordinates } from "@/utils/getCoordinate";
 
 
 // ==============================
 // Zod Schema (FIXED)
 // ==============================
-// const editProfileFormSchema = z.object({
+// const editPostFormSchema = z.object({
 //   companyName: z.string().optional(),
 //   category: z.string().optional(),
 //   subCategory: z.string().optional(),
@@ -48,7 +48,7 @@ import { useParams } from "next/navigation";
 //   overview: z.string().optional(),
 // });
 
-const editProfileFormSchema = z.object({
+const editPostFormSchema = z.object({
   companyName: z.string(),
   category: z.string(),
   subCategory: z.string(),
@@ -58,13 +58,13 @@ const editProfileFormSchema = z.object({
   overview: z.string(),
 });
 
-type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
+type EditPostFormValues = z.infer<typeof editPostFormSchema>;
 
 
 // ==============================
 // Defaults (MATCH SCHEMA EXACTLY)
 // ==============================
-const defaultValues: Partial<EditProfileFormValues> = {
+const defaultValues: Partial<EditPostFormValues> = {
   companyName: "",
   category: "",
   subCategory: "",
@@ -94,8 +94,8 @@ const JobPostForm = () => {
   const [image, setImage] = useState<File | null>(null);
 
 
-  const form = useForm<EditProfileFormValues>({
-    resolver: zodResolver(editProfileFormSchema),
+  const form = useForm<EditPostFormValues>({
+    resolver: zodResolver(editPostFormSchema),
     defaultValues,
     mode: "onChange",
   });
@@ -140,13 +140,18 @@ const JobPostForm = () => {
   }, []);
 
 
-  const onSubmit = async (data: EditProfileFormValues) => {
+  const onSubmit = async (data: EditPostFormValues) => {
+
+    const coordinates = await getCoordinates(data.location);
+
     const payload = {
       title: "Dummy Job",
       companyName: data.companyName,
       category: data.category,
       subCategory: data.subCategory,
       address: data.location,
+      latitude: coordinates?.data?.[0].lat ?? 0,
+      longitude: coordinates?.data?.[0].lng ?? 0,
       postDuration: deadline,
       overview: data.overview,
       salaryType,

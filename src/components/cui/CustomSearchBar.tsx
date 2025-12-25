@@ -1,24 +1,37 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useDebouncedCallback } from "use-debounce";
-import { Suspense } from "react";
+// import { useDebouncedCallback } from "use-debounce";
+import { Suspense, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 function CustomSearchBarSuspense({ placeholder = "Search here...", query = "query" }: { placeholder?: string, query?: string }) {
+  const [search, setSearch] = useState("");
   const searchParams = useSearchParams();
+  const location = searchParams.get(query) || "";
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const handleSearch = useDebouncedCallback((term: string) => {
-    if (term) {
-      params.set(query, term);
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (search) {
+      params.set(query, search);
     } else {
       params.delete(query);
+      toast.error("Type something to search! Then press Enter.");
     }
     replace(`?${params.toString()}`, { scroll: false });
-  }, 300);
+  };
+
+  useEffect(() => {
+    setSearch(location);
+  }, []);
 
   return (
     <div className="relative w-full">
@@ -27,8 +40,9 @@ function CustomSearchBarSuspense({ placeholder = "Search here...", query = "quer
         className="w-full rounded-full bg-background pl-12 h-12 focus-visible:ring focus-visible:ring-gray-300 focus-visible:border-gray-300 outline-none sm:text-lg md:text-xl text-gray-500 font-normal"
         placeholder={placeholder}
         type="search"
-        defaultValue={searchParams.get("query")?.toString()}
-        onChange={(e) => handleSearch(e.target.value)}
+        value={search}
+        onKeyDown={handleSearch}
+        onChange={(e) => setSearch(e.target.value)}
       />
     </div>
   );
