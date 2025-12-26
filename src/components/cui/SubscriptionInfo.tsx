@@ -64,9 +64,15 @@ const SubscriptionInfo = () => {
       <div className='space-y-3'>
         <p className='text-xl font-semibold'>Your Rights</p>
         <p className='border-2 border-blue-500 rounded-sm text-blue-600 font-semibold px-3 py-2'>
-          Available : {myPackage?.packageId?.limits?.boostLimit} Bosts
+          Available : {myPackage?.userId?.subscription?.currentJobQuota} Post
         </p>
-        <p className='text-lg font-semibold text-gray-700'>You Are Already Spending 1 Boost.</p>
+        <p className='border-2 border-blue-500 rounded-sm text-blue-600 font-semibold px-3 py-2'>
+          Available : {myPackage?.userId?.subscription?.currentBoostQuota} Boosts
+        </p>
+        <p className='border-2 border-blue-500 rounded-sm text-blue-600 font-semibold px-3 py-2'>
+          Available : {myPackage?.userId?.subscription?.currentBookingQuota} Bookings
+        </p>
+        {/* <p className='text-lg font-semibold text-gray-700'>You Are Already Spending 1 Boost.</p> */}
       </div>
     </div>
   )

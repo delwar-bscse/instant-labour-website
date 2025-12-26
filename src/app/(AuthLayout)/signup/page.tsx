@@ -79,6 +79,11 @@ const SignUp = () => {
 
   async function onSubmit(data: ContactUsFormValues) {
     const coordinates = await getCoordinates(data.location);
+    console.log("Coordinates : ", coordinates)
+    if (!coordinates?.success) {
+      toast.error("Invalid location! Please enter a valid address.");
+      return;
+    }
 
     const res = await myFetch("/auth/signup", {
       method: "POST",
@@ -86,8 +91,8 @@ const SignUp = () => {
         name: data.name,
         email: data.email,
         phone: data.number,
-        latitude: coordinates?.data?.[0].lat ?? 0,
-        longitude: coordinates?.data?.[0].lng ?? 0,
+        latitude: coordinates?.data?.[0]?.lat ?? 0,
+        longitude: coordinates?.data?.[0]?.lng ?? 0,
         password: data.password,
         address: data.location,
         role: data.role,
