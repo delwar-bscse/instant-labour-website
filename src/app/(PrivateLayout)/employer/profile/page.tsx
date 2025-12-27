@@ -19,6 +19,7 @@ import SubscriptionInfo from '@/components/cui/SubscriptionInfo';
 import { myFetch } from '@/utils/myFetch';
 import { formatUrl } from '@/utils/formatUrl';
 import { updateImage } from '@/utils/updateImages';
+import { deleteCookie } from 'cookies-next';
 
 const profileSidebar = [
   {
@@ -77,6 +78,13 @@ const EmployeeProfile = () => {
     fetchProfile();
   }, []);
 
+    const handleLogout = () => {
+      deleteCookie('role');
+      deleteCookie('accessToken');
+      deleteCookie('refreshToken');
+      router.push("/")
+    }
+
   return (
     <div>
       {/* ------------------- Profile & Cover ------------------- */}
@@ -108,7 +116,7 @@ const EmployeeProfile = () => {
                 <span className='text-lg font-semibold text-gray-600 hidden md:block'>{item.title}</span>
               </li>
             ))}
-            <li onClick={() => router.push("/login")} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow bg-white`}>
+            <li onClick={handleLogout} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow bg-white`}>
               <span>
                 <MdOutlineLogout className='text-gray-700 text-xl' />
               </span>

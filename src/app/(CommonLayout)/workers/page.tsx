@@ -37,7 +37,7 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const limit = newSearchParams?.pageSize || 10;
 
   // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
-  const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
+  // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
 
   // const url = `/user/workers?page=${page}&limit=${limit}`
   // if (category) url.concat(`&category=${category}`);
@@ -47,6 +47,27 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   // if (radius) url.concat(`&radius=${radius}`);
   // if (location) url.concat(`&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
   // const res = await myFetch(url);
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+
+  if (category) params.append("category", category);
+  if (subCategory) params.append("subCategory", subCategory);
+  if (salaryType) params.append("salaryType", salaryType);
+  if (price) params.append("minSalary", "0");
+  if (price) params.append("maxSalary", price);
+  if (radius) params.append("radius", radius);
+
+  if (location && cordinates?.[0]) {
+    params.append("address", location);
+    params.append("latitude", String(cordinates[0].lat));
+    params.append("longitude", String(cordinates[0].lng));
+  }
+
+  const url = `/user/workers?${params.toString()}`;
+  console.log("workers filter url : ", url);
+  const res = await myFetch(url);
 
 
   const refineRes = res?.data?.data?.map((item: any) => {

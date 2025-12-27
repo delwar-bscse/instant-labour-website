@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 "use client"
 
@@ -19,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import PriceRange from '@/components/cui/CustomRange'
+import CustomRange from '@/components/cui/CustomRange'
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Input } from '../ui/input';
 import { myFetch } from '@/utils/myFetch';
@@ -28,8 +29,8 @@ const defaultValues = {
   category: "",
   subCategory: "",
   location: "",
-  price: 600,
-  radius: 300
+  price: 0,
+  radius: 0
 };
 
 const SALARY_TYPE = {
@@ -48,6 +49,15 @@ function CustomFilterSuspense() {
   const [subCategories, setSubCategories] = useState<any>([]);
   const [salaryType, setSalaryType] = useState<string>("");
 
+  const location = searchParams.get("location") || "";
+  const category = searchParams.get("category") || "";
+  const subCategory = searchParams.get("subCategory") || "";
+  const price = searchParams.get("price") || "0";
+  const radius = searchParams.get("radius") || "0";
+  const salaryTypeParam = searchParams.get("salaryType") || "";
+  
+
+
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await myFetch("/category", {
@@ -64,6 +74,24 @@ function CustomFilterSuspense() {
   });
 
 
+  useEffect(() => {
+    form.reset({
+      location,
+      category,
+      subCategory,
+      price: Number(price),
+      radius: Number(radius)
+    });
+    if (category) {
+      const selectedItem = categoryDatas?.find((item: any) => item.title === category);
+      setSubCategories(selectedItem?.subCategories);
+    }
+    if(salaryTypeParam){
+      setSalaryType(salaryTypeParam);
+    }
+  }, []);
+
+
   async function onSubmit(data: any) {
     console.log("Submitted Data:", data);
     if (data.category) {
@@ -75,13 +103,13 @@ function CustomFilterSuspense() {
     if (data.location) {
       params.set("location", data.location);
     }
-    if(salaryType) {
+    if (salaryType) {
       params.set("salaryType", salaryType);
     }
-    if (data.price) {
+    if (data.price > 0) {
       params.set("price", data.price.toString());
     }
-    if (data.radius) {
+    if (data.radius > 0) {
       params.set("radius", data.radius.toString());
     }
 
@@ -168,7 +196,7 @@ function CustomFilterSuspense() {
             )}
           />
 
-          {/* Price */}
+          {/* Radius */}
           <FormField
             control={form.control}
             name="radius"
@@ -177,7 +205,7 @@ function CustomFilterSuspense() {
                 <FormLabel className="text-gray-600">Radius</FormLabel>
                 <FormControl>
                   <div>
-                    <PriceRange {...field} />
+                    <CustomRange {...field} min={0} max={100} />
                     <div className='flex justify-between text-[11px] text-gray-500'>
                       <p>1 km</p>
                       <p>100 km</p>
@@ -202,7 +230,7 @@ function CustomFilterSuspense() {
                 </FormLabel>
                 <FormControl>
                   <div>
-                    <PriceRange {...field} />
+                    <CustomRange {...field} min={0} max={1000} />
                     <div className='flex justify-between text-[11px] text-gray-500'>
                       <p>£ 0</p>
                       <p>£ 1000</p>

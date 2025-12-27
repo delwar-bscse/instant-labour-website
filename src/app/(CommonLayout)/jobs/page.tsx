@@ -32,13 +32,27 @@ const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } 
   // const res = await myFetch(`/job?page=${page}&limit=${limit}`);
   // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0].lat}&longitude=${cordinates?.[0].lng}`);
 
-  const url = `/job?page=${page}&limit=${limit}`
-  if (category) url.concat(`&category=${category}`);
-  if (subCategory) url.concat(`&subCategory=${subCategory}`);
-  if (salaryType) url.concat(`&salaryType=${salaryType}`);
-  if (price) url.concat(`&maxSalary=${price}`);
-  if (radius) url.concat(`&radius=${radius}`);
-  if (location) url.concat(`&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
+  // const url = `/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0].lat}&longitude=${cordinates?.[0].lng}`
+  const params = new URLSearchParams({
+    page: String(page),
+    limit: String(limit),
+  });
+
+  if (category) params.append("category", category);
+  if (subCategory) params.append("subCategory", subCategory);
+  if (salaryType) params.append("salaryType", salaryType);
+  if (price) params.append("minSalary", "0");
+  if (price) params.append("maxSalary", price);
+  if (radius) params.append("radius", radius);
+
+  if (location && cordinates?.[0]) {
+    params.append("address", location);
+    params.append("latitude", String(cordinates[0].lat));
+    params.append("longitude", String(cordinates[0].lng));
+  }
+
+  const url = `/job?${params.toString()}`;
+  console.log("jobs filter url : ", url);
   const res = await myFetch(url);
 
 

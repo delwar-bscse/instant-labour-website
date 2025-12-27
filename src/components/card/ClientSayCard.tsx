@@ -4,11 +4,12 @@ import Rating from '../cui/Rating';
 import { formatUrl } from '@/utils/formatUrl';
 
 const ClientSayCard = ({ item }: { item: Record<string, any> }) => {
+  // console.log("client say : ", item)
 
   return (
     <div>
       <div>
-        <Image src={formatUrl(item?.image)} alt="Client" width={100} height={20} className='w-full h-65 object-fit' />
+        <Image src={formatUrl(item?.image)} alt="Client" width={1000} height={700} className='w-full h-65 object-fit' />
       </div>
       <div className="space-y-2 py-8">
         <p className="font-semibold text-2xl text-gray-800">{item?.name}</p>

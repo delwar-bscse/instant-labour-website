@@ -87,6 +87,7 @@ const Navbar = () => {
       deleteCookie("accessToken");
       deleteCookie("refreshToken");
       router.push("/");
+      window.location.reload();
     } else {
       router.push(url);
     }

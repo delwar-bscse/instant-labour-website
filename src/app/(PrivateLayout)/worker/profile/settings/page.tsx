@@ -121,11 +121,11 @@ const WorkerSettings = () => {
                 <span className='text-lg font-semibold text-gray-600 hidden md:block'>{item.title}</span>
               </li>
             ))}
-            <li onClick={() => router.push("/login")} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow bg-white`}>
+            <li onClick={handleLogout} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow bg-white`}>
               <span>
                 <MdOutlineLogout className='text-gray-700 text-xl' />
               </span>
-              <span onClick={handleLogout} className='text-lg font-semibold text-gray-600 hidden md:block'>Log Out</span>
+              <span className='text-lg font-semibold text-gray-600 hidden md:block'>Log Out</span>
             </li>
           </ul>
         </div>
