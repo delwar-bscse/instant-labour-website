@@ -16,7 +16,7 @@ const WorkerDetailsBody = ({ workerDetails, jobType }: { workerDetails: any, job
             </p>
             <div className='flex items-center gap-1'>
               <MdOutlineStarPurple500 className='text-brandClr2 size-6' />
-              <p className='font-semibold text-gray-600'>4.5</p>
+              <p className='font-semibold text-gray-600'>{workerDetails?.rating}</p>
             </div>
           </div>
           <p className='text-gray-700 text-xl'>{workerDetails?.category} / {workerDetails?.yearsOfExperience} years  of experience</p>

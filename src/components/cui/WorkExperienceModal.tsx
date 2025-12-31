@@ -15,15 +15,9 @@ export default function WorkExperienceModal({
     description: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-
-    setWorkExperienceInput((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setWorkExperienceInput((prev) => ({...prev,[name]: value,}));
   };
 
   const onSubmit = (e: React.FormEvent) => {

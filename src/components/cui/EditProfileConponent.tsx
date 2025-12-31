@@ -56,6 +56,7 @@ type EditProfileFormValues = {
   about?: string;
   salary?: any;
   availability: string[];
+  yearsOfExperience: number;
 };
 
 /* ---------------- Default Values ---------------- */
@@ -67,6 +68,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
   about: "",
   salary: 0,
   workOverview: "",
+  yearsOfExperience: 0,
   availability: [],
 };
 
@@ -127,6 +129,7 @@ const EditProfileComponent = () => {
         availability: data.availability,
         coreSkills: coreSkills,
         workExperiences: workExperiences,
+        yearsOfExperience: Number(data.yearsOfExperience),
       },
     });
 
@@ -166,6 +169,7 @@ const EditProfileComponent = () => {
         salary: Number(response?.data?.salary) || 0,
         workOverview: response?.data?.workOverview || "",
         availability: response?.data?.availability || [],
+        yearsOfExperience: response?.data?.yearsOfExperience || 0,
       });
     }
   };
@@ -187,7 +191,7 @@ const EditProfileComponent = () => {
     <div className="w-full border border-gray-200 shadow px-4 py-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          
+
           {/* Name */}
           <FormField
             control={form.control}
@@ -305,8 +309,8 @@ const EditProfileComponent = () => {
                         onChange={() => {
                           const newValue = field.value.includes(value)
                             ? field.value.filter(
-                                (item) => item !== value
-                              )
+                              (item) => item !== value
+                            )
                             : [...field.value, value];
                           field.onChange(newValue);
                         }}
@@ -332,11 +336,10 @@ const EditProfileComponent = () => {
                     <span
                       key={key}
                       onClick={() => setSalaryType(value)}
-                      className={`${
-                        salaryType === value
-                          ? "bg-yellow-500"
-                          : "bg-gray-200 text-gray-500"
-                      } rounded-sm text-sm py-1 px-2`}
+                      className={`${salaryType === value
+                        ? "bg-yellow-500"
+                        : "bg-gray-200 text-gray-500"
+                        } rounded-sm text-sm py-1 px-2`}
                     >
                       {value}
                     </span>
@@ -369,6 +372,27 @@ const EditProfileComponent = () => {
                   <Textarea
                     variant="borderblack"
                     placeholder="Enter about yourself"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Years of Experience */}
+          <FormField
+            control={form.control}
+            name="yearsOfExperience"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-gray-800 text-xl">Years of Experience</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    variant="borderblack"
+                    placeholder="Enter Years of Experience"
                     {...field}
                   />
                 </FormControl>
@@ -436,6 +460,25 @@ const EditProfileComponent = () => {
                 />
               </CustomModal>
             </div>
+            <ul className='w-full space-y-4 list-disc'>
+              {workExperiences?.length > 0 && workExperiences?.map((item, index) => (
+                <li key={index} className='flex flex-col items-start gap-1'>
+                  <span className='flex items-center justify-between w-full'>
+                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.title}</span>
+                    <span
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => {
+                        const updatedOffers = workExperiences.filter((_, idx) => index !== idx);
+                        setWorkExperiences(updatedOffers);
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </span>
+                  <span className='text-gray-600 text-sm ps-4'>{item?.description}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <Button
