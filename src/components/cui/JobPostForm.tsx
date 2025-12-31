@@ -2,9 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -31,39 +29,26 @@ import { AVAILABILITY } from "@/constants/availabilityObject";
 import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
 import { getCoordinates } from "@/utils/getCoordinate";
+import { toast } from "sonner";
 
+/* ==============================
+   Types
+============================== */
 
-// ==============================
-// Zod Schema (FIXED)
-// ==============================
-// const editPostFormSchema = z.object({
-//   companyName: z.string().optional(),
-//   category: z.string().optional(),
-//   subCategory: z.string().optional(),
-//   location: z.string().optional(),
-//   salary: z.coerce
-//     .number()
-//     .min(0, "Salary must be a positive number"),
-//   availability: z.array(z.string()).default([]),
-//   overview: z.string().optional(),
-// });
+type EditPostFormValues = {
+  companyName?: string;
+  category?: string;
+  subCategory?: string;
+  location?: string;
+  salary?: string;
+  availability: string[];
+  overview?: string;
+};
 
-const editPostFormSchema = z.object({
-  companyName: z.string(),
-  category: z.string(),
-  subCategory: z.string(),
-  location: z.string(),
-  salary: z.string(),
-  availability: z.array(z.string()),
-  overview: z.string(),
-});
+/* ==============================
+   Defaults
+============================== */
 
-type EditPostFormValues = z.infer<typeof editPostFormSchema>;
-
-
-// ==============================
-// Defaults (MATCH SCHEMA EXACTLY)
-// ==============================
 const defaultValues: Partial<EditPostFormValues> = {
   companyName: "",
   category: "",
@@ -74,14 +59,14 @@ const defaultValues: Partial<EditPostFormValues> = {
   overview: "",
 };
 
+/* ==============================
+   Component
+============================== */
 
-// ==============================
-// Component
-// ==============================
 const JobPostForm = () => {
   const params = useParams();
   const jobId = params?.id || "";
-  console.log("Job Id : ", jobId);
+
   const [categoryDatas, setCategoryDatas] = useState<any>([]);
   const [subCategories, setSubCategories] = useState<any>([]);
 
@@ -93,13 +78,10 @@ const JobPostForm = () => {
   const [deadline, setDeadline] = useState<number>(7);
   const [image, setImage] = useState<File | null>(null);
 
-
   const form = useForm<EditPostFormValues>({
-    resolver: zodResolver(editPostFormSchema),
     defaultValues,
     mode: "onChange",
   });
-
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -111,7 +93,7 @@ const JobPostForm = () => {
       const res = await myFetch(`/job/${jobId}`, {
         method: "GET",
       });
-      console.log("Fomr - Get Job Details : ", res?.data);
+
       form.reset({
         companyName: res?.data?.companyName || "",
         category: res?.data?.category || "",
@@ -120,13 +102,15 @@ const JobPostForm = () => {
         salary: res?.data?.salary || "",
         availability: res?.data?.availability || [],
         overview: res?.data?.overview || "",
-      })
+      });
+
       setSalaryType(res?.data?.salaryType || "");
       setKeyResponsibilities(res?.data?.responsibilities || []);
       setSkillRequirements(res?.data?.skillRequirements || []);
       setBenefits(res?.data?.benefits || []);
     };
-    fetchJobDetails();
+
+    if (jobId) fetchJobDetails();
   }, [jobId]);
 
   useEffect(() => {
@@ -139,10 +123,10 @@ const JobPostForm = () => {
     fetchCategories();
   }, []);
 
-
   const onSubmit = async (data: EditPostFormValues) => {
 
-    const coordinates = await getCoordinates(data.location);
+
+    const coordinates = await getCoordinates(data.location || "");
 
     const payload = {
       title: "Dummy Job",
@@ -159,10 +143,9 @@ const JobPostForm = () => {
       availability: data.availability,
       responsibilities: keyResponsibilities,
       skillRequirements,
-      benefits: benefits,
+      benefits,
     };
-
-    console.log("Submit form data : ", payload);
+    console.log("Onsubmit work", payload);
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
@@ -170,20 +153,22 @@ const JobPostForm = () => {
     if (image) {
       formData.append("images", image);
     }
-    let url = `/job`
-    if (jobId) {
-      url = `/job/${jobId}`
-    }
 
-    const response = await myFetch(url, {
-      method: jobId ? "PATCH" : "POST",
-      // method: "POST",
+    const url = jobId ? `/job/${jobId}` : `/job`;
+    const method = jobId ? "PATCH" : "POST";
+
+    const res =await myFetch(url, {
+      method: method,
       body: formData,
     });
+    console.log("Job post/edit res : ", res)
 
-    console.log("Job Post Response:", response);
+    if (res.success) {
+      toast.success(res.message);
+    } else {
+      toast.error(res.message);
+    }
   };
-
 
   return (
     <div className="w-full border border-gray-200 shadow px-4 py-6">
@@ -196,7 +181,9 @@ const JobPostForm = () => {
             name="companyName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-xl">Company Name (Optional)</FormLabel>
+                <FormLabel className="text-xl">
+                  Company Name (Optional)
+                </FormLabel>
                 <FormControl>
                   <Input type="text" variant="borderblack" {...field} />
                 </FormControl>
@@ -205,32 +192,42 @@ const JobPostForm = () => {
             )}
           />
 
-
-
           {/* Category */}
           <FormField
             control={form.control}
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">
+                  Category
+                </FormLabel>
                 <Select
                   onValueChange={(value) => {
                     field.onChange(value);
-                    const selectedItem = categoryDatas?.find((item: any) => item.title === value);
+                    const selectedItem = categoryDatas?.find(
+                      (item: any) => item.title === value
+                    );
                     setSubCategories(selectedItem?.subCategories);
                   }}
                   defaultValue={field.value}
                 >
-
                   <FormControl>
-                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                    <SelectTrigger
+                      variant="borderblack"
+                      size="lg"
+                      className="w-full"
+                    >
                       <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categoryDatas?.map((item: Record<string, string>) => (
-                      <SelectItem onClick={() => console.log(item)} key={item?._id} value={item?.title}>{item?.title}</SelectItem>
+                    {categoryDatas?.map((item: any) => (
+                      <SelectItem
+                        key={item?._id}
+                        value={item?.title}
+                      >
+                        {item?.title}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -239,22 +236,33 @@ const JobPostForm = () => {
             )}
           />
 
-          {/* Sub-Category */}
+          {/* Sub Category */}
           <FormField
             control={form.control}
             name="subCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="text-gray-800 text-xl">
+                  Sub Category
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                    <SelectTrigger
+                      variant="borderblack"
+                      size="lg"
+                      className="w-full"
+                    >
                       <SelectValue placeholder="Select a Sub Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {subCategories?.map((item: string, index: number) => (
-                      <SelectItem key={index} value={item}>{item}</SelectItem>
+                      <SelectItem key={index} value={item}>
+                        {item}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -262,8 +270,6 @@ const JobPostForm = () => {
               </FormItem>
             )}
           />
-
-
 
           {/* Location */}
           <FormField
@@ -280,7 +286,6 @@ const JobPostForm = () => {
             )}
           />
 
-
           {/* Deadline */}
           <div className="flex gap-3">
             {[7, 14].map((d) => (
@@ -288,15 +293,14 @@ const JobPostForm = () => {
                 key={d}
                 onClick={() => setDeadline(d)}
                 className={`cursor-pointer border-2 px-3 py-2 font-semibold ${deadline === d
-                  ? "bg-yellow-500 border-yellow-500"
-                  : "border-blue-600 text-blue-600"
+                    ? "bg-yellow-500 border-yellow-500"
+                    : "border-blue-600 text-blue-600"
                   }`}
               >
                 {d} Days Post
               </span>
             ))}
           </div>
-
 
           {/* Availability */}
           <FormField
@@ -331,13 +335,16 @@ const JobPostForm = () => {
             )}
           />
 
-
           {/* Image */}
           <div>
             <p className="text-xl font-semibold pb-1">Upload Image</p>
-            <Input type="file" accept="image/*" variant="borderblack" onChange={handleImageUpload} />
+            <Input
+              type="file"
+              accept="image/*"
+              variant="borderblack"
+              onChange={handleImageUpload}
+            />
           </div>
-
 
           {/* Salary */}
           <FormField
@@ -351,8 +358,8 @@ const JobPostForm = () => {
                       key={value}
                       onClick={() => setSalaryType(value)}
                       className={`cursor-pointer rounded px-2 py-1 text-sm ${salaryType === value
-                        ? "bg-yellow-500"
-                        : "bg-gray-200 text-gray-500"
+                          ? "bg-yellow-500"
+                          : "bg-gray-200 text-gray-500"
                         }`}
                     >
                       {value}
@@ -360,13 +367,17 @@ const JobPostForm = () => {
                   ))}
                 </FormLabel>
                 <FormControl>
-                  <Input type="number" min={0} variant="borderblack" {...field} />
+                  <Input
+                    type="number"
+                    min={0}
+                    variant="borderblack"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-
 
           {/* Overview */}
           <FormField
@@ -383,11 +394,21 @@ const JobPostForm = () => {
             )}
           />
 
-
-          <InputList title="Key Responsibilities" list={keyResponsibilities} setList={setKeyResponsibilities} />
-          <InputList title="Skill Requirements" list={skillRequirements} setList={setSkillRequirements} />
-          <InputList title="Benefits" list={benefits} setList={setBenefits} />
-
+          <InputList
+            title="Key Responsibilities"
+            list={keyResponsibilities}
+            setList={setKeyResponsibilities}
+          />
+          <InputList
+            title="Skill Requirements"
+            list={skillRequirements}
+            setList={setSkillRequirements}
+          />
+          <InputList
+            title="Benefits"
+            list={benefits}
+            setList={setBenefits}
+          />
 
           <div className="flex justify-end">
             <Button type="submit" variant="yelloBtn" size="llg">

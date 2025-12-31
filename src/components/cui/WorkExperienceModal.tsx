@@ -1,82 +1,73 @@
-import { useForm } from "react-hook-form";
+"use client";
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
 
-const defaultValues = {
-  title: "",
-  description: "",
-};
-
-export default function WorkExperienceModal({setWorkExperienceInput}:{setWorkExperienceInput: React.Dispatch<React.SetStateAction<Record<string, string>>>}) {
-
-  const form = useForm({
-    defaultValues,
-    mode: "onChange",
+export default function WorkExperienceModal({
+  addWorkExperience,
+}: {
+  addWorkExperience: (data: Record<string, string>) => void;
+}) {
+  const [workExperienceInput, setWorkExperienceInput] = useState({
+    title: "",
+    description: "",
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setWorkExperienceInput((prev) => ({...prev,[name]: value,}));
+  };
 
-  async function onSubmit(data: any) {
-    console.log("Submitted Data:", data);
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-    setWorkExperienceInput({
-      title: data.title,
-      description: data.description
-    });
+    console.log("Submitted Data:", workExperienceInput);
+    addWorkExperience(workExperienceInput);
 
-
-    document.getElementById("cancel")?.click()
-    form.reset();
-  }
-
+    document.getElementById("cancel")?.click();
+  };
 
   return (
     <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-          {/* Name */}
-          <FormField
-            control={form.control}
+      <form  className="space-y-3">
+        {/* Job Title */}
+        <div>
+          <label className="text-gray-600 text-lg">Job Title</label>
+          <Input
             name="title"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="text-gray-600 text-lg">Job Title</FormLabel>
-                <FormControl>
-                  <Input variant="borderblack" placeholder="Enter job title" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            value={workExperienceInput.title}
+            onChange={handleChange}
+            variant="borderblack"
+            placeholder="Enter job title"
           />
-          {/* About Me */}
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Description</FormLabel>
-                <FormControl>
-                  <Textarea variant="borderblack" placeholder="Enter description" {...field} className="" />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        </div>
 
-          {/* Submit Button */}
-          <Button variant="yelloBtn" type="submit" size="lg" className="w-full mt-4">
-            Submit
-          </Button>
-        </form>
-      </Form>
+        {/* Description */}
+        <div>
+          <label>Description</label>
+          <Textarea
+            name="description"
+            value={workExperienceInput.description}
+            onChange={handleChange}
+            variant="borderblack"
+            placeholder="Enter description"
+            className=""
+          />
+        </div>
+
+        {/* Submit Button */}
+        <Button
+          variant="yelloBtn"
+          type="button"
+          onClick={onSubmit}
+          size="lg"
+          className="w-full mt-4"
+        >
+          Submit
+        </Button>
+      </form>
     </div>
-  )
+  );
 }
