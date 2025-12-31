@@ -88,19 +88,19 @@ const EditProfileComponent = () => {
     },
   ]);
 
-  const [attachment, setAttachment] = useState<File | null>(null);
+  // const [attachment, setAttachment] = useState<File | null>(null);
 
   const form = useForm<EditProfileFormValues>({
     defaultValues,
     mode: "onChange",
   });
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setAttachment(file);
-    }
-  };
+  // const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     setAttachment(file);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -115,7 +115,7 @@ const EditProfileComponent = () => {
   /* ---------------- Submit ---------------- */
 
   async function onSubmit(data: EditProfileFormValues) {
-    console.log("Image : ", attachment)
+    // console.log("Image : ", attachment)
     const res = await myFetch("/user/profile", {
       method: "PATCH",
       body: {
@@ -402,7 +402,7 @@ const EditProfileComponent = () => {
           />
 
           {/* Attachment */}
-          <div>
+          {/* <div>
             <p className="text-gray-800 text-xl font-semibold pb-1">
               Attachment
             </p>
@@ -412,7 +412,7 @@ const EditProfileComponent = () => {
               onChange={handleImageUpload}
               className="border border-gray-400 p-2 w-full"
             />
-          </div>
+          </div> */}
 
           {/* Work Overview */}
           <FormField
