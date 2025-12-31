@@ -86,8 +86,7 @@ const Navbar = () => {
       deleteCookie("role");
       deleteCookie("accessToken");
       deleteCookie("refreshToken");
-      router.push("/");
-      window.location.reload();
+      window.location.replace("/");
     } else {
       router.push(url);
     }

@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
@@ -30,13 +28,13 @@ import InputList from "./InputList";
 import { toast } from "sonner";
 import WorkExperienceModal from "./WorkExperienceModal";
 
+/* ---------------- Constants ---------------- */
+
 const SALARY_TYPE = {
-  Hourly: 'Hourly',
-  DAILY: 'Daily',
-  // WEEKLY : 'Weekly',
-  MONTHLY: 'Monthly',
-  // YEARLY : 'Yearly',
-}
+  Hourly: "Hourly",
+  DAILY: "Daily",
+  MONTHLY: "Monthly",
+};
 
 const AVAILABILITY = {
   FULL_TIME: "Full-Time",
@@ -48,19 +46,19 @@ const AVAILABILITY = {
   YEARLY: "Yearly",
 };
 
-// Schema
-const editProfileFormSchema = z.object({
-  name: z.string().optional(),
-  category: z.string().optional(),
-  subCategory: z.string().optional(),
-  workOverview: z.string().optional(),
-  about: z.string().optional(),
-  salary: z.any().optional(),
-  availability: z.array(z.string()),
-});
+/* ---------------- Types ---------------- */
 
-// Type
-type EditProfileFormValues = z.infer<typeof editProfileFormSchema>;
+type EditProfileFormValues = {
+  name?: string;
+  category?: string;
+  subCategory?: string;
+  workOverview?: string;
+  about?: string;
+  salary?: any;
+  availability: string[];
+};
+
+/* ---------------- Default Values ---------------- */
 
 const defaultValues: Partial<EditProfileFormValues> = {
   name: "",
@@ -72,25 +70,25 @@ const defaultValues: Partial<EditProfileFormValues> = {
   availability: [],
 };
 
-const EditProfileComponent = () => {
-  // const [payRequired, setPayRequired] = useState<string>();
+/* ---------------- Component ---------------- */
 
+const EditProfileComponent = () => {
   const [categoryDatas, setCategoryDatas] = useState<any>([]);
   const [subCategories, setSubCategories] = useState<any>([]);
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
   const [salaryType, setSalaryType] = useState<string>("");
-  const [workExperiences, setWorkExperiences] = useState<Record<string, string>[]>([{
-    title: "",
-    description: "",
-  }]);
+  const [workExperiences, setWorkExperiences] = useState<
+    Record<string, string>[]
+  >([
+    {
+      title: "",
+      description: "",
+    },
+  ]);
+
   const [attachment, setAttachment] = useState<File | null>(null);
-  const [workExperienceInput, setWorkExperienceInput] = useState<Record<string, string>>({
-    title: "",
-    description: ""
-  });
 
   const form = useForm<EditProfileFormValues>({
-    resolver: zodResolver(editProfileFormSchema),
     defaultValues,
     mode: "onChange",
   });
@@ -101,7 +99,7 @@ const EditProfileComponent = () => {
       setAttachment(file);
     }
   };
-  
+
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await myFetch("/category", {
@@ -112,11 +110,10 @@ const EditProfileComponent = () => {
     fetchCategories();
   }, []);
 
-  // Submit for Edit Profile
-  async function onSubmit(data: EditProfileFormValues) {
-    console.log("File", attachment)
-    console.log("Submitted Data:", data);
+  /* ---------------- Submit ---------------- */
 
+  async function onSubmit(data: EditProfileFormValues) {
+    console.log("Image : ", attachment)
     const res = await myFetch("/user/profile", {
       method: "PATCH",
       body: {
@@ -129,11 +126,10 @@ const EditProfileComponent = () => {
         workOverview: data.workOverview,
         availability: data.availability,
         coreSkills: coreSkills,
-        workExperiences: workExperiences
+        workExperiences: workExperiences,
       },
     });
 
-    console.log("Profile Update :", res);
     if (res.success) {
       toast.success(res.message || "Profile updated!");
     } else {
@@ -141,20 +137,27 @@ const EditProfileComponent = () => {
     }
   }
 
-  // Fetch User Data
+  /* ---------------- Fetch Profile ---------------- */
+
   const fetchProfile = async () => {
-    const response = await myFetch("/user/profile",
-      {
-        method: "GET",
-      }
-    );
-    console.log("Get User Profile Data : ", response);
+    const response = await myFetch("/user/profile", {
+      method: "GET",
+    });
 
     if (response.success) {
       setCoreSkills(response?.data?.coreSkills);
       setSalaryType(response?.data?.salaryType);
-      const modifiedWorkExperiences = response?.data?.workExperiences?.map((item: Record<string, string>) => ({ title: item?.title, description: item?.description }));
+
+      const modifiedWorkExperiences =
+        response?.data?.workExperiences?.map(
+          (item: Record<string, string>) => ({
+            title: item?.title,
+            description: item?.description,
+          })
+        );
+
       setWorkExperiences(modifiedWorkExperiences);
+
       form.reset({
         name: response?.data?.name || "",
         category: response?.data?.category || "",
@@ -165,26 +168,26 @@ const EditProfileComponent = () => {
         availability: response?.data?.availability || [],
       });
     }
-  }
+  };
+
   useEffect(() => {
     fetchProfile();
   }, []);
 
+  /* ---------------- Work Experience ---------------- */
 
+  const addWorkExperience = (data: Record<string, string>) => {
+    console.log("Get after hit adWorkExperience function : ", data);
+    setWorkExperiences([...workExperiences, data]);
+  };
 
-  useEffect(() => {
-    console.log("workExperienceInput : ", workExperienceInput)
-    if (workExperienceInput?.title !== "" && workExperienceInput?.description !== "") {
-      setWorkExperiences([...workExperiences, workExperienceInput]);
-    }
-  }, [workExperienceInput]);
-
+  /* ---------------- JSX ---------------- */
 
   return (
     <div className="w-full border border-gray-200 shadow px-4 py-6">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
+          
           {/* Name */}
           <FormField
             control={form.control}
@@ -193,7 +196,11 @@ const EditProfileComponent = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl">Name</FormLabel>
                 <FormControl>
-                  <Input variant="borderblack" placeholder="Enter full name" {...field} />
+                  <Input
+                    variant="borderblack"
+                    placeholder="Enter full name"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -206,24 +213,36 @@ const EditProfileComponent = () => {
             name="category"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Category</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">
+                  Category
+                </FormLabel>
                 <Select
                   onValueChange={(value) => {
                     field.onChange(value);
-                    const selectedItem = categoryDatas?.find((item: any) => item.title === value);
+                    const selectedItem = categoryDatas?.find(
+                      (item: any) => item.title === value
+                    );
                     setSubCategories(selectedItem?.subCategories);
                   }}
                   defaultValue={field.value}
                 >
-
                   <FormControl>
-                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                    <SelectTrigger
+                      variant="borderblack"
+                      size="lg"
+                      className="w-full"
+                    >
                       <SelectValue placeholder="Select a Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {categoryDatas?.map((item: Record<string, string>) => (
-                      <SelectItem onClick={() => console.log(item)} key={item?._id} value={item?.title}>{item?.title}</SelectItem>
+                    {categoryDatas?.map((item: any) => (
+                      <SelectItem
+                        key={item?._id}
+                        value={item?.title}
+                      >
+                        {item?.title}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -232,22 +251,33 @@ const EditProfileComponent = () => {
             )}
           />
 
-          {/* Sub-Category */}
+          {/* Sub Category */}
           <FormField
             control={form.control}
             name="subCategory"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Sub Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormLabel className="text-gray-800 text-xl">
+                  Sub Category
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
                   <FormControl>
-                    <SelectTrigger variant="borderblack" size="lg" className="w-full">
+                    <SelectTrigger
+                      variant="borderblack"
+                      size="lg"
+                      className="w-full"
+                    >
                       <SelectValue placeholder="Select a Sub Category" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {subCategories?.map((item: string, index: number) => (
-                      <SelectItem key={index} value={item}>{item}</SelectItem>
+                      <SelectItem key={index} value={item}>
+                        {item}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -262,7 +292,9 @@ const EditProfileComponent = () => {
             name="availability"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Availability</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">
+                  Availability
+                </FormLabel>
                 <div className="space-y-2 flex gap-3 flex-wrap items-center border border-gray-400 py-2 px-3">
                   {Object.entries(AVAILABILITY).map(([key, value]) => (
                     <label key={key} className="flex items-center">
@@ -272,7 +304,9 @@ const EditProfileComponent = () => {
                         checked={field.value.includes(value)}
                         onChange={() => {
                           const newValue = field.value.includes(value)
-                            ? field.value.filter((item) => item !== value)
+                            ? field.value.filter(
+                                (item) => item !== value
+                              )
                             : [...field.value, value];
                           field.onChange(newValue);
                         }}
@@ -295,37 +329,65 @@ const EditProfileComponent = () => {
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
                   {Object.entries(SALARY_TYPE).map(([key, value]) => (
-                    <span key={key} onClick={() => setSalaryType(value)} className={`${salaryType === value ? "bg-yellow-500" : "bg-gray-200 text-gray-500"} rounded-sm text-sm py-1 px-2 `}>{value}</span>
+                    <span
+                      key={key}
+                      onClick={() => setSalaryType(value)}
+                      className={`${
+                        salaryType === value
+                          ? "bg-yellow-500"
+                          : "bg-gray-200 text-gray-500"
+                      } rounded-sm text-sm py-1 px-2`}
+                    >
+                      {value}
+                    </span>
                   ))}
                 </FormLabel>
                 <FormControl>
-                  <Input type="number" min={0} variant="borderblack" placeholder="Enter Your Salary" {...field} />
+                  <Input
+                    type="number"
+                    min={0}
+                    variant="borderblack"
+                    placeholder="Enter Your Salary"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* About Me */}
+          {/* About */}
           <FormField
             control={form.control}
             name="about"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">About Your Self</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">
+                  About Your Self
+                </FormLabel>
                 <FormControl>
-                  <Textarea variant="borderblack" placeholder="Enter about yourself" {...field} className="" />
+                  <Textarea
+                    variant="borderblack"
+                    placeholder="Enter about yourself"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-
           {/* Attachment */}
           <div>
-            <p className="text-gray-800 text-xl font-semibold pb-1">Attachment</p>
-            <input type="file" accept="image/*" onChange={handleImageUpload} className="border border-gray-400 p-2 w-full" />
+            <p className="text-gray-800 text-xl font-semibold pb-1">
+              Attachment
+            </p>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="border border-gray-400 p-2 w-full"
+            />
           </div>
 
           {/* Work Overview */}
@@ -334,62 +396,60 @@ const EditProfileComponent = () => {
             name="workOverview"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-gray-800 text-xl">Work Overview</FormLabel>
+                <FormLabel className="text-gray-800 text-xl">
+                  Work Overview
+                </FormLabel>
                 <FormControl>
-                  <Textarea variant="borderblack" placeholder="Enter Work Overview" {...field} className="" />
+                  <Textarea
+                    variant="borderblack"
+                    placeholder="Enter Work Overview"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          {/* ------------------ Core Skills ------------------ */}
-          <InputList title="Core Skills" list={coreSkills} setList={setCoreSkills} />
+          <InputList
+            title="Core Skills"
+            list={coreSkills}
+            setList={setCoreSkills}
+          />
 
-
-          {/* ------------------ Work Experience ------------------ */}
+          {/* Work Experience */}
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-gray-800 text-lg pb-1.5 font-semibold">Work Experience</p>
+              <p className="text-gray-800 text-lg pb-1.5 font-semibold">
+                Work Experience
+              </p>
               <CustomModal
                 title="Work Experience"
-                trigger={<button className='border border-gray-400 px-4 py-1 text-gray-700 cursor-pointer'>
-                  Add+
-                </button>}
+                trigger={
+                  <button className="border border-gray-400 px-4 py-1 text-gray-700 cursor-pointer">
+                    Add+
+                  </button>
+                }
               >
-                <WorkExperienceModal setWorkExperienceInput={setWorkExperienceInput} />
+                <WorkExperienceModal
+                  addWorkExperience={addWorkExperience}
+                />
               </CustomModal>
             </div>
-            <ul className='w-full space-y-4 list-disc'>
-              {workExperiences?.length > 0 && workExperiences?.map((item, index) => (
-                <li key={index} className='flex flex-col items-start gap-1'>
-                  <span className='flex items-center justify-between w-full'>
-                    <span className='text-gray-700 font-semibold'>{index + 1}. {item?.title}</span>
-                    <span
-                      className="text-red-500 cursor-pointer"
-                      onClick={() => {
-                        const updatedOffers = workExperiences.filter((_, idx) => index !== idx);
-                        setWorkExperiences(updatedOffers);
-                      }}
-                    >
-                      Delete
-                    </span>
-                  </span>
-                  <span className='text-gray-600 text-sm ps-4'>{item?.description}</span>
-                </li>
-              ))}
-            </ul>
           </div>
 
-
-          {/* Submit */}
-          <Button type="submit" variant="yelloBtn" size="llg" className="w-full text-gray-700">
+          <Button
+            type="submit"
+            variant="yelloBtn"
+            size="llg"
+            className="w-full text-gray-700"
+          >
             Confirm
           </Button>
         </form>
       </Form>
     </div>
-  )
-}
+  );
+};
 
 export default EditProfileComponent;
