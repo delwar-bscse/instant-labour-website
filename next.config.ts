@@ -5,13 +5,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "10.10.7.50",
-        port: "5002",
+        hostname: "**",
         pathname: "/images/**",
       },
       {
         protocol: "https",
-        hostname: "asad5002.binarybards.online",
+        hostname: "**",
         pathname: "/images/**",
       },
     ],
