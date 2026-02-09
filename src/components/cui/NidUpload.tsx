@@ -3,6 +3,7 @@
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
 import { updateImage } from '@/utils/updateImages'
+import dayjs from 'dayjs'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
@@ -17,11 +18,19 @@ const NidUpload = () => {
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
-    console.log(res);
+    console.log("Get profile Data : ", res);
     const nidFront = formatUrl(res?.data?.nidFront);
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);
     setNidBack(nidBack);
+    const nationality = res?.data?.isBritish ? "british" : "non-british";
+    setNationality(nationality);
+    if (res?.data?.isBritish) {
+      setInsuranceNumber(res?.data?.insuranceNumber || "")
+    } else {
+      setWorkerNumber(res?.data?.shareCode || "")
+      setDathOfBirth(dayjs(res?.data?.dateOfBirth).format("YYYY-MM-DD") || "")
+    } 
   }
   useEffect(() => {
     fetchProfile();
@@ -51,8 +60,24 @@ const NidUpload = () => {
     }
   }
 
-  const handleSubmit = () =>{
+  const handleSubmit = async () => {
     console.log(nationality, insuranceNumber, workerNumber, dathOfBirth);
+    const payload: any = {}
+    if (nationality === "british") {
+      payload.isBritish = true;
+      payload.insuranceNumber = insuranceNumber;
+    } else {
+      payload.isBritish = false;
+      payload.shareCode = workerNumber;
+      payload.dateOfBirth = dathOfBirth;
+    }
+
+    const res = await myFetch(`/user/profile`, {
+      method: "PATCH",
+      body: payload
+    })
+
+    console.log("Verification Update : ", res)
   }
 
   return (
@@ -95,15 +120,15 @@ const NidUpload = () => {
       <div className='space-y-4'>
         {nationality === "british" && <div className='space-y-2'>
           <p className='font-semibold text-lg text-gray-700 capitalize'>national insurance number</p>
-          <input onChange={(e)=> setInsuranceNumber(e.target.value)} value={insuranceNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
+          <input onChange={(e) => setInsuranceNumber(e.target.value)} value={insuranceNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
         </div>}
         {nationality === "non-british" && <div className='space-y-2'>
           <p className='font-semibold text-lg text-gray-700 capitalize'>a share code(right to work)</p>
-          <input onChange={(e)=> setWorkerNumber(e.target.value)} value={workerNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
+          <input onChange={(e) => setWorkerNumber(e.target.value)} value={workerNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
         </div>}
         {nationality === "non-british" && <div className='space-y-2'>
           <p className='font-semibold text-lg text-gray-700 capitalize'>D.O.B</p>
-          <input type="date" onChange={(e)=> setDathOfBirth(e.target.value)} value={dathOfBirth} className='border border-gray-300 rounded-md px-3 py-2 w-full' placeholder='Enter your NIN' />
+          <input type="date" onChange={(e) => setDathOfBirth(e.target.value)} value={dathOfBirth} className='border border-gray-300 rounded-md px-3 py-2 w-full' placeholder='Enter your NIN' />
         </div>}
         <div>
           <button onClick={handleSubmit} className='bg-[#FFC823] hover:bg-[#FFC823]/90 w-full px-3 py-3 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer'>Confirm</button>
