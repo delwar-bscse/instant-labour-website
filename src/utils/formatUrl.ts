@@ -6,6 +6,10 @@ export const formatUrl = (path: string) => {
   } else if (path.startsWith("http")) {
     return path;
   } else {
-    return process.env.NEXT_PUBLIC_IMAGE_URL + path;
+    if (path.startsWith("/")) {
+      return `${process.env.NEXT_PUBLIC_IMAGE_URL}${path}`;
+    } else {
+      return `${process.env.NEXT_PUBLIC_IMAGE_URL}/${path}`;
+    }
   }
 };
