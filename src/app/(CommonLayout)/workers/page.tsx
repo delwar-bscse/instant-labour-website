@@ -86,9 +86,9 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   }) || [];
   console.log("worker refine res : ", refineRes);
 
-  const workerDatas = res?.data?.data || [];
+  // const workerDatas = res?.data?.data || [];
   const meta: any = res?.data?.meta || {};
-  console.log("worker get res : ", workerDatas);
+  // console.log("worker get res : ", workerDatas);
   // console.log("worker meta res : ", res);
 
 
