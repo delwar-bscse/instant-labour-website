@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       "i.ibb.co.com",
       "10.10.7.50",
       "76.13.5.2",
+      "api.instantlabour.co.uk"
     ],
   },
 };
