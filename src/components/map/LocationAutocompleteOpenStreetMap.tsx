@@ -17,12 +17,16 @@ type Props = {
     lat: number;
     lng: number;
   }) => void;
+  inputClassVarient?: string;
+  placeholder?: string;
 };
 
-export default function LocationAutocompleteOpenStreetMap({
+export default function LocationAutocomplete({
   value,
   onChange,
   onSelectLocation,
+  inputClassVarient,
+  placeholder,
 }: Props) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const isSelecting = useRef(false);
@@ -59,15 +63,15 @@ export default function LocationAutocompleteOpenStreetMap({
   return (
     <div className="relative">
       <Input
-        variant="yelloBg2"
-        placeholder="Enter Your Location"
+        variant={inputClassVarient ? inputClassVarient : "yelloBg2"}
+        placeholder={placeholder ? placeholder : "Search location..."}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
 
       {suggestions.length > 0 && (
         <div className="absolute z-50 bg-white border rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow">
-          {suggestions?.map((item, index) => (
+          {suggestions.map((item, index) => (
             <div
               key={index}
               className="p-3 hover:bg-gray-100 cursor-pointer text-sm"

@@ -27,6 +27,7 @@ import { useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
 import LocationAutocompleteOpenStreetMap from "@/components/map/LocationAutocompleteOpenStreetMap";
+import { useRouter } from "next/navigation";
 
 // Schema
 const contactUsFormSchema = z
@@ -72,7 +73,7 @@ const defaultValues: Partial<ContactUsFormValues> = {
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
 
   const form = useForm<ContactUsFormValues>({
     resolver: zodResolver(contactUsFormSchema),
@@ -102,7 +103,7 @@ const SignUp = () => {
     if (res.success) {
       toast.success(`${res.message} || "Check your email!"`);
       localStorage.setItem("userEmail", data.email);
-      // router.push("/verify-otp?type=account");
+      router.push("/verify-otp?type=account");
     } else {
       toast.error(res.message ?? "Something went wrong!");
     }
