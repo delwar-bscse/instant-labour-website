@@ -24,10 +24,9 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
-import { getCoordinates } from "@/utils/getCoordinate";
+import LocationAutocompleteOpenStreetMap from "@/components/map/LocationAutocompleteOpenStreetMap";
 
 // Schema
 const contactUsFormSchema = z
@@ -40,6 +39,8 @@ const contactUsFormSchema = z
       message: "Please enter a valid phone number.",
     }),
     location: z.string(),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
     role: z.string(),
     password: z.string().min(6, {
       message: "Password must be at least 6 characters.",
@@ -61,6 +62,8 @@ const defaultValues: Partial<ContactUsFormValues> = {
   email: "",
   number: "",
   location: "",
+  latitude: 0,
+  longitude: 0,
   role: "",
   password: "",
   confirmPassword: "",
@@ -69,7 +72,7 @@ const defaultValues: Partial<ContactUsFormValues> = {
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
   const form = useForm<ContactUsFormValues>({
     resolver: zodResolver(contactUsFormSchema),
@@ -78,12 +81,7 @@ const SignUp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    const coordinates = await getCoordinates(data.location);
-    console.log("Coordinates : ", coordinates)
-    if (!coordinates?.success) {
-      toast.error("Invalid location! Please enter a valid address.");
-      return;
-    }
+    console.log("Form Data : ", data)
 
     const res = await myFetch("/auth/signup", {
       method: "POST",
@@ -91,8 +89,8 @@ const SignUp = () => {
         name: data.name,
         email: data.email,
         phone: data.number,
-        latitude: coordinates?.data?.[0]?.lat ?? 0,
-        longitude: coordinates?.data?.[0]?.lng ?? 0,
+        latitude: data.latitude ?? 0,
+        longitude: data.longitude ?? 0,
         password: data.password,
         address: data.location,
         role: data.role,
@@ -104,7 +102,7 @@ const SignUp = () => {
     if (res.success) {
       toast.success(`${res.message} || "Check your email!"`);
       localStorage.setItem("userEmail", data.email);
-      router.push("/verify-otp?type=account");
+      // router.push("/verify-otp?type=account");
     } else {
       toast.error(res.message ?? "Something went wrong!");
     }
@@ -169,6 +167,7 @@ const SignUp = () => {
               />
 
               {/* Location */}
+
               <FormField
                 control={form.control}
                 name="location"
@@ -176,7 +175,15 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Location</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter Your Location" {...field} />
+                      <LocationAutocompleteOpenStreetMap
+                        value={field.value}
+                        onChange={field.onChange}
+                        onSelectLocation={({ address, lat, lng }) => {
+                          form.setValue("location", address);
+                          form.setValue("latitude", lat);
+                          form.setValue("longitude", lng);
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
