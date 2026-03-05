@@ -22,13 +22,16 @@ import {
 } from "@/components/ui/select"
 import CustomRange from '@/components/cui/CustomRange'
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Input } from '../ui/input';
+// import { Input } from '../ui/input';
 import { myFetch } from '@/utils/myFetch';
+import LocationAutocompleteOpenStreetMap from '../map/LocationAutocompleteOpenStreetMap';
 
 const defaultValues = {
   category: "",
   subCategory: "",
   location: "",
+  longitude: 0,
+  latitude: 0,
   price: 0,
   radius: 0
 };
@@ -55,7 +58,7 @@ function CustomFilterSuspense() {
   const price = searchParams.get("price") || "0";
   const radius = searchParams.get("radius") || "0";
   const salaryTypeParam = searchParams.get("salaryType") || "";
-  
+
 
 
   useEffect(() => {
@@ -86,7 +89,7 @@ function CustomFilterSuspense() {
       const selectedItem = categoryDatas?.find((item: any) => item.title === category);
       setSubCategories(selectedItem?.subCategories);
     }
-    if(salaryTypeParam){
+    if (salaryTypeParam) {
       setSalaryType(salaryTypeParam);
     }
   }, []);
@@ -102,6 +105,8 @@ function CustomFilterSuspense() {
     }
     if (data.location) {
       params.set("location", data.location);
+      params.set("longitude", data.longitude);
+      params.set("latitude", data.latitude);
     }
     if (salaryType) {
       params.set("salaryType", salaryType);
@@ -181,7 +186,7 @@ function CustomFilterSuspense() {
             )}
           />
 
-          {/* Sub Category */}
+          {/* Location */}
           <FormField
             control={form.control}
             name="location"
@@ -189,7 +194,20 @@ function CustomFilterSuspense() {
               <FormItem>
                 <FormLabel className="text-gray-600">Location</FormLabel>
                 <FormControl>
-                  <Input variant="borderblackRound" className="" placeholder="Enter location" {...field} />
+                  {/* <Input variant="borderblackRound" className="" placeholder="Enter location" {...field} /> */}
+                  <LocationAutocompleteOpenStreetMap
+                    value={field.value}
+                    onChange={field.onChange}
+                    onSelectLocation={(data) => {
+                      console.log(data);
+                      form.setValue("location", data.address);
+                      form.setValue("longitude", data.lng);
+                      form.setValue("latitude", data.lat);
+
+                    }}
+                    inputClassVarient="borderblackRound"
+                    placeholder="Enter location"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

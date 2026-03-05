@@ -21,7 +21,9 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
   undefined
 );
 
-const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "https://api.instantlabour.co.uk/";
+const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
 export const NotificationProvider = ({
   children,
@@ -63,7 +65,7 @@ export const NotificationProvider = ({
     socketRef.current = socket;
 
     socket.on("connect", () => {
-      // console.log("Global Notification Socket connected");
+      console.log("Global Notification Socket connected");
     });
 
     socket.on(`notification::${userId}`, (newNotification: any) => {

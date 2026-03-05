@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 
 const JobPostCard = ({ item, url }: { item: any, url: string }) => {
   return (
-    <div key={item._id} className='space-y-2 bg-white customShadow p-4'>
+    <div key={item._id} className='space-y-2 bg-white customShadow p-4'> 
       <div className=''>
         <Image src={formatUrl(item?.images[0])} width={500} height={400} alt={item.companyName} className='w-full h-65' />
       </div>

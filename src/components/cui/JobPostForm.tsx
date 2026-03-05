@@ -30,6 +30,7 @@ import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
 import { getCoordinates } from "@/utils/getCoordinate";
 import { toast } from "sonner";
+import LocationAutocompleteOpenStreetMap from "../map/LocationAutocompleteOpenStreetMap";
 
 /* ==============================
    Types
@@ -39,7 +40,9 @@ type EditPostFormValues = {
   companyName?: string;
   category?: string;
   subCategory?: string;
-  location?: string;
+  location: string;
+  longitude?: number;
+  latitude?: number;
   salary?: string;
   availability: string[];
   overview?: string;
@@ -54,6 +57,8 @@ const defaultValues: Partial<EditPostFormValues> = {
   category: "",
   subCategory: "",
   location: "",
+  longitude: 0,
+  latitude: 0,
   salary: "",
   availability: [],
   overview: "",
@@ -99,6 +104,8 @@ const JobPostForm = () => {
         category: res?.data?.category || "",
         subCategory: res?.data?.subCategory || "",
         location: res?.data?.address || "",
+        longitude: res?.data?.longitude || 0,
+        latitude: res?.data?.latitude || 0,
         salary: res?.data?.salary || "",
         availability: res?.data?.availability || [],
         overview: res?.data?.overview || "",
@@ -157,7 +164,7 @@ const JobPostForm = () => {
     const url = jobId ? `/job/${jobId}` : `/job`;
     const method = jobId ? "PATCH" : "POST";
 
-    const res =await myFetch(url, {
+    const res = await myFetch(url, {
       method: method,
       body: formData,
     });
@@ -279,7 +286,19 @@ const JobPostForm = () => {
               <FormItem>
                 <FormLabel className="text-xl">Location</FormLabel>
                 <FormControl>
-                  <Input variant="borderblack" {...field} />
+                  {/* <Input variant="borderblack" {...field} /> */}
+                  <LocationAutocompleteOpenStreetMap
+                    value={field.value}
+                    onChange={field.onChange}
+                    onSelectLocation={(data) => {
+                      console.log(data)
+form.setValue("location", data.address);
+form.setValue("longitude", data.lng);
+form.setValue("latitude", data.lat);
+                    }}
+                    inputClassVarient="borderblack"
+                    placeholder="Enter Location"
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -293,8 +312,8 @@ const JobPostForm = () => {
                 key={d}
                 onClick={() => setDeadline(d)}
                 className={`cursor-pointer border-2 px-3 py-2 font-semibold ${deadline === d
-                    ? "bg-yellow-500 border-yellow-500"
-                    : "border-blue-600 text-blue-600"
+                  ? "bg-yellow-500 border-yellow-500"
+                  : "border-blue-600 text-blue-600"
                   }`}
               >
                 {d} Days Post
@@ -358,8 +377,8 @@ const JobPostForm = () => {
                       key={value}
                       onClick={() => setSalaryType(value)}
                       className={`cursor-pointer rounded px-2 py-1 text-sm ${salaryType === value
-                          ? "bg-yellow-500"
-                          : "bg-gray-200 text-gray-500"
+                        ? "bg-yellow-500"
+                        : "bg-gray-200 text-gray-500"
                         }`}
                     >
                       {value}

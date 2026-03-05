@@ -8,65 +8,57 @@ import CustomPagination from '@/components/cui/CustomPagination'
 import { myFetch } from '@/utils/myFetch'
 import JobPostCard from '@/components/card/JobPostCard'
 import LocationPicker from '@/components/map/LocationPicker';
-import { getCoordinates } from '@/utils/getCoordinate';
 
 
 const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
   const newSearchParams = await searchParams;
 
-  const category = newSearchParams.category || "";
-  const subCategory = newSearchParams.subCategory || "";
-  const price = newSearchParams.price || "";
-  const radius = newSearchParams.radius || "";
-  const salaryType = newSearchParams.salaryType || "";
-
-
-  const location = newSearchParams.location || "";
-  const fetchCors = await getCoordinates(location);
-  const cordinates = fetchCors?.data;
-  console.log(cordinates)
-
+  const category = newSearchParams.category;
+  const subCategory = newSearchParams.subCategory;
+  const price = newSearchParams.price;
+  const radius = newSearchParams.radius;
+  const salaryType = newSearchParams.salaryType;
+  const location = newSearchParams.location;
+  const longitude = newSearchParams.longitude;
+  const latitude = newSearchParams.latitude;
   const page = newSearchParams?.page || 1;
   const limit = newSearchParams?.pageSize || 10;
 
-  // const res = await myFetch(`/job?page=${page}&limit=${limit}`);
-  // const res = await myFetch(`/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0].lat}&longitude=${cordinates?.[0].lng}`);
-
-  // const url = `/job?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0].lat}&longitude=${cordinates?.[0].lng}`
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    ...(category ? { category } : {}),
+    ...(subCategory ? { subCategory } : {}),
+    ...(salaryType ? { salaryType } : {}),
+    ...(price ? { minSalary: "0", maxSalary: price } : {}),
+    ...(radius ? { radius } : {}),
+    ...(location ? { address: location } : {}),
+    ...(longitude && latitude ? { longitude, latitude } : {}),
   });
 
-  if (category) params.append("category", category);
-  if (subCategory) params.append("subCategory", subCategory);
-  if (salaryType) params.append("salaryType", salaryType);
-  if (price) params.append("minSalary", "0");
-  if (price) params.append("maxSalary", price);
-  if (radius) params.append("radius", radius);
-
-  if (location && cordinates?.[0]) {
-    params.append("address", location);
-    params.append("latitude", String(cordinates[0].lat));
-    params.append("longitude", String(cordinates[0].lng));
-  }
-
-  const url = `/job?${params.toString()}`;
-  console.log("jobs filter url : ", url);
-  const res = await myFetch(url);
+  const jobUrl = `/job?${params.toString()}`;
+  console.log("Url : ", `/job?${params.toString()}`)
+  const res = await myFetch(jobUrl, { method: "GET" });
 
 
   const jobDatas = res?.data || [];
   const meta: any = res?.pagination || {};
-  console.log("Job get res : ", jobDatas);
-  console.log("Job meta res : ", res);
+  // console.log("Job get res : ", jobDatas);
+  // console.log("Job meta res : ", res);
+
+  const resCoordinates = jobDatas?.map((item: any) => ({
+    lng: item.location.coordinates[0],
+    lat: item.location.coordinates[1]
+  }));
+
+  // console.log("resCoordinates : ", resCoordinates);
 
 
   return (
     <div className='maxWidth'>
       {/* --------------- Google Map --------------- */}
       <div>
-        <LocationPicker locations={cordinates || []} />
+        <LocationPicker locations={resCoordinates || []} />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

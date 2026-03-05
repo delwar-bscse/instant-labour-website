@@ -21,7 +21,7 @@ type Props = {
   placeholder?: string;
 };
 
-export default function LocationAutocomplete({
+export default function LocationAutocompleteOpenStreetMap({
   value,
   onChange,
   onSelectLocation,

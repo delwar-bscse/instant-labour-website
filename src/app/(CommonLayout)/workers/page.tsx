@@ -13,7 +13,6 @@ import { getUserRoleEmployer } from '@/utils/getUserRoleServer'
 import Link from 'next/link'
 import { myFetch } from '@/utils/myFetch'
 import LocationPicker from '@/components/map/LocationPicker'
-import { getCoordinates } from '@/utils/getCoordinate'
 
 
 const Workers = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
@@ -21,55 +20,34 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const newSearchParams = await searchParams;
   const workers = newSearchParams.workers;
   const type = newSearchParams.type;
-
-  const category = newSearchParams.category || "";
-  const subCategory = newSearchParams.subCategory || "";
-  const price = newSearchParams.price || "";
-  const radius = newSearchParams.radius || "";
-  const salaryType = newSearchParams.salaryType || "";
-
-  const location = newSearchParams.location || "";
-  const fetchCors = await getCoordinates(location);
-  const cordinates = fetchCors?.data;
-
-
+  const category = newSearchParams.category;
+  const subCategory = newSearchParams.subCategory;
+  const price = newSearchParams.price;
+  const radius = newSearchParams.radius;
+  const salaryType = newSearchParams.salaryType;
+  const location = newSearchParams.location;
+  const longitude = newSearchParams.longitude;
+  const latitude = newSearchParams.latitude;
   const page = newSearchParams?.page || 1;
   const limit = newSearchParams?.pageSize || 10;
 
-  // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}`);
-  // const res = await myFetch(`/user/workers?page=${page}&limit=${limit}&category=${category}&subCategory=${subCategory}&salaryType=${salaryType}&maxSalary=${price}&radius=${radius}&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
-
-  // const url = `/user/workers?page=${page}&limit=${limit}`
-  // if (category) url.concat(`&category=${category}`);
-  // if (subCategory) url.concat(`&subCategory=${subCategory}`);
-  // if (salaryType) url.concat(`&salaryType=${salaryType}`);
-  // if (price) url.concat(`&maxSalary=${price}`);
-  // if (radius) url.concat(`&radius=${radius}`);
-  // if (location) url.concat(`&address=${location}&latitude=${cordinates?.[0]?.lat}&longitude=${cordinates?.[0]?.lng}`);
-  // const res = await myFetch(url);
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    ...(category ? { category } : {}),
+    ...(subCategory ? { subCategory } : {}),
+    ...(salaryType ? { salaryType } : {}),
+    ...(price ? { minSalary: "0", maxSalary: price } : {}),
+    ...(radius ? { radius } : {}),
+    ...(location ? { address: location } : {}),
+    ...(longitude && latitude ? { longitude, latitude } : {}),
   });
 
-  if (category) params.append("category", category);
-  if (subCategory) params.append("subCategory", subCategory);
-  if (salaryType) params.append("salaryType", salaryType);
-  if (price) params.append("minSalary", "0");
-  if (price) params.append("maxSalary", price);
-  if (radius) params.append("radius", radius);
-
-  if (location && cordinates?.[0]) {
-    params.append("address", location);
-    params.append("latitude", String(cordinates[0].lat));
-    params.append("longitude", String(cordinates[0].lng));
-  }
-
   const url = `/user/workers?${params.toString()}`;
-  console.log("workers filter url : ", url);
+  console.log("workers url : ", url);
   const res = await myFetch(url);
 
-
+  // formatting the worker data to fit the worker card props
   const refineRes = res?.data?.data?.map((item: any) => {
     return {
       _id: item?._id,
@@ -85,6 +63,14 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
     };
   }) || [];
   console.log("worker refine res : ", refineRes);
+
+  // extracting the coordinates for the map
+  const resCoordinates = res?.data?.data?.map((item: any) => ({
+    lng: item.location.coordinates[0],
+    lat: item.location.coordinates[1]
+  }));
+
+  // console.log("resCoordinates : ", resCoordinates);
 
   // const workerDatas = res?.data?.data || [];
   const meta: any = res?.data?.meta || {};
@@ -118,7 +104,7 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
 
       {/* --------------- Google Map --------------- */}
       <div>
-        <LocationPicker locations={cordinates || []} />
+        <LocationPicker locations={resCoordinates || []} />
       </div>
 
       {/* --------------- Search and Jobs Filter Options --------------- */}

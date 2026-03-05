@@ -28,6 +28,7 @@ import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
 import LocationAutocompleteOpenStreetMap from "@/components/map/LocationAutocompleteOpenStreetMap";
 import { useRouter } from "next/navigation";
+// import LocationAutocompleteGoogleMap from "@/components/map/LocationAutocompleteGoogleMap";
 
 // Schema
 const contactUsFormSchema = z
@@ -83,6 +84,10 @@ const SignUp = () => {
 
   async function onSubmit(data: ContactUsFormValues) {
     console.log("Form Data : ", data)
+    if (!data.latitude || !data.longitude) {
+      toast.error("Please select a valid location from the suggestions.");
+      return;
+    }
 
     const res = await myFetch("/auth/signup", {
       method: "POST",
@@ -130,7 +135,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Name</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter Your Name" {...field} />
+                      <Input required variant="yelloBg2" placeholder="Enter Your Name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -145,7 +150,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Email</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter email" {...field} />
+                      <Input required variant="yelloBg2" placeholder="Enter email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,7 +165,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Number</FormLabel>
                     <FormControl>
-                      <Input variant="yelloBg2" placeholder="Enter phone number" {...field} />
+                      <Input required variant="yelloBg2" placeholder="Enter phone number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,7 +228,7 @@ const SignUp = () => {
                     <FormLabel className="text-gray-600">Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input
+                        <Input required
                           type={showPassword ? "text" : "password"}
                           variant="yelloBg2"
                           placeholder="Enter password"
@@ -252,7 +257,7 @@ const SignUp = () => {
                     <FormLabel className="text-gray-600">Confirm Password</FormLabel>
                     <FormControl>
                       <div className="relative">
-                        <Input
+                        <Input required
                           type={showConfirmPassword ? "text" : "password"}
                           variant="yelloBg2"
                           placeholder="Enter confirm password"

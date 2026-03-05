@@ -1,7 +1,7 @@
 "use client";
 
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { useRef } from "react";
+import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 
 type Props = {
@@ -12,6 +12,8 @@ type Props = {
     lat: number;
     lng: number;
   }) => void;
+  inputClassVarient?: string;
+  placeholder?: string;
 };
 
 const libraries: ("places")[] = ["places"];
@@ -20,24 +22,28 @@ export default function LocationAutocompleteGoogleMap({
   value,
   onChange,
   onSelectLocation,
+  inputClassVarient,
+  placeholder,
 }: Props) {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
     libraries,
   });
 
-  const onPlaceChanged = () => {
+  const handlePlaceChanged = () => {
     if (!autocompleteRef.current) return;
 
     const place = autocompleteRef.current.getPlace();
 
+    const address = place.formatted_address || "";
     const lat = place.geometry?.location?.lat();
     const lng = place.geometry?.location?.lng();
-    const address = place.formatted_address || "";
 
-    if (lat && lng) {
+    if (lat !== undefined && lng !== undefined) {
+      onChange(address);
+
       onSelectLocation({
         address,
         lat,
@@ -51,11 +57,11 @@ export default function LocationAutocompleteGoogleMap({
   return (
     <Autocomplete
       onLoad={(auto) => (autocompleteRef.current = auto)}
-      onPlaceChanged={onPlaceChanged}
+      onPlaceChanged={handlePlaceChanged}
     >
       <Input
-        variant="yelloBg2"
-        placeholder="Enter Your Location"
+        variant={inputClassVarient ?? "yelloBg2"}
+        placeholder={placeholder ?? "Search location..."}
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />

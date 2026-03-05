@@ -13,12 +13,16 @@ function CustomSearchBarSuspense({ placeholder = "Search here...", query = "quer
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
 
-  const handleSearch = (address: string) => {
+  const handleSearch = (data: any) => {
 
-    if (address.trim() !== "") {
-      params.set(query, address);
+    if (data.address.trim() !== "") {
+      params.set(query, data.address);
+      params.set("longitude", data.lng);
+      params.set("latitude", data.lat);
     } else {
       params.delete(query);
+      params.delete("longitude");
+      params.delete("latitude");
       // toast.error("Type something to search! Then press Enter.");
     }
     replace(`?${params.toString()}`, { scroll: false });
@@ -38,7 +42,7 @@ function CustomSearchBarSuspense({ placeholder = "Search here...", query = "quer
           onChange={(address) => setAddress(address)}
           onSelectLocation={(data) => {
             console.log(data)
-            handleSearch(data.address);
+            handleSearch(data);
 
           }}
           inputClassVarient="transparent"

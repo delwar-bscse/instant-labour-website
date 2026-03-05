@@ -79,8 +79,8 @@ export default async function Home() {
   const isWorker = await getUserRoleWorker();
 
 
-  const resClientReview = await myFetch("/clientreview", { method: "GET" });
   const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
+  const resClientReview = await myFetch("/clientreview", { method: "GET" });
   console.log("What Our Client Says : ", resClientReview);
 
   const res = await myFetch("/content/section/home", { method: "GET" });
