@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { myFetch } from "@/utils/myFetch";
@@ -11,13 +12,15 @@ import { brandLogo } from "@/assets/assets";
 import Image from "next/image";
 import { io, Socket } from "socket.io-client";
 
-interface InboxClientProps {
-  chatList: any;
-}
+// interface InboxClientProps {
+//   chatList: any;
+// }
 
-const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "https://api.instantlabour.co.uk/";
+const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL
 
-const InboxClient = ({ chatList }: InboxClientProps) => {
+const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any }) => {
   const [clickedChat, setClickedChat] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [isMsgLoading, setIsMsgLoading] = useState<boolean>(false);
@@ -129,7 +132,7 @@ const InboxClient = ({ chatList }: InboxClientProps) => {
 
     try {
       const res = await myFetch(
-        `/message/${item._ids || item._id}?limit=1000000`,
+        `/message/${item._ids || item._id}?limit=100`,
         {
           method: "GET",
         }
@@ -156,6 +159,12 @@ const InboxClient = ({ chatList }: InboxClientProps) => {
       setIsMsgLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (singleChat && singleChat._id !== clickedChat?._id) {
+      handleChatClick(singleChat);
+    }
+  }, [])
 
   const handleSendMessage = async (text: string, images: File[]) => {
     if (!clickedChat) return;

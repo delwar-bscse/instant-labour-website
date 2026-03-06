@@ -5,6 +5,8 @@ import { formatUrl } from "@/utils/formatUrl";
 import dayjs from "dayjs";
 import Image from "next/image";
 import { Search } from "lucide-react";
+import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
+import { useSearchParams } from "next/navigation";
 
 interface InboxSidebarProps {
   chatList: any[];
@@ -21,6 +23,19 @@ const InboxSidebar = ({
   className = "",
   activeUserId,
 }: InboxSidebarProps) => {
+  const searchParams = useSearchParams();
+  const updateSearchParam = useUpdateSearchParams();
+
+
+  const handleSearchParam = (id: string) => {
+    const newId = String(id);
+    const currentId = searchParams.get("chat_id");
+
+    if (currentId === newId) return;
+
+    updateSearchParam("chat_id", newId);
+  };
+
   return (
     <div
       className={`h-[calc(100vh-120px)] flex flex-col bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${className}`}
@@ -44,23 +59,23 @@ const InboxSidebar = ({
           const isUnread =
             item.latestMessage?.isRead === false &&
             item.latestMessage?.sender?._id !== activeUserId;
-
           return (
             <div
               key={item._id}
-              onClick={() => onChatClick(item)}
-              className={`group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 border ${
-                selectedChat?._id === item._id
-                  ? "bg-primary/5 border-primary/10 shadow-sm"
-                  : "bg-white border-transparent hover:bg-gray-50 hover:border-gray-100"
-              }`}
+              onClick={() => {
+                onChatClick(item);
+                handleSearchParam(item._id)
+              }}
+              className={`group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 border ${selectedChat?._id === item._id
+                ? "bg-primary/5 border-primary/10 shadow-sm"
+                : "bg-white border-transparent hover:bg-gray-50 hover:border-gray-100"
+                }`}
             >
               <div
-                className={`relative shrink-0 ${
-                  selectedChat?._id === item._id
-                    ? "ring-2 ring-primary ring-offset-2 rounded-full"
-                    : ""
-                }`}
+                className={`relative shrink-0 ${selectedChat?._id === item._id
+                  ? "ring-2 ring-primary ring-offset-2 rounded-full"
+                  : ""
+                  }`}
               >
                 <Image
                   src={formatUrl(item?.participant?.profile)}
@@ -74,20 +89,18 @@ const InboxSidebar = ({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
                   <h3
-                    className={`text-sm truncate ${
-                      selectedChat?._id === item._id
-                        ? "text-primary font-bold"
-                        : isUnread
+                    className={`text-sm truncate ${selectedChat?._id === item._id
+                      ? "text-primary font-bold"
+                      : isUnread
                         ? "text-gray-900 font-extrabold"
                         : "text-gray-800 font-medium"
-                    }`}
+                      }`}
                   >
                     {item?.participant?.name || "Unknown User"}
                   </h3>
                   <span
-                    className={`text-[10px] shrink-0 ${
-                      isUnread ? "text-primary font-bold" : "text-gray-400"
-                    }`}
+                    className={`text-[10px] shrink-0 ${isUnread ? "text-primary font-bold" : "text-gray-400"
+                      }`}
                   >
                     {item?.latestMessage?.createdAt
                       ? dayjs(item.latestMessage.createdAt).format("h:mm A")
@@ -95,13 +108,12 @@ const InboxSidebar = ({
                   </span>
                 </div>
                 <p
-                  className={`text-xs truncate ${
-                    selectedChat?._id === item._id
-                      ? "text-gray-600 font-medium"
-                      : isUnread
+                  className={`text-xs truncate ${selectedChat?._id === item._id
+                    ? "text-gray-600 font-medium"
+                    : isUnread
                       ? "text-gray-900 font-bold"
                       : "text-gray-500"
-                  }`}
+                    }`}
                 >
                   {item?.latestMessage?.files?.length > 0
                     ? item.latestMessage?.sender?._id === activeUserId
