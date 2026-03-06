@@ -163,6 +163,21 @@ const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any
   useEffect(() => {
     if (singleChat && singleChat._id !== clickedChat?._id) {
       handleChatClick(singleChat);
+
+      setDynamicChatList((prevList) => {
+        const newList = [...prevList];
+        const existingIndex = newList.findIndex(
+          (c) => c._id === singleChat._id
+        );
+        if (existingIndex !== -1) {
+          const updatedChat = { ...newList[existingIndex] };
+          // updatedChat.latestMessage = sentMessage;
+          newList.splice(existingIndex, 1);
+          newList.unshift(updatedChat);
+          return newList;
+        }
+        return prevList;
+      });
     }
   }, [])
 

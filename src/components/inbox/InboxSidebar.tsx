@@ -27,12 +27,13 @@ const InboxSidebar = ({
   const updateSearchParam = useUpdateSearchParams();
 
 
-  const handleSearchParam = (id: string) => {
-    const newId = String(id);
+  const handleClick = (item: any) => {
+    const newId = String(item._ids || item._id);
     const currentId = searchParams.get("chat_id");
 
     if (currentId === newId) return;
 
+    onChatClick(item);
     updateSearchParam("chat_id", newId);
   };
 
@@ -63,8 +64,7 @@ const InboxSidebar = ({
             <div
               key={item._id}
               onClick={() => {
-                onChatClick(item);
-                handleSearchParam(item._id)
+                handleClick(item)
               }}
               className={`group flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all duration-200 border ${selectedChat?._id === item._id
                 ? "bg-primary/5 border-primary/10 shadow-sm"
