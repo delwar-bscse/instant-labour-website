@@ -3,18 +3,27 @@
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
 import { updateImage } from '@/utils/updateImages'
-import dayjs from 'dayjs'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+
+const items = [
+  { label: "Limited", value: "limited" },
+  { label: "Sole Trader", value: "sole_trader" },
+  { label: "Agency", value: "agency" },
+  { label: "Partnership", value: "partnership" },
+  { label: "Individual", value: "individual" },
+]
 
 const NidUploadEmployer = () => {
   const [nidFornt, setNidFornt] = useState<string>();
   const [nidBack, setNidBack] = useState<string>();
   const [nationality, setNationality] = useState<string>("british");
-  const [insuranceNumber, setInsuranceNumber] = useState<string>("");
-  const [workerNumber, setWorkerNumber] = useState<string>("");
-  const [dathOfBirth, setDathOfBirth] = useState<string>("");
+  const [employerType, setEmployerType] = useState<string>(items[0].value);
+  const [businessName, setBusinessName] = useState<string>("");
+  const [companyNumber, setCompanyNumber] = useState<string>("");
+  const [registeredAddress, setRegisteredAddress] = useState<string>("");
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
@@ -25,12 +34,6 @@ const NidUploadEmployer = () => {
     setNidBack(nidBack);
     const nationality = res?.data?.isBritish ? "british" : "non-british";
     setNationality(nationality);
-    if (res?.data?.isBritish) {
-      setInsuranceNumber(res?.data?.insuranceNumber || "")
-    } else {
-      setWorkerNumber(res?.data?.shareCode || "")
-      setDathOfBirth(dayjs(res?.data?.dateOfBirth).format("YYYY-MM-DD") || "")
-    } 
   }
   useEffect(() => {
     fetchProfile();
@@ -61,16 +64,8 @@ const NidUploadEmployer = () => {
   }
 
   const handleSubmit = async () => {
-    console.log(nationality, insuranceNumber, workerNumber, dathOfBirth);
+    console.log({nationality, employerType, businessName, companyNumber, registeredAddress});
     const payload: any = {}
-    if (nationality === "british") {
-      payload.isBritish = true;
-      payload.insuranceNumber = insuranceNumber;
-    } else {
-      payload.isBritish = false;
-      payload.shareCode = workerNumber;
-      payload.dateOfBirth = dathOfBirth;
-    }
 
     const res = await myFetch(`/user/profile`, {
       method: "PATCH",
@@ -89,6 +84,7 @@ const NidUploadEmployer = () => {
           <button onClick={() => setNationality("non-british")} className={`${activeStyle('non-british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>Non British Nationals</button>
         </div>
       </div>
+      <p className='font-semibold text-lg text-gray-700'>NID (font side & back side )</p>
       <div className='flex items-center flex-wrap gap-4'>
         <div className='relative w-90 h-40 sm:h-45 md:h-50'>
           {nidFornt ? (
@@ -118,18 +114,37 @@ const NidUploadEmployer = () => {
         </div>
       </div>
       <div className='space-y-4'>
-        {nationality === "british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>national insurance number</p>
-          <input onChange={(e) => setInsuranceNumber(e.target.value)} value={insuranceNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
+        <div className='space-y-2'>
+          <p className='font-semibold text-lg text-gray-700 capitalize'>Employer type</p>
+
+          <Select onValueChange={(value) => setEmployerType(value)} defaultValue={employerType} >
+            <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2" >
+              <SelectValue placeholder="Theme" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                {items.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+        </div>
+        <div className='space-y-2'>
+          <p className='font-semibold text-lg text-gray-700 capitalize'>Business Name </p>
+          <input onChange={(e) => setBusinessName(e.target.value)} value={businessName} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Type your business name' />
+        </div>
+        {employerType === "limited" && <div className='space-y-2'>
+          <p className='font-semibold text-lg text-gray-700 capitalize'>Company Number</p>
+          <input onChange={(e) => setCompanyNumber(e.target.value)} value={companyNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your company number' />
         </div>}
-        {nationality === "non-british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>a share code(right to work)</p>
-          <input onChange={(e) => setWorkerNumber(e.target.value)} value={workerNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
-        </div>}
-        {nationality === "non-british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>D.O.B</p>
-          <input type="date" onChange={(e) => setDathOfBirth(e.target.value)} value={dathOfBirth} className='border border-gray-300 rounded-md px-3 py-2 w-full' placeholder='Enter your NIN' />
-        </div>}
+        <div className='space-y-2'>
+          <p className='font-semibold text-lg text-gray-700 capitalize'>registered address</p>
+          <input onChange={(e) => setRegisteredAddress(e.target.value)} value={registeredAddress} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your registered address' />
+        </div>
         <div>
           <button onClick={handleSubmit} className='bg-[#FFC823] hover:bg-[#FFC823]/90 w-full px-3 py-3 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer'>Confirm</button>
         </div>

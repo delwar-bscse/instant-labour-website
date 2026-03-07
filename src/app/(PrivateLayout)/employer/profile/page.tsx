@@ -13,13 +13,13 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { IoCameraOutline } from 'react-icons/io5';
 // import { workerDetails } from '@/data/workerDatas';
-import NidUpload from '@/components/cui/NidUpload';
 import { TbEPassport } from 'react-icons/tb';
 import SubscriptionInfo from '@/components/cui/SubscriptionInfo';
 import { myFetch } from '@/utils/myFetch';
 import { formatUrl } from '@/utils/formatUrl';
 import { updateImage } from '@/utils/updateImages';
 import { deleteCookie } from 'cookies-next';
+import NidUploadEmployer from '@/components/cui/NidUploadEmployer';
 
 const profileSidebar = [
   {
@@ -34,7 +34,7 @@ const profileSidebar = [
   },
   {
     id: 3,
-    title: "Subscribe Package",
+    title: "Current Subscription",
     icon: <TiBusinessCard className='text-gray-700 text-xl' />,
   },
   {
@@ -127,7 +127,7 @@ const EmployeeProfile = () => {
 
         <div className='w-full'>
           {step === 1 && <EmployeeWorkerProfile />}
-          {step === 2 && <NidUpload />}
+          {step === 2 && <NidUploadEmployer />}
           {step === 3 && <SubscriptionInfo />}
           {step === 4 && <ChangePassword />}
           {step === 5 && <DeleteAccount />}
