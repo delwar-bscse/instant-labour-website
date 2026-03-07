@@ -2,15 +2,18 @@
 
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
-import { updateImage } from '@/utils/updateImages'
+// import { updateImage } from '@/utils/updateImages'
 import dayjs from 'dayjs'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
+import { toast } from 'sonner'
 
 const NidUpload = () => {
   const [nidFornt, setNidFornt] = useState<string>();
   const [nidBack, setNidBack] = useState<string>();
+    const [nidFrontFile, setNidFrontFile] = useState<File>();
+    const [nidBackFile, setNidBackFile] = useState<File>();
   const [nationality, setNationality] = useState<string>("british");
   const [insuranceNumber, setInsuranceNumber] = useState<string>("");
   const [workerNumber, setWorkerNumber] = useState<string>("");
@@ -39,17 +42,19 @@ const NidUpload = () => {
   const handleNidFornt = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setNidFrontFile(file);
     const url = URL.createObjectURL(file);
     setNidFornt(url);
-    updateImage({ image: file, type: "nidFront" })
+    // updateImage({ image: file, type: "nidFront" })
   }
 
   const handleNidBack = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setNidBackFile(file);
     const url = URL.createObjectURL(file);
     setNidBack(url);
-    updateImage({ image: file, type: "nidBack" })
+    // updateImage({ image: file, type: "nidBack" })
   }
 
   const activeStyle = (value: string) => {
@@ -61,7 +66,7 @@ const NidUpload = () => {
   }
 
   const handleSubmit = async () => {
-    console.log(nationality, insuranceNumber, workerNumber, dathOfBirth);
+    // console.log(nationality, insuranceNumber, workerNumber, dathOfBirth);
     const payload: any = {}
     if (nationality === "british") {
       payload.isBritish = true;
@@ -71,13 +76,24 @@ const NidUpload = () => {
       payload.shareCode = workerNumber;
       payload.dateOfBirth = dathOfBirth;
     }
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(payload));
+    if (nidFrontFile) {
+      formData.append("nidFront", nidFrontFile);
+    }
+    if (nidBackFile) {
+      formData.append("nidBack", nidBackFile);
+    }
 
     const res = await myFetch(`/user/profile`, {
       method: "PATCH",
-      body: payload
+      body: formData
     })
 
-    console.log("Verification Update : ", res)
+    // console.log("Verification Update : ", res)
+    if (res.success) {
+      toast.success("Verification request send to admin successfully")
+    }
   }
 
   return (

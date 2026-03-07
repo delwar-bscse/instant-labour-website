@@ -2,11 +2,12 @@
 
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
-import { updateImage } from '@/utils/updateImages'
+// import { updateImage } from '@/utils/updateImages'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
+import { toast } from 'sonner'
 
 const items = [
   { label: "Limited", value: "limited" },
@@ -19,6 +20,8 @@ const items = [
 const NidUploadEmployer = () => {
   const [nidFornt, setNidFornt] = useState<string>();
   const [nidBack, setNidBack] = useState<string>();
+  const [nidFrontFile, setNidFrontFile] = useState<File>();
+  const [nidBackFile, setNidBackFile] = useState<File>();
   const [nationality, setNationality] = useState<string>("british");
   const [employerType, setEmployerType] = useState<string>(items[0].value);
   const [businessName, setBusinessName] = useState<string>("");
@@ -34,6 +37,10 @@ const NidUploadEmployer = () => {
     setNidBack(nidBack);
     const nationality = res?.data?.isBritish ? "british" : "non-british";
     setNationality(nationality);
+    setBusinessName(res?.data?.businessName || "")
+    setEmployerType(res?.data?.employerType || items[0].value)
+    setCompanyNumber(res?.data?.companyNumber || "")
+    setRegisteredAddress(res?.data?.registeredAddress || "")
   }
   useEffect(() => {
     fetchProfile();
@@ -42,17 +49,19 @@ const NidUploadEmployer = () => {
   const handleNidFornt = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setNidFrontFile(file);
     const url = URL.createObjectURL(file);
     setNidFornt(url);
-    updateImage({ image: file, type: "nidFront" })
+    // updateImage({ image: file, type: "nidFront" })
   }
 
   const handleNidBack = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    setNidBackFile(file);
     const url = URL.createObjectURL(file);
     setNidBack(url);
-    updateImage({ image: file, type: "nidBack" })
+    // updateImage({ image: file, type: "nidBack" })
   }
 
   const activeStyle = (value: string) => {
@@ -64,15 +73,34 @@ const NidUploadEmployer = () => {
   }
 
   const handleSubmit = async () => {
-    console.log({nationality, employerType, businessName, companyNumber, registeredAddress});
-    const payload: any = {}
+    const payload = {
+      isBritish: nationality === "british" ? true : false,
+      employerType,
+      businessName,
+      companyNumber,
+      registeredAddress
+    }
+    // console.log(payload, nidFrontFile, nidBackFile);
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(payload));
+
+    if (nidFrontFile) {
+      formData.append("nidFront", nidFrontFile);
+    }
+    if (nidBackFile) {
+      formData.append("nidBack", nidBackFile);
+    }
 
     const res = await myFetch(`/user/profile`, {
       method: "PATCH",
-      body: payload
+      body: formData
     })
 
-    console.log("Verification Update : ", res)
+    // console.log("Verification Update : ", res)
+    if (res.success) {
+      toast.success("Verification request send to admin successfully")
+    }
   }
 
   return (
