@@ -89,6 +89,7 @@ const NidUpload = () => {
           <button onClick={() => setNationality("non-british")} className={`${activeStyle('non-british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>Non British Nationals</button>
         </div>
       </div>
+      <p className='font-semibold text-lg text-gray-700'>NID (font side & back side )</p>
       <div className='flex items-center flex-wrap gap-4'>
         <div className='relative w-90 h-40 sm:h-45 md:h-50'>
           {nidFornt ? (
