@@ -147,6 +147,8 @@ const EditProfileComponent = () => {
       method: "GET",
     });
 
+    console.log("Get User Data : ", response?.data);
+
     if (response.success) {
       setCoreSkills(response?.data?.coreSkills);
       setSalaryType(response?.data?.salaryType);
@@ -222,6 +224,7 @@ const EditProfileComponent = () => {
                 </FormLabel>
                 <Select
                   onValueChange={(value) => {
+                    console.log("category value : ", value);
                     field.onChange(value);
                     const selectedItem = categoryDatas?.find(
                       (item: any) => item.title === value
@@ -236,7 +239,7 @@ const EditProfileComponent = () => {
                       size="lg"
                       className="w-full"
                     >
-                      <SelectValue placeholder="Select a Category" />
+                      <SelectValue placeholder={form.getValues("category") ?? "Select a Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -274,7 +277,7 @@ const EditProfileComponent = () => {
                       size="lg"
                       className="w-full"
                     >
-                      <SelectValue placeholder="Select a Sub Category" />
+                      <SelectValue placeholder={form.getValues("subCategory") ?? "Select a Sub Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -332,6 +335,7 @@ const EditProfileComponent = () => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-800 text-xl flex gap-2 items-center">
+                  <p className="text-xl font-semibold pb-1">Saying Salary</p>
                   {Object.entries(SALARY_TYPE).map(([key, value]) => (
                     <span
                       key={key}

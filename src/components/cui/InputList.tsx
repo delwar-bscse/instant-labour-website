@@ -14,7 +14,7 @@ const InputList = ({ title, list, setList }: { title: string, list: string[], se
       <div>
         <Label htmlFor="terms" className="text-gray-800 text-lg pb-1.5">{title}</Label>
         <div className="flex items-center gap-2">
-          <Input id="terms" variant="borderblack" placeholder="" value={listInput} onChange={e => setListInput(e.target.value)} />
+          <Input id="terms" variant="borderblack" placeholder="Type here" value={listInput} onChange={e => setListInput(e.target.value)} />
           <span
             className="border border-gray-400 cursor-pointer p-1"
             onClick={() => {

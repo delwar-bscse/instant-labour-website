@@ -79,7 +79,7 @@ const JobPostForm = () => {
   const [skillRequirements, setSkillRequirements] = useState<string[]>([]);
   const [benefits, setBenefits] = useState<string[]>([]);
 
-  const [salaryType, setSalaryType] = useState<string>("");
+  const [salaryType, setSalaryType] = useState<string>(SALARY_TYPE.Hourly);
   const [deadline, setDeadline] = useState<number>(7);
   const [image, setImage] = useState<File | null>(null);
 
@@ -192,7 +192,7 @@ const JobPostForm = () => {
                   Company Name (Optional)
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" variant="borderblack" {...field} />
+                  <Input type="text" variant="borderblack" placeholder="Enter company name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -224,7 +224,7 @@ const JobPostForm = () => {
                       size="lg"
                       className="w-full"
                     >
-                      <SelectValue placeholder="Select a Category" />
+                      <SelectValue placeholder={form.getValues("category") ?? "Select a Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -262,7 +262,7 @@ const JobPostForm = () => {
                       size="lg"
                       className="w-full"
                     >
-                      <SelectValue placeholder="Select a Sub Category" />
+                      <SelectValue placeholder={form.getValues("subCategory") ?? "Select a Sub Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -292,9 +292,9 @@ const JobPostForm = () => {
                     onChange={field.onChange}
                     onSelectLocation={(data) => {
                       console.log(data)
-form.setValue("location", data.address);
-form.setValue("longitude", data.lng);
-form.setValue("latitude", data.lat);
+                      form.setValue("location", data.address);
+                      form.setValue("longitude", data.lng);
+                      form.setValue("latitude", data.lat);
                     }}
                     inputClassVarient="borderblack"
                     placeholder="Enter Location"
@@ -366,37 +366,42 @@ form.setValue("latitude", data.lat);
           </div>
 
           {/* Salary */}
-          <FormField
-            control={form.control}
-            name="salary"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="flex gap-2">
-                  {Object.values(SALARY_TYPE).map((value) => (
-                    <span
-                      key={value}
-                      onClick={() => setSalaryType(value)}
-                      className={`cursor-pointer rounded px-2 py-1 text-sm ${salaryType === value
-                        ? "bg-yellow-500"
-                        : "bg-gray-200 text-gray-500"
-                        }`}
-                    >
-                      {value}
-                    </span>
-                  ))}
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    type="number"
-                    min={0}
-                    variant="borderblack"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div>
+            {/* <p className="text-xl font-semibold pb-1">Saying Salary</p> */}
+            <FormField
+              control={form.control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem className="">
+                  <FormLabel className="flex gap-2">
+                    <p className="text-xl font-semibold pb-1">Saying Salary</p>
+                    {Object.values(SALARY_TYPE).map((value) => (
+                      <span
+                        key={value}
+                        onClick={() => setSalaryType(value)}
+                        className={`cursor-pointer rounded px-2 py-1 text-sm ${salaryType === value
+                          ? "bg-yellow-500"
+                          : "bg-gray-200 text-gray-500"
+                          }`}
+                      >
+                        {value}
+                      </span>
+                    ))}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      min={0}
+                      placeholder="Salary Amount"
+                      variant="borderblack"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           {/* Overview */}
           <FormField
@@ -406,7 +411,7 @@ form.setValue("latitude", data.lat);
               <FormItem>
                 <FormLabel className="text-xl">Job Overview</FormLabel>
                 <FormControl>
-                  <Textarea variant="borderblack" {...field} />
+                  <Textarea variant="borderblack" placeholder="Type here Job Overview" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
