@@ -19,7 +19,7 @@ const OfferJobList = () => {
       const res = await myFetch(`/booking`);
       const employerDatas = res?.data || [];
       // const meta: any = res?.data?.pagination || {};
-      console.log("Booked employer datas : ", employerDatas);
+      //console.log("Booked employer datas : ", employerDatas);
       setEmployerDatas(employerDatas);
     }
     getEmployers();
@@ -32,7 +32,7 @@ const OfferJobList = () => {
         status: status
       }
     });
-    console.log("Approve res : ", res);
+    //console.log("Approve res : ", res);
     if (res.success) {
       toast.success(res.message || `Job offer ${status} successfully!`);
     } else {

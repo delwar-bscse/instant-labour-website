@@ -24,7 +24,8 @@ import CustomRange from '@/components/cui/CustomRange'
 import { useRouter, useSearchParams } from 'next/navigation';
 // import { Input } from '../ui/input';
 import { myFetch } from '@/utils/myFetch';
-import LocationAutocompleteOpenStreetMap from '../map/LocationAutocompleteOpenStreetMap';
+import LocationAutocompleteGoogleMap from '../map/LocationAutocompleteGoogleMap';
+// import LocationAutocompleteGoogleMap from '../map/LocationAutocompleteGoogleMap';
 
 const defaultValues = {
   category: "",
@@ -96,26 +97,40 @@ function CustomFilterSuspense() {
 
 
   async function onSubmit(data: any) {
-    console.log("Submitted Data:", data);
+    //console.log("Submitted Data:", data);
     if (data.category) {
       params.set("category", data.category);
+    }else{
+      params.delete("category");
     }
     if (data.subCategory) {
       params.set("subCategory", data.subCategory);
+    }else{
+      params.delete("subCategory");
     }
-    if (data.location) {
+    if (data.location && data.longitude && data.latitude) {
       params.set("location", data.location);
       params.set("longitude", data.longitude);
       params.set("latitude", data.latitude);
+    }else {
+      // params.delete("location");
+      // params.delete("longitude");
+      // params.delete("latitude");
     }
     if (salaryType) {
       params.set("salaryType", salaryType);
+    }else {
+      params.delete("salaryType");
     }
     if (data.price > 0) {
       params.set("price", data.price.toString());
+    }else {
+      params.delete("price");
     }
     if (data.radius > 0) {
       params.set("radius", data.radius.toString());
+    }else {
+      params.delete("radius");
     }
 
     replace(`?${params.toString()}`);
@@ -127,9 +142,9 @@ function CustomFilterSuspense() {
 
 
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+    <div> 
+      <Form {...form} >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 z-0!">
           {/* Category */}
           <FormField
             control={form.control}
@@ -148,7 +163,7 @@ function CustomFilterSuspense() {
 
                   <FormControl>
                     <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                      <SelectValue placeholder="Select a Category" />
+                      <SelectValue placeholder={form.getValues("category") || "Select a Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -172,7 +187,7 @@ function CustomFilterSuspense() {
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger variant="borderblack" size="lg" className="w-full">
-                      <SelectValue placeholder="Select a Sub Category" />
+                      <SelectValue placeholder={form.getValues("subCategory") || "Select a Sub-Category"} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -194,18 +209,17 @@ function CustomFilterSuspense() {
               <FormItem>
                 <FormLabel className="text-gray-600">Location</FormLabel>
                 <FormControl>
-                  {/* <Input variant="borderblackRound" className="" placeholder="Enter location" {...field} /> */}
-                  <LocationAutocompleteOpenStreetMap
+                  <LocationAutocompleteGoogleMap
                     value={field.value}
                     onChange={field.onChange}
                     onSelectLocation={(data) => {
-                      console.log(data);
+                      //console.log(data);
                       form.setValue("location", data.address);
                       form.setValue("longitude", data.lng);
                       form.setValue("latitude", data.lat);
 
                     }}
-                    inputClassVarient="borderblackRound"
+                    inputClassVarient="borderblack"
                     placeholder="Enter location"
                   />
                 </FormControl>

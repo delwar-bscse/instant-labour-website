@@ -30,7 +30,7 @@ const NidUploadEmployer = () => {
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
-    console.log("Get profile Data : ", res);
+    //console.log("Get profile Data : ", res);
     const nidFront = formatUrl(res?.data?.nidFront);
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);
@@ -80,7 +80,7 @@ const NidUploadEmployer = () => {
       companyNumber,
       registeredAddress
     }
-    // console.log(payload, nidFrontFile, nidBackFile);
+    //console.log(payload, nidFrontFile, nidBackFile);
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(payload));
@@ -97,7 +97,7 @@ const NidUploadEmployer = () => {
       body: formData
     })
 
-    // console.log("Verification Update : ", res)
+    //console.log("Verification Update : ", res)
     if (res.success) {
       toast.success("Verification request send to admin successfully")
     }

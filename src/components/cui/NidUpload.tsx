@@ -21,7 +21,7 @@ const NidUpload = () => {
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
-    console.log("Get profile Data : ", res);
+    //console.log("Get profile Data : ", res);
     const nidFront = formatUrl(res?.data?.nidFront);
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);

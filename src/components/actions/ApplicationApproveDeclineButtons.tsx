@@ -8,15 +8,15 @@ import { APPLICATION_STATUS } from '@/types/jobTypes';
 const ApplicationApproveDeclineButtons = ({ jobId, workerId, applicationId }: { jobId: any, workerId: any, applicationId: any }) => {
 
   const approveApplication = async () => {
-    console.log("Application Id : ", applicationId)
+    //console.log("Application Id : ", applicationId)
     console.log("Worker Id : ", workerId)
-    console.log("Job Id : ", jobId)
+    //console.log("Job Id : ", jobId)
 
     const res = await myFetch(`/application/${applicationId}?jobId=${jobId}`, {
       method: "PATCH",
       body: { status: APPLICATION_STATUS.APPROVED }
     })
-    console.log("Apply res : ", res);
+    //console.log("Apply res : ", res);
     if (res.success) {
       toast.success("Approved Successfully");
     } else {
@@ -25,9 +25,9 @@ const ApplicationApproveDeclineButtons = ({ jobId, workerId, applicationId }: { 
   }
 
   const declineApplication = async () => {
-    console.log("Application Id : ", applicationId)
-    console.log("Worker Id : ", workerId)
-    console.log("Job Id : ", jobId)
+    //console.log("Application Id : ", applicationId)
+    //console.log("Worker Id : ", workerId)
+    //console.log("Job Id : ", jobId)
 
     const res = await myFetch(`/application/${applicationId}?jobId=${jobId}`, {
       method: "PATCH",

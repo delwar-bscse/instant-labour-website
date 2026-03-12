@@ -12,17 +12,17 @@ import GoBack from '@/components/actions/GoBack'
 const WorkerList = async ({ searchParams }: { searchParams: any }) => {
   const { type, jobId } = await searchParams;
 
-  console.log("Type : ", type);
+  //console.log("Type : ", type);
 
   const res = await myFetch(`/application/${jobId}?status=${type}`, {
     method: "GET",
   })
-  console.log("--------------Application List : ", res);
+  //console.log("--------------Application List : ", res);
 
 
 
   return (
-    <div className='maxWidth pt-4 pb-20'>
+    <div className='maxWidth pt-4 pb-20 min-h-screen'>
       {/* ------------------- Go Back Button ------------------- */}
       <GoBack type={type} />
       {/* <h2 className='text-2xl md:text-3xl xl:text-4xl font-bold mb-6 text-center text-gray-700 capitalize'>{type} Workers</h2> */}

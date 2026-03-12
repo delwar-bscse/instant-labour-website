@@ -23,7 +23,7 @@ const NotificationContext = createContext<NotificationContextType | undefined>(
 
 // const SOCKET_URL = "http://10.10.7.50:5002/";
 // const SOCKET_URL = "https://api.instantlabour.co.uk/";
-const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
+const SOCKET_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const NotificationProvider = ({
   children,

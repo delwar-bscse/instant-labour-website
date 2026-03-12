@@ -16,7 +16,7 @@ const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolea
     const res = await myFetch(`/subscription/checkout/${data?._id}`, {
       method: "POST",
     })
-    console.log("Subscribe Response : ", res)
+    //console.log("Subscribe Response : ", res)
     if (res.success) {
       window.location.href = res?.data?.checkoutUrl;
     }else {

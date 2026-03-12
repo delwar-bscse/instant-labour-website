@@ -67,7 +67,7 @@ const EmployeeProfile = () => {
 
   const fetchProfile = async () => {
     const res = await myFetch("/user/profile");
-    console.log("Get User Data : ", res);
+    //console.log("Get User Data : ", res);
 
     if (res.success) {
       setUserProfile(res?.data);

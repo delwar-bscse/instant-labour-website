@@ -147,7 +147,7 @@ const EditProfileComponent = () => {
       method: "GET",
     });
 
-    console.log("Get User Data : ", response?.data);
+    //console.log("Get User Data : ", response?.data);
 
     if (response.success) {
       setCoreSkills(response?.data?.coreSkills);
@@ -183,7 +183,7 @@ const EditProfileComponent = () => {
   /* ---------------- Work Experience ---------------- */
 
   const addWorkExperience = (data: Record<string, string>) => {
-    console.log("Get after hit adWorkExperience function : ", data);
+    //console.log("Get after hit adWorkExperience function : ", data);
     setWorkExperiences([...workExperiences, data]);
   };
 
@@ -224,7 +224,7 @@ const EditProfileComponent = () => {
                 </FormLabel>
                 <Select
                   onValueChange={(value) => {
-                    console.log("category value : ", value);
+                    //console.log("category value : ", value);
                     field.onChange(value);
                     const selectedItem = categoryDatas?.find(
                       (item: any) => item.title === value

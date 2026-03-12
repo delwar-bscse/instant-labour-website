@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Input } from "@/components/ui/input";
@@ -6,7 +7,8 @@ import dayjs from "dayjs";
 import Image from "next/image";
 import { Search } from "lucide-react";
 import { useUpdateSearchParams } from "@/hooks/useUpdateSearchParams";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface InboxSidebarProps {
   chatList: any[];
@@ -23,8 +25,10 @@ const InboxSidebar = ({
   className = "",
   activeUserId,
 }: InboxSidebarProps) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const updateSearchParam = useUpdateSearchParams();
+  const [searchChat, setSearchChat] = useState("")
 
 
   const handleClick = (item: any) => {
@@ -37,6 +41,17 @@ const InboxSidebar = ({
     updateSearchParam("chat_id", newId);
   };
 
+  useEffect(()=>{
+    const params = new URLSearchParams(window.location.search);
+    if(searchChat){
+      params.set('searchChat', searchChat)
+      router.push(`?${params.toString()}`, { scroll: false });
+    }else{
+      params.delete('searchChat')
+      router.push(`?${params.toString()}`, { scroll: false });
+    }
+  },[searchChat]);
+
   return (
     <div
       className={`h-[calc(100vh-120px)] flex flex-col bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden ${className}`}
@@ -46,6 +61,8 @@ const InboxSidebar = ({
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 size-4" />
           <Input
+            value={searchChat}
+            onChange={(e) => setSearchChat(e.target.value)}
             className="w-full rounded-xl bg-gray-50 pl-10 h-10 border-gray-200 focus-visible:ring-1 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
             placeholder="Search chats..."
           />

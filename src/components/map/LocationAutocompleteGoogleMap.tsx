@@ -28,12 +28,13 @@ export default function LocationAutocompleteGoogleMap({
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
   const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
     libraries,
   });
 
   const handlePlaceChanged = () => {
     if (!autocompleteRef.current) return;
+    //console.log("auto complete ref : ", autocompleteRef.current)
 
     const place = autocompleteRef.current.getPlace();
 

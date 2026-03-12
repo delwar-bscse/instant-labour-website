@@ -26,8 +26,8 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
-import LocationAutocompleteOpenStreetMap from "@/components/map/LocationAutocompleteOpenStreetMap";
 import { useRouter } from "next/navigation";
+import LocationAutocompleteGoogleMap from "@/components/map/LocationAutocompleteGoogleMap";
 // import LocationAutocompleteGoogleMap from "@/components/map/LocationAutocompleteGoogleMap";
 
 // Schema
@@ -83,7 +83,7 @@ const SignUp = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Form Data : ", data)
+    //console.log("Form Data : ", data)
     if (!data.latitude || !data.longitude) {
       toast.error("Please select a valid location from the suggestions.");
       return;
@@ -103,7 +103,7 @@ const SignUp = () => {
       },
     });
 
-    console.log("Sign Up : ", res);
+    //console.log("Sign Up : ", res);
 
     if (res.success) {
       toast.success(`${res.message} || "Check your email!"`);
@@ -181,7 +181,7 @@ const SignUp = () => {
                   <FormItem>
                     <FormLabel className="text-gray-600">Location</FormLabel>
                     <FormControl>
-                      <LocationAutocompleteOpenStreetMap
+                      <LocationAutocompleteGoogleMap
                         value={field.value}
                         onChange={field.onChange}
                         onSelectLocation={({ address, lat, lng }) => {

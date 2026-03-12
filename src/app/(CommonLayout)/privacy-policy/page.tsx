@@ -6,7 +6,7 @@ const PrivacyPolicy = async() => {
   const res = await myFetch(`/public/privacy-policy`, {
     method: "GET",
   })
-  console.log("Privacy Policy : ", res)
+  //console.log("Privacy Policy : ", res)
 
   return (
     <div className='maxWidth min-h-screen'>

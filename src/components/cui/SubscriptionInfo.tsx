@@ -9,7 +9,7 @@ const SubscriptionInfo = () => {
 
   const fetchSubscribe = async () => {
     const res = await myFetch("/subscription/my-subscription")
-    console.log("My Subscribe Response : ", res)
+    //console.log("My Subscribe Response : ", res)
     if (res.success) {
       setPackage(res?.data);
       // setSubscription(res?.data?.subscription);
@@ -29,7 +29,7 @@ const SubscriptionInfo = () => {
         immediate: false
       }
     })
-    console.log("Cancel My Subscribe Response : ", res)
+    //console.log("Cancel My Subscribe Response : ", res)
 
     if (res.success) {
       toast.success(res.message || "Subscription cancelled!");
@@ -42,7 +42,7 @@ const SubscriptionInfo = () => {
 
 
   return (
-    <div className='h-full w-full max-w-150 mx-auto shadow rounded-md overflow-hidden flex flex-col md:flex-row gap-4 p-6'>
+    <div className='h-full w-full max-w-160 shadow rounded-md overflow-hidden flex flex-col md:flex-row gap-4 p-6'>
       <div>
         <div className='rounded-b-xl px-2 py-2 space-y-2'>
           <h3 className='text-lg font-bold text-center text-gray-700 capitalize'>{myPackage?.packageType}</h3>

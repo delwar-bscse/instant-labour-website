@@ -23,7 +23,7 @@ export default function WorkExperienceModal({
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log("Submitted Data:", workExperienceInput);
+    //console.log("Submitted Data:", workExperienceInput);
     addWorkExperience(workExperienceInput);
 
     document.getElementById("cancel")?.click();

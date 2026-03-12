@@ -19,6 +19,8 @@ import { APPLICATION_STATUS } from '@/types/jobTypes';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
+  // console.log("Job details : ", jobDetails);
+
 
   const goBack = () => {
     window.history.back()
@@ -29,7 +31,7 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
       const res = await myFetch(`/application/${jobDetails._id}`, {
         method: "POST",
       })
-      console.log("Apply res : ", res);
+      //console.log("Apply res : ", res);
       if (res.success) {
         toast.success(res.message || "Applied successfully!");
         document.getElementById("cancel")?.click()
@@ -83,9 +85,9 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
                 <HiOutlineCurrencyPound />
                 <span>{jobDetails.salary}</span>
               </li>
-              <li className={`flex items-center gap-3 ${true ? "text-green-500" : "text-red-500"}`}>
+              <li className={`flex items-center gap-3 ${jobDetails?.createdBy?.isAccountVerified ? "text-green-500" : "text-red-500"}`}>
                 <MdOutlineVerifiedUser />
-                <span>{true ? "Verified" : "Not Verified"}</span>
+                <span>{jobDetails?.createdBy?.isAccountVerified ? "Verified" : "Not Verified"}</span>
               </li>
             </ul>
 

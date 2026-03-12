@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Input } from "@/components/ui/input";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Textarea } from "../ui/textarea";
 import InputList from "./InputList";
 import { TakeDate } from "./TakeDate";
@@ -75,7 +75,7 @@ const JobPostEditForm = () => {
   });
 
   async function onSubmit(data: EditProfileFormValues) {
-    console.log("Submitted Data:", data);
+    //console.log("Submitted Data:", data);
     const formData = new FormData();
     formData.append("companyName", data.companyName);
     formData.append("category", data.category);
@@ -98,12 +98,12 @@ const JobPostEditForm = () => {
     // console.log("User Data:", response);
   }
 
-  useEffect(() => {
-    console.log("Key Responsibilities:", keyResponsibilities);
-    console.log("Skill Requirements:", skillRequirements);
-    console.log("Benefits:", benefits);
-    console.log("Date:", date);
-  }, [keyResponsibilities, skillRequirements, benefits, date]);
+  // useEffect(() => {
+  //   console.log("Key Responsibilities:", keyResponsibilities);
+  //   console.log("Skill Requirements:", skillRequirements);
+  //   console.log("Benefits:", benefits);
+  //   console.log("Date:", date);
+  // }, [keyResponsibilities, skillRequirements, benefits, date]);
 
 
 

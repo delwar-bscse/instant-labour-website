@@ -3,7 +3,6 @@
 import { heroWorkerImg } from '@/assets/assets'
 import { CustomFilter } from '@/components/cui/CustomFilter'
 import { CustomSearchBar } from '@/components/cui/CustomSearchBar'
-import { CustomModal } from '@/components/modal/CustomModal'
 import Image from 'next/image'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
@@ -13,6 +12,7 @@ import { getUserRoleEmployer } from '@/utils/getUserRoleServer'
 import Link from 'next/link'
 import { myFetch } from '@/utils/myFetch'
 import LocationPicker from '@/components/map/LocationPicker'
+import { CustomModalAutoComplete } from '@/components/modal/CustomModalAutoComplete';
 
 
 const Workers = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
@@ -20,12 +20,13 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const newSearchParams = await searchParams;
   const workers = newSearchParams.workers;
   const type = newSearchParams.type;
+  const searchTerm = newSearchParams.searchTerm;
   const category = newSearchParams.category;
   const subCategory = newSearchParams.subCategory;
   const price = newSearchParams.price;
   const radius = newSearchParams.radius;
   const salaryType = newSearchParams.salaryType;
-  const location = newSearchParams.location;
+  // const location = newSearchParams.location;
   const longitude = newSearchParams.longitude;
   const latitude = newSearchParams.latitude;
   const page = newSearchParams?.page || 1;
@@ -34,18 +35,21 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    ...(searchTerm ? { searchTerm } : {}),
     ...(category ? { category } : {}),
     ...(subCategory ? { subCategory } : {}),
     ...(salaryType ? { salaryType } : {}),
     ...(price ? { minSalary: "0", maxSalary: price } : {}),
     ...(radius ? { radius } : {}),
-    ...(location ? { address: location } : {}),
+    // ...(location ? { address: location } : {}),
     ...(longitude && latitude ? { longitude, latitude } : {}),
   });
 
   const url = `/user/workers?${params.toString()}`;
-  console.log("workers url : ", url);
+  //console.log("workers url : ", url);
   const res = await myFetch(url);
+  
+  //console.log("worker res : ", res?.data?.data);
 
   // formatting the worker data to fit the worker card props
   const refineRes = res?.data?.data?.map((item: any) => {
@@ -62,7 +66,7 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
       status: item?.status
     };
   }) || [];
-  console.log("worker refine res : ", refineRes);
+  // console.log("worker refine res : ", refineRes);
 
   // extracting the coordinates for the map
   const resCoordinates = res?.data?.data?.map((item: any) => ({
@@ -110,16 +114,16 @@ const Workers = async ({ searchParams }: { searchParams: { [key: string]: string
       {/* --------------- Search and Jobs Filter Options --------------- */}
       <div className='flex items-center gap-4 py-8'>
         <div className='flex-1'>
-          <CustomSearchBar placeholder="Search by location" query="location" />
+          <CustomSearchBar placeholder="Search here..." query="searchTerm" />
         </div>
-        <CustomModal
+        <CustomModalAutoComplete
           title="Workers Filter Options"
           trigger={<button className='border border-gray-400 p-3 text-gray-500 rounded-full cursor-pointer'>
             <FaBars className='text-xl' />
           </button>}
         >
           <CustomFilter />
-        </CustomModal>
+        </CustomModalAutoComplete>
       </div>
 
       {/* --------------- Workers --------------- */}

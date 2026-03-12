@@ -26,12 +26,18 @@ const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any
   const [isMsgLoading, setIsMsgLoading] = useState<boolean>(false);
 
   // Real-time state
-  const [dynamicChatList, setDynamicChatList] = useState<any[]>(
-    chatList?.data || []
-  );
+  const [dynamicChatList, setDynamicChatList] = useState<any[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const socketRef = useRef<Socket | null>(null);
   const selectedChatIdRef = useRef<string | null>(null);
+
+  useEffect(()=>{
+    if(chatList?.data){
+      setDynamicChatList(chatList?.data);
+    }else{
+      setDynamicChatList([]);
+    }
+  },[chatList]);
 
   // 1. Fetch User ID
   useEffect(() => {
@@ -65,7 +71,7 @@ const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any
     socketRef.current = socket;
 
     socket.on("connect", () => {
-      console.log("Socket connected:", socket.id);
+      //console.log("Socket connected:", socket.id);
       // toast.success("Connected to chat server");
     });
 
@@ -76,7 +82,7 @@ const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any
     // Listen for new messages
     // Event format: message::{userId}
     socket.on(`message::${userId}`, (newMessage: any) => {
-      console.log("New Socket Message:", newMessage);
+      //console.log("New Socket Message:", newMessage);
 
       // A. Update Active Chat Window if open
       // Use ref to get the current selected chat ID without stale closures
@@ -114,7 +120,7 @@ const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any
 
     // Listen for New Chats
     socket.on(`newChat::${userId}`, (newChatData: any) => {
-      console.log("New Socket Chat:", newChatData);
+      //console.log("New Socket Chat:", newChatData);
       setDynamicChatList((prev) => [newChatData, ...prev]);
     });
 

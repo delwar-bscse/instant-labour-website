@@ -12,7 +12,7 @@ const WorkerDetailsBody = ({ workerDetails, jobType }: { workerDetails: any, job
           <div className='flex items-center gap-4'>
             <p className='font-bold text-xl text-gray-700'>{workerDetails?.name}</p>
             <p>
-              <span className='text-green-500 text-sm flex items-center gap-1'><MdOutlineVerifiedUser size={18} />{workerDetails?.verified ? "Verified" : "Not Verified"}</span>
+              <span className={`${workerDetails?.isAccountVerified ? "text-green-500" : "text-red-500"} text-sm flex items-center gap-1`}><MdOutlineVerifiedUser size={18} />{workerDetails?.isAccountVerified ? "Verified" : "Not Verified"}</span>
             </p>
             <div className='flex items-center gap-1'>
               <MdOutlineStarPurple500 className='text-brandClr2 size-6' />

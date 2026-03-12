@@ -14,7 +14,7 @@ const AboutUs = async () => {
   const isWorker = await getUserRoleWorker();
 
   const res = await myFetch("/content/section/about");
-  console.log("About : ", res);
+  //console.log("About : ", res);
 
   const aboutHero = filteredSectionData({ data: res?.data, section: sectionTypeEnum.ABOUT_HERO });
   const whoWeAre = filteredSectionData({ data: res?.data, section: sectionTypeEnum.WHO_WE_ARE });
@@ -23,7 +23,7 @@ const AboutUs = async () => {
   const whereWeOperate = filteredSectionData({ data: res?.data, section: sectionTypeEnum.WHERE_WE_OPERATE });
   const aboutWhyUs = filteredSectionData({ data: res?.data, section: sectionTypeEnum.ABOUT_WHY_US });
 
-  console.log("About ---- : ", whoWeAre);
+  //console.log("About ---- : ", whoWeAre);
 
   return (
     <div className=''>

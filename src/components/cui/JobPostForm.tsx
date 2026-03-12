@@ -30,7 +30,7 @@ import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
 import { getCoordinates } from "@/utils/getCoordinate";
 import { toast } from "sonner";
-import LocationAutocompleteOpenStreetMap from "../map/LocationAutocompleteOpenStreetMap";
+import LocationAutocompleteGoogleMap from "../map/LocationAutocompleteGoogleMap";
 
 /* ==============================
    Types
@@ -152,7 +152,7 @@ const JobPostForm = () => {
       skillRequirements,
       benefits,
     };
-    console.log("Onsubmit work", payload);
+    //console.log("Onsubmit work", payload);
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
@@ -168,7 +168,7 @@ const JobPostForm = () => {
       method: method,
       body: formData,
     });
-    console.log("Job post/edit res : ", res)
+    //console.log("Job post/edit res : ", res)
 
     if (res.success) {
       toast.success(res.message);
@@ -287,11 +287,11 @@ const JobPostForm = () => {
                 <FormLabel className="text-xl">Location</FormLabel>
                 <FormControl>
                   {/* <Input variant="borderblack" {...field} /> */}
-                  <LocationAutocompleteOpenStreetMap
+                  <LocationAutocompleteGoogleMap
                     value={field.value}
                     onChange={field.onChange}
                     onSelectLocation={(data) => {
-                      console.log(data)
+                      //console.log(data)
                       form.setValue("location", data.address);
                       form.setValue("longitude", data.lng);
                       form.setValue("latitude", data.lat);

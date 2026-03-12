@@ -13,7 +13,7 @@ import { formatUrl } from '@/utils/formatUrl';
 const Profile = async () => {
   const res = await myFetch("/user/profile");
   const workerDetails = res?.data
-  console.log("Get User Data : ", res);
+  //console.log("Get User Data : ", res);
 
   
   return (

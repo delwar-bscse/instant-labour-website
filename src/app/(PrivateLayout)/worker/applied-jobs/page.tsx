@@ -50,7 +50,7 @@ const AppliedJobPageSuspense = () => {
         </ul>
       </div>
 
-      <div className='w-full'>
+      <div className='w-full min-h-[calc(100vh-200px)]'>
         {type === "my-applied-list" && <ApplyJobList />}
         {type === "my-offers-list" && <OfferJobList />}
       </div>

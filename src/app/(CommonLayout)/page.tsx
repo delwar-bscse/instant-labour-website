@@ -81,10 +81,10 @@ export default async function Home() {
 
   const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
   const resClientReview = await myFetch("/clientreview", { method: "GET" });
-  console.log("What Our Client Says : ", resClientReview);
+  //console.log("What Our Client Says : ", resClientReview);
 
   const res = await myFetch("/content/section/home", { method: "GET" });
-  console.log("Home All : ", res);
+  //console.log("Home All : ", res);
 
   const homeHero = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HERO });
   const howItWorksEmployer = filteredSectionData({ data: res?.data, section: sectionTypeEnum.HOW_IT_WORKS });

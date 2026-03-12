@@ -5,7 +5,7 @@ const TermsAndConditions = async () => {
   const res = await myFetch(`/public/terms-and-condition`, {
     method: "GET",
   })
-  console.log("Terms and Condition : ", res)
+  //console.log("Terms and Condition : ", res)
 
   return (
     <div className='maxWidth min-h-screen'>

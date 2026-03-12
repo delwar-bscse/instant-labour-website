@@ -12,11 +12,11 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
 
   const handleBooked = async () => {
     if (getUserRoleEmployer()) {
-      console.log("Worker Id : ", workerDetails._id);
+      //console.log("Worker Id : ", workerDetails._id);
       const res = await myFetch(`/booking/${workerDetails._id}`, {
         method: "POST",
       })
-      console.log("Apply res : ", res);
+      //console.log("Apply res : ", res);
       if (res.success) {
         toast.success("Booked Successfully");
       } else {

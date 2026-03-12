@@ -13,7 +13,7 @@ const PostedJobList = () => {
       const jobDatas = res?.data || [];
       // const meta = res?.pagination || {};
       setJobDatas(jobDatas);
-      console.log("Job get res : ", jobDatas);
+      //console.log("Job get res : ", jobDatas);
     };
     getJobs();
   }, []);

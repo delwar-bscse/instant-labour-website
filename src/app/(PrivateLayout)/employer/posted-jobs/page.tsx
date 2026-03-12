@@ -28,7 +28,7 @@ function PostedJobPageSuspense () {
 
   const type = searchParams.get("type") || "posted-job";
 
-  useEffect(() => (console.log(pathname)), [pathname])
+  // useEffect(() => (console.log(pathname)), [pathname])
 
 
   useEffect(() => {
@@ -43,7 +43,7 @@ function PostedJobPageSuspense () {
   }, []);
 
   return (
-    <div className='maxWidth flex flex-col gap-8 py-8'>
+    <div className='maxWidth flex flex-col gap-8 py-8 min-h-screen'>
       <div className='flex flex-wrap gap-3 justify-between items-center'>
         <ul className='flex flex-wrap gap-4'>
           {profileSidebar?.map((item) => (
@@ -59,7 +59,7 @@ function PostedJobPageSuspense () {
         </div>}
       </div>
 
-      <div className='w-full'>
+      <div className='w-full' >
         {type === "posted-job" && <PostedJobList />}
         {type === "booking-list" && <BookingList />}
       </div>

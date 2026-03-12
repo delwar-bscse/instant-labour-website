@@ -46,7 +46,7 @@ const ContactUsSection = () => {
   });
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("form data:", data);
+    //console.log("form data:", data);
     toast.loading("Sending ...", { id: "contact-us" });
     const res = await myFetch("/public/contact", {
       method: "POST",

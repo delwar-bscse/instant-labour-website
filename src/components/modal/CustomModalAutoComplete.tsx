@@ -16,7 +16,7 @@ interface CustomModalProps {
   children: React.ReactNode;
 }
 
-export function CustomModal({
+export function CustomModalAutoComplete({
   trigger,
   title = "Filter Options",
   children,
@@ -28,7 +28,7 @@ export function CustomModal({
         <DialogTrigger asChild>
           {trigger}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-106.25" >
+        <DialogContent className="sm:max-w-106.25" onInteractOutside={(e) => e.preventDefault()} >
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>

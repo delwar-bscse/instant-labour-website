@@ -1,24 +1,26 @@
 
 import { CustomFilter } from '@/components/cui/CustomFilter'
 import { CustomSearchBar } from '@/components/cui/CustomSearchBar'
-import { CustomModal } from '@/components/modal/CustomModal'
+// import { CustomModal } from '@/components/modal/CustomModal'
 // import { jobDatas } from '@/data/jobDatas'
 import { FaBars } from "react-icons/fa6";
 import CustomPagination from '@/components/cui/CustomPagination'
 import { myFetch } from '@/utils/myFetch'
 import JobPostCard from '@/components/card/JobPostCard'
 import LocationPicker from '@/components/map/LocationPicker';
+import { CustomModalAutoComplete } from '@/components/modal/CustomModalAutoComplete';
 
 
 const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } }) => {
   const newSearchParams = await searchParams;
 
+  const searchTerm = newSearchParams.searchTerm;
   const category = newSearchParams.category;
   const subCategory = newSearchParams.subCategory;
   const price = newSearchParams.price;
   const radius = newSearchParams.radius;
   const salaryType = newSearchParams.salaryType;
-  const location = newSearchParams.location;
+  // const location = newSearchParams.location;
   const longitude = newSearchParams.longitude;
   const latitude = newSearchParams.latitude;
   const page = newSearchParams?.page || 1;
@@ -27,17 +29,18 @@ const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } 
   const params = new URLSearchParams({
     page: String(page),
     limit: String(limit),
+    ...(searchTerm ? { searchTerm } : {}),
     ...(category ? { category } : {}),
     ...(subCategory ? { subCategory } : {}),
     ...(salaryType ? { salaryType } : {}),
     ...(price ? { minSalary: "0", maxSalary: price } : {}),
     ...(radius ? { radius } : {}),
-    ...(location ? { address: location } : {}),
+    // ...(location ? { address: location } : {}),
     ...(longitude && latitude ? { longitude, latitude } : {}),
   });
 
   const jobUrl = `/job?${params.toString()}`;
-  console.log("Url : ", `/job?${params.toString()}`)
+  //console.log("Url : ", `/job?${params.toString()}`)
   const res = await myFetch(jobUrl, { method: "GET" });
 
 
@@ -64,16 +67,16 @@ const Jobs = async ({ searchParams }: { searchParams: { [key: string]: string } 
       {/* --------------- Search and Jobs Filter Options --------------- */}
       <div className='flex items-center gap-4 py-8'>
         <div className='flex-1'>
-          <CustomSearchBar placeholder="Search by location" query="location" />
+          <CustomSearchBar placeholder="Search here..." query="searchTerm" />
         </div>
-        <CustomModal
+        <CustomModalAutoComplete
           title="Jobs Filter Options"
           trigger={<button className='border border-gray-400 p-3 text-gray-500 rounded-full cursor-pointer'>
             <FaBars className='text-xl' />
           </button>}
         >
           <CustomFilter />
-        </CustomModal>
+        </CustomModalAutoComplete>
       </div>
 
       {/* --------------- Jobs --------------- */}

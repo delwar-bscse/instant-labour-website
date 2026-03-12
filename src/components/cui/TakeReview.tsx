@@ -11,7 +11,7 @@ const TakeReview = ({ id }: { id?: string }) => {
   const [review, setReview] = useState("");
 
   const onSubmit = async () => {
-    console.log("Review : ", id, rating, review);
+    //console.log("Review : ", id, rating, review);
 
     const res = await myFetch(`/review`, {
       method: "POST", body: {
@@ -20,7 +20,7 @@ const TakeReview = ({ id }: { id?: string }) => {
         review: review
       }
     })
-    console.log("Review res : ", res);
+    //console.log("Review res : ", res);
 
     if (res.success) {
       toast.success(res.message ?? "Review submitted successfully!");

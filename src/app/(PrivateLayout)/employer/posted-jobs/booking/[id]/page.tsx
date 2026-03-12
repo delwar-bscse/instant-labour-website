@@ -18,7 +18,7 @@ const SingleWorker = async ({ params }: { params: { id: string } }) => {
   const workerDetails = res?.data
   // console.log("Get Worker Data : ", res);
   
-  console.log("Worker reviews : ", resReview?.data);
+  //console.log("Worker reviews : ", resReview?.data);
 
 
   return (

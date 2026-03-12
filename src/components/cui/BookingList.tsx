@@ -14,7 +14,7 @@ const BookingList = () => {
       const res = await myFetch(`/booking`);
       const workerDatas = res?.data || [];
       // const meta: any = res?.data?.pagination || {};
-      console.log("Booked worker datas : ", workerDatas);
+      //console.log("Booked worker datas : ", workerDatas);
 
       const refineRes = workerDatas?.map((item: any) => {
         return {
@@ -31,7 +31,7 @@ const BookingList = () => {
         };
       }) || [];
 
-      console.log("Refine Booked worker datas : ", refineRes);
+      //console.log("Refine Booked worker datas : ", refineRes);
 
       setWorkerDatas(refineRes);
     }

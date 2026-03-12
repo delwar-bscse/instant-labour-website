@@ -18,7 +18,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
-import { getCoordinates } from "@/utils/getCoordinate";
+import LocationAutocompleteGoogleMap from "../map/LocationAutocompleteGoogleMap";
 
 // Schema
 const contactUsFormSchema = z
@@ -28,6 +28,8 @@ const contactUsFormSchema = z
       message: "Please enter a valid phone number.",
     }),
     location: z.string(),
+    latitude: z.number().optional(),
+    longitude: z.number().optional(),
   });
 
 // Type
@@ -57,7 +59,7 @@ const EmployeeWorkerProfile = () => {
         method: "GET",
       }
     );
-    console.log("Get User Data : ", res);
+    //console.log("Get User Data : ", res);
 
     if (res.success) {
       setUserProfile(res?.data);
@@ -65,6 +67,8 @@ const EmployeeWorkerProfile = () => {
         name: res?.data?.name || "",
         number: res?.data?.phone || "",
         location: res?.data?.address || "",
+        longitude: res?.data?.coordinates?.[0] || undefined,
+        latitude: res?.data?.coordinates?.[1] || undefined,
       })
     }
   }
@@ -74,9 +78,7 @@ const EmployeeWorkerProfile = () => {
   }, []);
 
   async function onSubmit(data: ContactUsFormValues) {
-    console.log("Submitted Data:", data);
-
-    const coordinates = await getCoordinates(data.location);
+    //console.log("Submitted Data:", data);
 
     const res = await myFetch("/user/profile", {
       method: "PATCH",
@@ -84,12 +86,12 @@ const EmployeeWorkerProfile = () => {
         name: data.name,
         phone: data.number,
         address: data.location,
-        latitude: coordinates?.data?.[0].lat ?? 0,
-        longitude: coordinates?.data?.[0].lng ?? 0,
+        latitude: data.latitude,
+        longitude: data.longitude,
       },
     });
 
-    console.log("Profile Update :", res);
+    //console.log("Profile Update :", res);
     if (res.success) {
       toast.success(res.message || "Profile updated!");
       await fetchProfile();
@@ -101,7 +103,7 @@ const EmployeeWorkerProfile = () => {
   }
 
   return (
-    <div className="w-full max-w-[320px] mx-auto">
+    <div className="w-full max-w-[400px]">
       {!isEditMode && <div className="border rounded-md shadow p-4">
         <div className="space-y-3">
           <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Name</span>: {userProfile?.name}</p>
@@ -155,7 +157,7 @@ const EmployeeWorkerProfile = () => {
             />
 
             {/* Location */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="location"
               render={({ field }) => (
@@ -163,6 +165,27 @@ const EmployeeWorkerProfile = () => {
                   <FormLabel className="text-gray-600">Location</FormLabel>
                   <FormControl>
                     <Input variant="yelloBg2" placeholder="Enter Your Location" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+            <FormField
+              control={form.control}
+              name="location"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-gray-600">Location</FormLabel>
+                  <FormControl>
+                    <LocationAutocompleteGoogleMap
+                      value={field.value}
+                      onChange={field.onChange}
+                      onSelectLocation={({ address, lat, lng }) => {
+                        form.setValue("location", address);
+                        form.setValue("latitude", lat);
+                        form.setValue("longitude", lng);
+                      }}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

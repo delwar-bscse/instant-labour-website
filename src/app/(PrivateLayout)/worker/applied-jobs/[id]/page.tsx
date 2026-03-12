@@ -20,11 +20,11 @@ const page = async({ params }: { params: { id: string } }) => {
     const { id } = params;
     const res = await myFetch(`/job/${id}`);
     const jobDetails = res?.data || [];
-    console.log("Job Details res : ", jobDetails);
+    //console.log("Job Details res : ", jobDetails);
 
     
       const resReview = await myFetch(`/review/${jobDetails?.createdBy?._id}`);
-      console.log("Employee reviews : ", resReview?.data);
+      //console.log("Employee reviews : ", resReview?.data);
 
 
   return (

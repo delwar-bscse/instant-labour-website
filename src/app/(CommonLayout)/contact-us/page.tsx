@@ -10,7 +10,7 @@ import React from 'react'
 const ContactUs = async() => {
 
   const res = await myFetch("/content/section/contact");
-  console.log("Contact : ", res);
+  //console.log("Contact : ", res);
 
   const contactHero = filteredSectionData({ data: res?.data, section: sectionTypeEnum.CONTACT_US });
 

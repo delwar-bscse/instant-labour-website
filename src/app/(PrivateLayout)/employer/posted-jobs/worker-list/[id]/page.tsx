@@ -18,12 +18,12 @@ const ApproveAppliedWorkerDetails = async ({ searchParams, params }: { searchPar
 
   const res = await myFetch(`/user/workers/${id}`);
   const workerDetails = res?.data
-  console.log("Get Worker Details Data : ", workerDetails);
+  //console.log("Get Worker Details Data : ", workerDetails);
 
   
   const resReview = await myFetch(`/review/${id}`);
   
-  console.log("Worker reviews : ", resReview?.data);
+  //console.log("Worker reviews : ", resReview?.data);
 
 
   return (

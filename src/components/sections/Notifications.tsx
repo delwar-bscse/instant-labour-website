@@ -22,7 +22,9 @@ interface Notification {
   isRead: boolean;
 }
 
-const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "http://10.10.7.50:5002/";
+// const SOCKET_URL = "https://api.instantlabour.co.uk/";
+const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL;
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
