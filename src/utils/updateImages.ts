@@ -1,3 +1,4 @@
+import { revalidate } from "@/helpers/revalidateHelper";
 import { myFetch } from "./myFetch";
 
 export const updateImage = async ({ image, type }: { image: File, type: string }) => {
@@ -9,5 +10,8 @@ export const updateImage = async ({ image, type }: { image: File, type: string }
     method: "POST",
     body: formData
   })
-  console.log("Common function --- Update Image Response : ", res);
+  // console.log("Common function --- Update Image Response : ", res);
+  if (res.success) {
+    revalidate("user");
+  }
 }

@@ -9,14 +9,22 @@ export const metadata: Metadata = {
 };
 
 import { NotificationProvider } from "@/context/NotificationContext";
+import { myFetch } from "@/utils/myFetch";
 
-export default function CommonLayout({
+export default async function CommonLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+
+  const response = await myFetch("/user/profile", {
+    method: "GET",
+    tags: ["user"],
+  });
+  // console.log("Layout User Data:", response);
+
   return (
     <NotificationProvider>
       <div>
-        <Navbar />
+        <Navbar userData={response?.data} />
         {children}
         <Toaster />
         <Footer />

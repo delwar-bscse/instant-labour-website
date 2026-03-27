@@ -19,6 +19,8 @@ import { useEffect, useState } from "react";
 import { myFetch } from "@/utils/myFetch";
 import { toast } from "sonner";
 import LocationAutocompleteGoogleMap from "../map/LocationAutocompleteGoogleMap";
+import { revalidate } from "@/helpers/revalidateHelper";
+import { getUserRoleEmployer } from "@/utils/getUserRoleClient";
 
 // Schema
 const contactUsFormSchema = z
@@ -44,6 +46,7 @@ const defaultValues: Partial<ContactUsFormValues> = {
 const EmployeeWorkerProfile = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [userProfile, setUserProfile] = useState<any>();
+  const isEmployer = getUserRoleEmployer();
 
   const form = useForm<ContactUsFormValues>({
     resolver: zodResolver(contactUsFormSchema),
@@ -96,6 +99,7 @@ const EmployeeWorkerProfile = () => {
       toast.success(res.message || "Profile updated!");
       await fetchProfile();
       setIsEditMode(false);
+      revalidate("user");
     } else {
       toast.error(res.message || "Something went wrong!");
     }
@@ -106,11 +110,11 @@ const EmployeeWorkerProfile = () => {
     <div className="w-full max-w-[400px]">
       {!isEditMode && <div className="border rounded-md shadow p-4">
         <div className="space-y-3">
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Name</span>: {userProfile?.name}</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Email</span>: {userProfile?.email}</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Contact</span>: {userProfile?.phone}</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Location</span>: {userProfile?.address}</p>
-          <p className="text-gray-600"><span className="font-semibold w-20 inline-block">Role</span>: {userProfile?.role}</p>
+          {userProfile?.name && <p className="text-gray-600"><span className="font-semibold w-40 inline-block">{`${isEmployer ? "Employer" : "Worker"} Name`}</span>: {userProfile?.name}</p>}
+          <p className="text-gray-600"><span className="font-semibold w-40 inline-block">Email</span>: {userProfile?.email}</p>
+          <p className="text-gray-600"><span className="font-semibold w-40 inline-block">Contact</span>: {userProfile?.phone}</p>
+          <p className="text-gray-600"><span className="font-semibold w-40 inline-block">Location</span>: {userProfile?.address}</p>
+          <p className="text-gray-600 capitalize"><span className="font-semibold w-40 inline-block">Role</span>: {userProfile?.role}</p>
         </div>
         {/* Submit Button */}
         <div className="mt-2">
@@ -132,7 +136,7 @@ const EmployeeWorkerProfile = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-600">Name</FormLabel>
+                  <FormLabel className="text-gray-600">{`${isEmployer ? "Employer" : "Worker"} Name ${isEmployer ? "(Optional)" : ""}`}</FormLabel>
                   <FormControl>
                     <Input variant="yelloBg2" placeholder="Enter Your Name" {...field} />
                   </FormControl>
