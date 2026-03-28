@@ -5,38 +5,13 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { IoClose } from "react-icons/io5";
-import { MdOutlineNotificationsNone } from "react-icons/md";
-
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
 import { Menu } from "lucide-react";
-import {
-  workerMenus,
-  employerMenus,
-  navbarItemsEmployer,
-  navbarItemsWorker,
-  navbarItemsAll,
-} from "@/constants/navbarDatas";
-// import { myFetch } from "@/utils/myFetch";
+import { MdOutlineNotificationsNone } from "react-icons/md";
+import { Sheet, SheetClose, SheetContent, SheetHeader, SheetTitle, SheetTrigger, } from "@/components/ui/sheet";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, } from "@/components/ui/dropdown-menu";
+import { workerMenus, employerMenus, navbarItemsEmployer, navbarItemsWorker, navbarItemsAll, } from "@/constants/navbarDatas";
 import { brandLogo, profileImg } from "@/assets/assets";
-import {
-  getUserRole,
-  getUserRoleEmployer,
-  getUserRoleWorker,
-} from "@/utils/getUserRoleClient";
+import { getUserRole, getUserRoleEmployer, getUserRoleWorker, } from "@/utils/getUserRoleClient";
 import { deleteCookie } from "cookies-next";
 import { formatUrl } from "@/utils/formatUrl";
 import { useNotification } from "@/context/NotificationContext";
@@ -105,8 +80,8 @@ const Navbar = ({ userData }: { userData: any }) => {
               <li
                 key={index}
                 className={`cursor-pointer px-3 py-1 rounded-sm transition-all duration-300 ${isActive(item?.url)
-                    ? "bg-brandClr1 text-white font-bold"
-                    : "hover:bg-brandClr1 hover:text-white"
+                  ? "bg-brandClr1 text-white font-bold"
+                  : "hover:bg-brandClr1 hover:text-white"
                   }`}
               >
                 <Link href={item?.url}>{item?.title}</Link>
@@ -153,8 +128,8 @@ const Navbar = ({ userData }: { userData: any }) => {
                     key={index}
                     onClick={() => hadleRedirect(item?.url)}
                     className={`${isActive(item?.url)
-                        ? "bg-brandClr1 text-white font-bold"
-                        : "hover:bg-brandClr1 hover:text-white"
+                      ? "bg-brandClr1 text-white font-bold"
+                      : "hover:bg-brandClr1 hover:text-white"
                       }`}
                   >
                     {item?.title}
@@ -223,8 +198,8 @@ const Navbar = ({ userData }: { userData: any }) => {
                       key={index}
                       onClick={() => setOpen(false)}
                       className={`cursor-pointer px-3 py-1 rounded transition-colors duration-200 ${isActive(item?.url)
-                          ? "bg-gray-200 text-primary font-semibold"
-                          : "hover:bg-gray-100"
+                        ? "bg-gray-200 text-primary font-semibold"
+                        : "hover:bg-gray-100"
                         }`}
                     >
                       <Link href={item?.url}>{item?.title}</Link>

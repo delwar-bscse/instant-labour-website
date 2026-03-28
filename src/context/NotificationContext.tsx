@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, {
@@ -69,7 +68,7 @@ export const NotificationProvider = ({
     });
 
     socket.on(`notification::${userId}`, (newNotification: any) => {
-      // console.log("New Notification received in Context:", newNotification);
+      console.log("New Notification received in Context:", newNotification);
       setUnreadCount((prev) => prev + 1);
     });
 

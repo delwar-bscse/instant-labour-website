@@ -18,19 +18,19 @@ import { io, Socket } from "socket.io-client";
 
 // const SOCKET_URL = "http://10.10.7.50:5002/";
 // const SOCKET_URL = "https://api.instantlabour.co.uk/";
-const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL
 
 const InboxClient = ({ chatList, singleChat }: { chatList: any, singleChat?: any }) => {
   const [clickedChat, setClickedChat] = useState<any>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [isMsgLoading, setIsMsgLoading] = useState<boolean>(false);
-
+  
   // Real-time state
   const [dynamicChatList, setDynamicChatList] = useState<any[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const socketRef = useRef<Socket | null>(null);
   const selectedChatIdRef = useRef<string | null>(null);
-
+  
+  const SOCKET_URL = process.env.NEXT_PUBLIC_IMAGE_URL
   useEffect(()=>{
     if(chatList?.data){
       setDynamicChatList(chatList?.data);
