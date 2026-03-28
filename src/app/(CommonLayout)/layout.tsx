@@ -3,6 +3,7 @@ import Footer from "@/components/common/Footer";
 import Navbar from "@/components/common/Navbar";
 import { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner"
+import { myFetch } from "@/utils/myFetch";
 
 export const metadata: Metadata = {
   title: "Katiem",
@@ -10,12 +11,16 @@ export const metadata: Metadata = {
 };
 
 
-export default function CommonLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function CommonLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+   const response = await myFetch("/user/profile", {
+    method: "GET",
+    tags: ["user"],
+  });
 
 
   return (
     <div className="">
-      <Navbar />
+        <Navbar userData={response?.data} />
       {children}
       <Toaster />
       <Footer />
