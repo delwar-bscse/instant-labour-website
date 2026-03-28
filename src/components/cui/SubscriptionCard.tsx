@@ -16,7 +16,7 @@ const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolea
     const res = await myFetch(`/subscription/checkout/${data?._id}`, {
       method: "POST",
     })
-    //console.log("Subscribe Response : ", res)
+    // console.log("Subscribe Response : ", res)
     if (res.success) {
       window.location.href = res?.data?.checkoutUrl;
     }else {
@@ -34,7 +34,7 @@ const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolea
             <span className='line-through text-red-500 mr-2 text-xl font-bold'>£{data.regularPrice}</span>
             <span className='text-2xl font-bold text-gray-600'>/£{afterDiscount.toFixed(2)}</span>
           </p> : <p className='text-2xl font-bold text-gray-600'>£{data.regularPrice}</p>}
-          <p className='text-center text-gray-500 text-[11px] pb-1'>(per month)</p>
+          <p className='text-center text-gray-500 text-[11px] pb-1'>{`(per ${data.interval})`}</p>
         </div>
       </div>
       <ul className='flex-1 mt-6 space-y-3 list-disc pl-12 pr-2'>

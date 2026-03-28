@@ -3,13 +3,14 @@
 import Link from 'next/link'
 
 const OfferSection = ({button, data}: {button?: boolean, data?: any}) => {
+  // console.log("Offer Data : ", data)
 
   return (
     <>
       <div className="bg-brandClr2 p-8 rounded-xl space-y-8">
         <h3 className="text-xl md:text-3xl font-semibold  inline-block px-8 py-3 rounded-sm bg-blue-600 text-white">{data?.percent_off ?? 0}% Offer</h3>
         <div className="flex flex-col sm:flex-row justify-between gap-4">
-          <p className="text-gray-700 text-xl md:text-3xl font-semibold">All packages {data?.percent_off ?? 0}% offer</p>
+          <p className="text-gray-700 text-xl md:text-3xl font-semibold">{data?.description}</p>
           {button && <div className="w-32">
             <Link href="/subscription" className="px-4 py-2.5 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-600 text-lg font-semibold rounded-sm transition-colors duration-200">Buy Now</Link>
           </div>}

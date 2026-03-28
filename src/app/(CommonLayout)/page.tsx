@@ -92,8 +92,6 @@ export default async function Home() {
   const howItWorks = isEmployer ? howItWorksEmployer : howItWorksWorker;
   const whyInstantLabour = filteredSectionData({ data: res?.data, section: sectionTypeEnum.WHY_US });
 
-
-
   return (
     <div>
       {/* --------------------- Hero Section --------------------- */}
@@ -162,7 +160,7 @@ export default async function Home() {
       {/* -------------- guaranteed a response within 7-14 days. -------------- */}
       {!isEmployer && <div className="maxWidth">
         <div className="py-6 md:py-8 bg-brandClr2 rounded-md px-4 md:px-8">
-          <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-18">All Applicants guaranteed a response within <br />7-14 days</h3>
+          <h3 className="text-2xl md:text-3xl xl:text-5xl xxl:text-6xl text text-gray-700 font-semibold capitalize leading-12 md:leading-14 lg:leading-16 xl:leading-18 xxl:leading-20">All Applicants guaranteed a response within <br />7-14 days</h3>
         </div>
       </div>}
 

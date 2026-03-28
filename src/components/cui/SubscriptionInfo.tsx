@@ -9,7 +9,7 @@ const SubscriptionInfo = () => {
 
   const fetchSubscribe = async () => {
     const res = await myFetch("/subscription/my-subscription")
-    //console.log("My Subscribe Response : ", res)
+    console.log("My Subscribe Response : ", res)
     if (res.success) {
       setPackage(res?.data);
       // setSubscription(res?.data?.subscription);

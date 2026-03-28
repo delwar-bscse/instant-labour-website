@@ -7,11 +7,11 @@ const Subscriptions = async () => {
   const res = await myFetch("/package", {
     method: "GET",
   })
+  console.log("Get Subscriptions : ", res?.data);
 
   const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
   //console.log("Coupon Data : ", resCoupon);
 
-  //console.log("Get Subscriptions : ", res?.data);
   return (
     <div className='maxWidth my-12 lg:my-20'>
       <h1 className='text-3xl sm:text-4xl lg:text-5xl text-gray-700 font-semibold capitalize text-center'>subscription package</h1>

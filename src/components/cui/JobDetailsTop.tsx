@@ -19,7 +19,7 @@ import { APPLICATION_STATUS } from '@/types/jobTypes';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
-  // console.log("Job details : ", jobDetails);
+  console.log("Job details : ", jobDetails);
 
 
   const goBack = () => {
