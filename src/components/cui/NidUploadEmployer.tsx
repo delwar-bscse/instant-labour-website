@@ -23,14 +23,14 @@ const NidUploadEmployer = () => {
   const [nidFrontFile, setNidFrontFile] = useState<File>();
   const [nidBackFile, setNidBackFile] = useState<File>();
   const [nationality, setNationality] = useState<string>("british");
-  const [employerType, setEmployerType] = useState<string>(items[0].value);
+  const [employerType, setEmployerType] = useState<string>();
   const [businessName, setBusinessName] = useState<string>("");
   const [companyNumber, setCompanyNumber] = useState<string>("");
   const [registeredAddress, setRegisteredAddress] = useState<string>("");
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
-    //console.log("Get profile Data : ", res);
+    // console.log("Get profile Data : ", res);
     const nidFront = formatUrl(res?.data?.nidFront);
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);
@@ -77,7 +77,7 @@ const NidUploadEmployer = () => {
       isBritish: nationality === "british" ? true : false,
       employerType,
       businessName,
-      companyNumber,
+      ...(employerType === "limited" ? { companyNumber } : { companyNumber: "" }),
       registeredAddress
     }
     //console.log(payload, nidFrontFile, nidBackFile);
@@ -147,7 +147,7 @@ const NidUploadEmployer = () => {
 
           <Select onValueChange={(value) => setEmployerType(value)} defaultValue={employerType} >
             <SelectTrigger className="w-full border border-gray-300 rounded-md px-3 py-2" >
-              <SelectValue placeholder="Theme" />
+              <SelectValue placeholder={employerType || "Select Employer Type"} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
