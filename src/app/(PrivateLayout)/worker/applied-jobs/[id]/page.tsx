@@ -18,7 +18,7 @@ import JobDetailsTop from '@/components/cui/JobDetailsTop'
 
 const page = async ({ params }: { params: { id: string } }) => {
 
-  const { id } = params;
+  const { id } = await params;
   const res = await myFetch(`/job/${id}`);
   const jobDetails = res?.data || [];
   //console.log("Job Details res : ", jobDetails);

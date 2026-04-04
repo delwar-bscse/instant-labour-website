@@ -29,7 +29,7 @@ const profileSidebar = [
   },
   {
     id: 2,
-    title: "National ID",
+    title: "Verification",
     icon: <TbEPassport className='text-gray-700 text-xl' />,
   },
   {

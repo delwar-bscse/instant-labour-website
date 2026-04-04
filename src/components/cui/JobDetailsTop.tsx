@@ -16,6 +16,7 @@ import { formatUrl } from '@/utils/formatUrl';
 import dayjs from 'dayjs';
 import { myFetch } from '@/utils/myFetch';
 import { APPLICATION_STATUS } from '@/types/jobTypes';
+import { BsExclamationCircle } from 'react-icons/bs';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
@@ -87,7 +88,12 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
               </li>
               <li className={`flex items-center gap-3 ${jobDetails?.createdBy?.isAccountVerified ? "text-green-500" : "text-red-500"}`}>
                 <MdOutlineVerifiedUser />
-                <span>{jobDetails?.createdBy?.isAccountVerified ? "Verified" : "Not Verified"}</span>
+                <span>{jobDetails?.createdBy?.isAccountVerified ? <CustomModal
+                  title="ID Verified"
+                  trigger={<button className='text-green-500 flex items-center gap-1 cursor-pointer'>Verified <BsExclamationCircle size={14} /></button>}
+                >
+                  <p>This user has provided valid government ID to confirm they are a real person. Instantlabour has not performed any background, criminal, or Right to Work checks.</p>
+                </CustomModal> : "Not Verified"}</span>
               </li>
             </ul>
 

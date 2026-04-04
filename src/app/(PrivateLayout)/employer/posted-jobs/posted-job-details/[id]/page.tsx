@@ -8,7 +8,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const PostedJobDetails = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = await params;
   const res = await myFetch(`/job/${id}`);
   const jobDetails = res?.data || [];
   //console.log("Job details res : ", jobDetails);

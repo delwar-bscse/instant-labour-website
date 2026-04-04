@@ -1,7 +1,10 @@
+"use client"
 import React from 'react'
 import { MdOutlineStarPurple500, MdOutlineVerifiedUser } from "react-icons/md";
 // import { workerDetails } from '@/data/workerDatas';
 import { FaCheckSquare } from "react-icons/fa";
+import { BsExclamationCircle } from 'react-icons/bs';
+import { CustomModal } from '@/components/modal/CustomModal';
 
 const WorkerDetailsBody = ({ workerDetails, jobType }: { workerDetails: any, jobType?: string }) => {
   return (
@@ -11,9 +14,15 @@ const WorkerDetailsBody = ({ workerDetails, jobType }: { workerDetails: any, job
         <div className='space-y-2'>
           <div className='flex items-center gap-4'>
             <p className='font-bold text-xl text-gray-700'>{workerDetails?.name}</p>
-            <p>
-              <span className={`${workerDetails?.isAccountVerified ? "text-green-500" : "text-red-500"} text-sm flex items-center gap-1`}><MdOutlineVerifiedUser size={18} />{workerDetails?.isAccountVerified ? "Verified" : "Not Verified"}</span>
-            </p>
+            <p className={`${workerDetails?.isAccountVerified ? "text-green-500" : "text-red-500"} text-sm flex items-center gap-1`}>
+              <MdOutlineVerifiedUser size={18} />
+              {workerDetails?.isAccountVerified ? <CustomModal
+                title="ID Verified"
+                trigger={<button className='text-green-500 flex items-center gap-1 cursor-pointer'>Verified <BsExclamationCircle size={14} /></button>}
+              >
+                <p>This user has provided valid government ID to confirm they are a real person. Instantlabour has not performed any background, criminal, or Right to Work checks.</p>
+              </CustomModal> : "Not Verified"}</p>
+
             <div className='flex items-center gap-1'>
               <MdOutlineStarPurple500 className='text-brandClr2 size-6' />
               <p className='font-semibold text-gray-600'>{workerDetails?.rating}</p>

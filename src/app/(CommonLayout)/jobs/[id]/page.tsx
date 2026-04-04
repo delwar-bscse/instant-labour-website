@@ -6,7 +6,7 @@ import ReviewCard from '@/components/card/ReviewCard'
 import { myFetch } from '@/utils/myFetch'
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const { id } = params;
+  const { id } = await params;
   const res = await myFetch(`/job/${id}`);
   const jobDetails = res?.data || [];
   //console.log("Job details res : ", res);

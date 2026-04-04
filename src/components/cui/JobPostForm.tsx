@@ -46,6 +46,7 @@ type EditPostFormValues = {
   salary?: string;
   availability: string[];
   overview?: string;
+  preEmploymentCheck?: boolean;
 };
 
 /* ==============================
@@ -62,6 +63,7 @@ const defaultValues: Partial<EditPostFormValues> = {
   salary: "",
   availability: [],
   overview: "",
+  preEmploymentCheck: false,
 };
 
 /* ==============================
@@ -374,7 +376,7 @@ const JobPostForm = () => {
               render={({ field }) => (
                 <FormItem className="">
                   <FormLabel className="flex gap-2">
-                    <p className="text-xl font-semibold pb-1">Saying Salary</p>
+                    <p className="text-xl font-semibold pb-1">Salary</p>
                     {Object.values(SALARY_TYPE).map((value) => (
                       <span
                         key={value}
@@ -432,6 +434,29 @@ const JobPostForm = () => {
             title="Benefits"
             list={benefits}
             setList={setBenefits}
+          />
+          {/* Pre Employment Check */}
+          <FormField
+            control={form.control}
+            name="preEmploymentCheck"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+
+                  <div className="flex items-baseline">
+                    <input
+                      type="checkbox"
+                      required
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <span className=''>I acknowledge that a &quot;Verified&quot; badge only confirms a user&apos;s identity has been checked. I agree that I am solely responsible for performing all mandatory pre-employment checks, including Right to Work, references, and DBS checks.</span>
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
 
           <div className="flex justify-end">

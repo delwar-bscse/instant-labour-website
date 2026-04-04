@@ -22,11 +22,12 @@ const NidUploadEmployer = () => {
   const [nidBack, setNidBack] = useState<string>();
   const [nidFrontFile, setNidFrontFile] = useState<File>();
   const [nidBackFile, setNidBackFile] = useState<File>();
-  const [nationality, setNationality] = useState<string>("british");
+  // const [nationality, setNationality] = useState<string>("british");
   const [employerType, setEmployerType] = useState<string>();
   const [businessName, setBusinessName] = useState<string>("");
   const [companyNumber, setCompanyNumber] = useState<string>("");
   const [registeredAddress, setRegisteredAddress] = useState<string>("");
+  const [preEmploymentCheck, setPreEmploymentCheck] = useState<boolean>(false);
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
@@ -35,8 +36,8 @@ const NidUploadEmployer = () => {
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);
     setNidBack(nidBack);
-    const nationality = res?.data?.isBritish ? "british" : "non-british";
-    setNationality(nationality);
+    // const nationality = res?.data?.isBritish ? "british" : "non-british";
+    // setNationality(nationality);
     setBusinessName(res?.data?.businessName || "")
     setEmployerType(res?.data?.employerType || items[0].value)
     setCompanyNumber(res?.data?.companyNumber || "")
@@ -64,17 +65,21 @@ const NidUploadEmployer = () => {
     // updateImage({ image: file, type: "nidBack" })
   }
 
-  const activeStyle = (value: string) => {
-    if (nationality === value) {
-      return 'bg-[#FFC823] border border-[#FFC823]';
-    } else {
-      return 'border border-gray-500';
-    }
-  }
+  // const activeStyle = (value: string) => {
+  //   if (nationality === value) {
+  //     return 'bg-[#FFC823] border border-[#FFC823]';
+  //   } else {
+  //     return 'border border-gray-500';
+  //   }
+  // }
 
   const handleSubmit = async () => {
+    if (!preEmploymentCheck) {
+      toast.error("Please full up the checkbox to confirm");
+      return
+    }
     const payload = {
-      isBritish: nationality === "british" ? true : false,
+      // isBritish: nationality === "british" ? true : false,
       employerType,
       businessName,
       ...(employerType === "limited" ? { companyNumber } : { companyNumber: "" }),
@@ -105,14 +110,14 @@ const NidUploadEmployer = () => {
 
   return (
     <div className='min-h-[600px] space-y-4 w-full max-w-[740px] '>
-      <div className='space-y-2'>
+      {/* <div className='space-y-2'>
         <p className='font-semibold text-2xl text-gray-800'>Select Method</p>
         <div className='flex flex-col sm:flex-row gap-3 w-full'>
           <button onClick={() => setNationality("british")} className={`${activeStyle('british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>British Nationals</button>
           <button onClick={() => setNationality("non-british")} className={`${activeStyle('non-british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>Non British Nationals</button>
         </div>
-      </div>
-      <p className='font-semibold text-lg text-gray-700'>NID (font side & back side )</p>
+      </div> */}
+      <p className='font-semibold text-lg text-gray-700'>NID (Font Side & Back Side )</p>
       <div className='flex items-center flex-wrap gap-4'>
         <div className='relative w-90 h-40 sm:h-45 md:h-50'>
           {nidFornt ? (
@@ -173,11 +178,14 @@ const NidUploadEmployer = () => {
           <p className='font-semibold text-lg text-gray-700 capitalize'>registered address</p>
           <input onChange={(e) => setRegisteredAddress(e.target.value)} value={registeredAddress} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your registered address' />
         </div>
+        <div className="flex items-baseline">
+          <input type="checkbox" onChange={(e) => setPreEmploymentCheck(e.target.checked)} className="mr-2" />
+          <span className=''>I acknowledge that a &quot;Verified&quot; badge only confirms a user&apos;s identity has been checked. I agree that I am solely responsible for performing all mandatory pre-employment checks, including Right to Work, references, and DBS checks.</span>
+        </div>
         <div>
           <button onClick={handleSubmit} className='bg-[#FFC823] hover:bg-[#FFC823]/90 w-full px-3 py-3 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer'>Confirm</button>
         </div>
       </div>
-
     </div>
   )
 }

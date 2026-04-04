@@ -3,21 +3,20 @@
 import { formatUrl } from '@/utils/formatUrl'
 import { myFetch } from '@/utils/myFetch'
 // import { updateImage } from '@/utils/updateImages'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { FiUpload } from 'react-icons/fi'
 import { toast } from 'sonner'
 
-const NidUpload = () => {
+const NidUploadWorker = () => {
   const [nidFornt, setNidFornt] = useState<string>();
   const [nidBack, setNidBack] = useState<string>();
-    const [nidFrontFile, setNidFrontFile] = useState<File>();
-    const [nidBackFile, setNidBackFile] = useState<File>();
-  const [nationality, setNationality] = useState<string>("british");
-  const [insuranceNumber, setInsuranceNumber] = useState<string>("");
-  const [workerNumber, setWorkerNumber] = useState<string>("");
-  const [dathOfBirth, setDathOfBirth] = useState<string>("");
+  const [nidFrontFile, setNidFrontFile] = useState<File>();
+  const [nidBackFile, setNidBackFile] = useState<File>();
+  // const [nationality, setNationality] = useState<string>("british");
+  const [rightToWork, setRightToWork] = useState<boolean>(false);
+  const [isProvideProof, setIsProvideProof] = useState<boolean>(false);
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
@@ -26,14 +25,8 @@ const NidUpload = () => {
     const nidBack = formatUrl(res?.data?.nidBack);
     setNidFornt(nidFront);
     setNidBack(nidBack);
-    const nationality = res?.data?.isBritish ? "british" : "non-british";
-    setNationality(nationality);
-    if (res?.data?.isBritish) {
-      setInsuranceNumber(res?.data?.insuranceNumber || "")
-    } else {
-      setWorkerNumber(res?.data?.shareCode || "")
-      setDathOfBirth(dayjs(res?.data?.dateOfBirth).format("YYYY-MM-DD") || "")
-    } 
+    // const nationality = res?.data?.isBritish ? "british" : "non-british";
+    // setNationality(nationality);
   }
   useEffect(() => {
     fetchProfile();
@@ -57,25 +50,28 @@ const NidUpload = () => {
     // updateImage({ image: file, type: "nidBack" })
   }
 
-  const activeStyle = (value: string) => {
-    if (nationality === value) {
-      return 'bg-[#FFC823] border border-[#FFC823]';
-    } else {
-      return 'border border-gray-500';
-    }
-  }
+  // const activeStyle = (value: string) => {
+  //   if (nationality === value) {
+  //     return 'bg-[#FFC823] border border-[#FFC823]';
+  //   } else {
+  //     return 'border border-gray-500';
+  //   }
+  // }
 
   const handleSubmit = async () => {
-    // console.log(nationality, insuranceNumber, workerNumber, dathOfBirth);
-    const payload: any = {}
-    if (nationality === "british") {
-      payload.isBritish = true;
-      payload.insuranceNumber = insuranceNumber;
-    } else {
-      payload.isBritish = false;
-      payload.shareCode = workerNumber;
-      payload.dateOfBirth = dathOfBirth;
+    // console.log(nationality);
+    if (!isProvideProof || !rightToWork) {
+      toast.error("Please fill up the checkbox to confirm");
+      return
     }
+    const payload: any = {}
+    payload.isRightToWork = rightToWork;
+    payload.isProvideProof = isProvideProof;
+    // if (nationality === "british") {
+    //   payload.isBritish = true;
+    // } else {
+    //   payload.isBritish = false;
+    // }
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
     if (nidFrontFile) {
@@ -93,18 +89,20 @@ const NidUpload = () => {
     // console.log("Verification Update : ", res)
     if (res.success) {
       toast.success("Verification request send to admin successfully")
+    } else {
+      toast.error("Failed to send verification request")
     }
   }
 
   return (
     <div className='min-h-[600px] space-y-4 w-full max-w-[740px] '>
-      <div className='space-y-2'>
+      {/* <div className='space-y-2'>
         <p className='font-semibold text-2xl text-gray-800'>Select Method</p>
         <div className='flex flex-col sm:flex-row gap-3 w-full'>
           <button onClick={() => setNationality("british")} className={`${activeStyle('british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>British Nationals</button>
           <button onClick={() => setNationality("non-british")} className={`${activeStyle('non-british')} w-full px-3 py-2 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer`}>Non British Nationals</button>
         </div>
-      </div>
+      </div> */}
       <p className='font-semibold text-lg text-gray-700'>NID (font side & back side )</p>
       <div className='flex items-center flex-wrap gap-4'>
         <div className='relative w-90 h-40 sm:h-45 md:h-50'>
@@ -135,18 +133,16 @@ const NidUpload = () => {
         </div>
       </div>
       <div className='space-y-4'>
-        {nationality === "british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>national insurance number</p>
-          <input onChange={(e) => setInsuranceNumber(e.target.value)} value={insuranceNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
-        </div>}
-        {nationality === "non-british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>a share code(right to work)</p>
-          <input onChange={(e) => setWorkerNumber(e.target.value)} value={workerNumber} className='border border-gray-300 rounded-md px-3 py-2 w-full' type="text" placeholder='Enter your NIN' />
-        </div>}
-        {nationality === "non-british" && <div className='space-y-2'>
-          <p className='font-semibold text-lg text-gray-700 capitalize'>D.O.B</p>
-          <input type="date" onChange={(e) => setDathOfBirth(e.target.value)} value={dathOfBirth} className='border border-gray-300 rounded-md px-3 py-2 w-full' placeholder='Enter your NIN' />
-        </div>}
+        <div className='space-y-2'>
+          <div className="flex items-center">
+            <input type="checkbox" onChange={(e) => setIsProvideProof(e.target.checked)} className="mr-2" />
+            <span>I will provide valid proof to employers upon request</span>
+          </div>
+          <div className="flex items-center">
+            <input type="checkbox" onChange={(e) => setRightToWork(e.target.checked)} className="mr-2" />
+            <span className='capitalize'>I confirm I have the right to work in the UK</span>
+          </div>
+        </div>
         <div>
           <button onClick={handleSubmit} className='bg-[#FFC823] hover:bg-[#FFC823]/90 w-full px-3 py-3 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer'>Confirm</button>
         </div>
@@ -156,4 +152,4 @@ const NidUpload = () => {
   )
 }
 
-export default NidUpload
+export default NidUploadWorker
