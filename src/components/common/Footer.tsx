@@ -14,7 +14,7 @@ const Footer = () => {
             <span className='text-brandClr2 tracking-wider'>Labour</span>
           </div>
           <p className='flex items-center gap-2'>
-            At Instantlabour, we connect businesses with skilled freelancers to get work done faster and better. Our platform makes it easy to find the right talent, hire with confidence, and collaborate smoothly. Whether you’re an employer looking for experts or a freelancer showcasing your skills, we help you work together for great results.
+            At Instant Labour, we’re a platform that connects businesses with skilled freelancers. Our marketplace makes it easy to find the right talent, hire with confidence, and collaborate seamlessly. Whether you’re a business seeking experts or a freelancer showcasing your skills, we help you get great work done together.
           </p>
         </div>
         <div className='lg:basis-[50%] flex flex-col sm:flex-row lg:justify-end gap-8 px-6'>
