@@ -15,8 +15,7 @@ const NidUploadWorker = () => {
   const [nidFrontFile, setNidFrontFile] = useState<File>();
   const [nidBackFile, setNidBackFile] = useState<File>();
   // const [nationality, setNationality] = useState<string>("british");
-  const [rightToWork, setRightToWork] = useState<boolean>(false);
-  const [isProvideProof, setIsProvideProof] = useState<boolean>(false);
+  const [isCommitted, setIsCommitted] = useState<boolean>(false);
 
   const fetchProfile = async () => {
     const res = await myFetch(`/user/profile`,)
@@ -60,13 +59,12 @@ const NidUploadWorker = () => {
 
   const handleSubmit = async () => {
     // console.log(nationality);
-    if (!isProvideProof || !rightToWork) {
+    if (!isCommitted) {
       toast.error("Please fill up the checkbox to confirm");
       return
     }
     const payload: any = {}
-    payload.isRightToWork = rightToWork;
-    payload.isProvideProof = isProvideProof;
+    payload.isCommitted = isCommitted;
     // if (nationality === "british") {
     //   payload.isBritish = true;
     // } else {
@@ -134,20 +132,15 @@ const NidUploadWorker = () => {
       </div>
       <div className='space-y-4'>
         <div className='space-y-2'>
-          <div className="flex items-center">
-            <input type="checkbox" onChange={(e) => setIsProvideProof(e.target.checked)} className="mr-2" />
-            <span>I will provide valid proof to employers upon request</span>
-          </div>
-          <div className="flex items-center">
-            <input type="checkbox" onChange={(e) => setRightToWork(e.target.checked)} className="mr-2" />
-            <span className='capitalize'>I confirm I have the right to work in the UK</span>
+          <div className="flex items-baseline">
+            <input type="checkbox" onChange={(e) => setIsCommitted(e.target.checked)} className="mr-2" />
+            <span>I confirm that my profile information is accurate and I have the legal right to work in the UK. I acknowledge that Instantlabour verification is for identity purposes only and does not include background, criminal, or Right to Work checks.</span>
           </div>
         </div>
         <div>
           <button onClick={handleSubmit} className='bg-[#FFC823] hover:bg-[#FFC823]/90 w-full px-3 py-3 rounded-md font-semibold text-gray-700 transition-colors duration-300 cursor-pointer'>Confirm</button>
         </div>
       </div>
-
     </div>
   )
 }

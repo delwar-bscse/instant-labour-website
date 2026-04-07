@@ -20,42 +20,27 @@ const ForEmployersComponent = () => (
   <div>
     <ul className="list-disc list-outside pl-8 space-y-2 capitalize">
       <li>Post A Job In Seconds</li>
-      <li>Get Instant Matches From Available Local Workers</li>
+      <li>Browse Available Local Workers</li>
       <li>Review Profiles And Ratings</li>
     </ul>
     <p className="text-lg font-semibold pt-6 pb-2 capitalize">Need A worker Today?</p>
-    <p className="capitalize">Post Your Job Now And Get Matched Within Minutes.</p>
+    <p className="capitalize">Post your job and connect with available workers in minutes.</p>
   </div>
 )
 
 const ForWorkersComponent = () => (
   <div className="max-h-90 overflow-y-auto scrollbar-hide">
     <div>
-
       <p className="capitalize pb-2">Looking for same-day or flexible work?</p>
-      <p className="capitalize">InstantLabour gives you control – choose your jobs, hours, and pay rates ?</p>
+      <p className="capitalize">InstantLabour makes it easy to browse local job opportunities, apply for roles, and connect directly with employers—all in one place.</p>
 
-      <p className="text-lg font-semibold pt-6 pb-2 capitalize">Need A worker Today?</p>
+      <p className="text-lg font-semibold pt-6 pb-2 capitalize">Work on Your Terms</p>
       <ul className="list-disc list-outside pl-8 space-y-2 capitalize">
-        <li>Work when it suits you</li>
-        <li>Get paid quickly</li>
-        <li>No phone calls or agencies</li>
+        <li>Browse and apply for jobs that fit your availability</li>
+        <li>Choose when and where you work</li>
+        <li>Connect directly with employers</li>
+        <li>No phone calls, no agencies</li>
       </ul>
-
-      <p className="text-lg font-semibold pt-6 pb-2 capitalize">Popular Roles.</p>
-      <ul className="list-disc list-outside pl-8 space-y-2 capitalize">
-        <li>General Labourer</li>
-        <li>Cleaner</li>
-        <li>Driver</li>
-        <li>Driver</li>
-        <li>Handyman</li>
-        <li>Porter</li>
-        <li>Warehouse Operative</li>
-        <li>Kitchen Assistant</li>
-      </ul>
-
-      <p className="text-lg font-semibold pt-6 capitalize">join free and start working today!</p>
-
     </div>
   </div>
 )
@@ -63,11 +48,10 @@ const ForWorkersComponent = () => (
 const InstantLabourComponent = () => (
   <div className="max-h-90 overflow-y-auto scrollbar-hide">
     <div>
-      <p className="capitalize">Hire local labourers, cleaners, drivers, and more — instantly. InstantLabour connects employers and workers in minutes using smart matching. No agencies, no phone calls, no delays — just instant results.</p>
+      <p className="capitalize">Hire local labourers, cleaners, drivers, and more - fast. Instant Labour is a simple platform where employers and workers can connect directly, without agencies or phone calls.</p>
       <p className="text-lg font-semibold pt-6 pb-2 capitalize">Need A worker Today?</p>
-      <p className="pb-2 capitalize">InstantLabour is the UK’s fastest-growing on-demand work platform for urgent labour and short-term jobs.</p>
-      <p className="pb-2 capitalize">We match local businesses with available workers in real time — ideal for last-minute cover, urgent projects, or one-day tasks.</p>
-      <p className="pb-2 capitalize">Whether you need a labourer, cleaner, driver, handyman, warehouse staff, or kitchen assistant, InstantLabour helps you find the person instantly</p>
+      <p className="pb-2 capitalize">Instant Labour is a UK-based platform designed for urgent labour and short-term work opportunities.</p>
+      <p className="pt-2 capitalize">Browse available workers and connect instantly - no need to post a job. Ideal for last-minute cover, urgent projects, or one-day tasks</p>
     </div>
   </div>
 )
@@ -140,7 +124,7 @@ export default async function Home() {
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
               <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
               {!isUser && <CustomModal
-                title="InstantLabour - Find Worker Or Work Instantly Near You"
+                title="Instant Labour - Find Workers Near You Fast."
                 trigger={<BsExclamationCircle />}
               >
                 <InstantLabourComponent />

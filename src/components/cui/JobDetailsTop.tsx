@@ -92,7 +92,7 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
                   title="ID Verified"
                   trigger={<button className='text-green-500 flex items-center gap-1 cursor-pointer'>Verified <BsExclamationCircle size={14} /></button>}
                 >
-                  <p>This user has provided valid government ID to confirm they are a real person. Instantlabour has not performed any background, criminal, or Right to Work checks.</p>
+                  <p>This job has been posted by a user who has provided a government-issued ID to confirm they are a real person. Instant Labour has not verified the accuracy of the job details or carried out checks on the employer, role, or compliance with applicable laws. Users are responsible for reviewing job information before applying or engaging.</p>
                 </CustomModal> : "Not Verified"}</span>
               </li>
             </ul>
