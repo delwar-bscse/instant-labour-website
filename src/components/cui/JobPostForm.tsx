@@ -28,7 +28,6 @@ import { SALARY_TYPE } from "@/constants/salaryObject";
 import { AVAILABILITY } from "@/constants/availabilityObject";
 import { myFetch } from "@/utils/myFetch";
 import { useParams } from "next/navigation";
-import { getCoordinates } from "@/utils/getCoordinate";
 import { toast } from "sonner";
 import LocationAutocompleteGoogleMap from "../map/LocationAutocompleteGoogleMap";
 
@@ -133,18 +132,19 @@ const JobPostForm = () => {
   }, []);
 
   const onSubmit = async (data: EditPostFormValues) => {
-
-
-    const coordinates = await getCoordinates(data.location || "");
+    // console.log({data})
 
     const payload = {
       title: "Dummy Job",
       companyName: data.companyName,
       category: data.category,
       subCategory: data.subCategory,
+      // address: "Dhaka, Bangladesh",
+      // latitude: 23.810331,
+      // longitude: 90.412521,
       address: data.location,
-      latitude: coordinates?.data?.[0].lat ?? 0,
-      longitude: coordinates?.data?.[0].lng ?? 0,
+      latitude: data.latitude,
+      longitude: data.longitude,
       postDuration: deadline,
       overview: data.overview,
       salaryType,
@@ -154,7 +154,7 @@ const JobPostForm = () => {
       skillRequirements,
       benefits,
     };
-    //console.log("Onsubmit work", payload);
+    console.log("Onsubmit work", payload);
 
     const formData = new FormData();
     formData.append("data", JSON.stringify(payload));
@@ -170,7 +170,7 @@ const JobPostForm = () => {
       method: method,
       body: formData,
     });
-    //console.log("Job post/edit res : ", res)
+    console.log("Job post/edit res : ", res)
 
     if (res.success) {
       toast.success(res.message);
