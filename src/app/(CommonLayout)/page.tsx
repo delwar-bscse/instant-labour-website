@@ -1,4 +1,5 @@
 
+
 import Image from "next/image";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import IndustriesSlider from "@/components/sections/IndustriesSlider";
@@ -102,12 +103,12 @@ export default async function Home() {
           </div> : <div className="flex flex-wrap gap-4 w-full">
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
+              <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
               {!isUser && <CustomModal
-                title="For Employers"
+                title="Instant Labour - Find Workers Near You Fast."
                 trigger={<BsExclamationCircle />}
               >
-                <ForEmployersComponent />
+                <InstantLabourComponent />
               </CustomModal>}
             </div>
 
@@ -122,15 +123,14 @@ export default async function Home() {
             </div>
 
             <div className="flex items-center justify-center gap-2 bg-brandClr2 hover:bg-brandClr2/90 transition-colors duration-200 cursor-pointer rounded-sm px-4 py-1.5">
-              <Link href="/workers" className="font-semibold text-gray-800">Instant Labour</Link>
+              <Link href="/workers" className="font-semibold text-gray-800">Im Hiring</Link>
               {!isUser && <CustomModal
-                title="Instant Labour - Find Workers Near You Fast."
+                title="For Employers"
                 trigger={<BsExclamationCircle />}
               >
-                <InstantLabourComponent />
+                <ForEmployersComponent />
               </CustomModal>}
             </div>
-
           </div>
           }
 
