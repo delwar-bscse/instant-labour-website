@@ -14,7 +14,7 @@ const SingleWorker = async ({ params }: { params: { id: string } }) => {
   const res = await myFetch(`/user/workers/${id}`);
   const resReview = await myFetch(`/review/${id}`);
   const workerDetails = res?.data
-  //console.log("Get Worker Details Data : ", res);
+  console.log("Get Worker Details Data : ", res);
   //console.log("Worker reviews : ", resReview?.data);
 
 

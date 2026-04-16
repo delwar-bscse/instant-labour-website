@@ -29,7 +29,7 @@ export const NotificationProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [unreadCount, setUnreadCount] = useState(0);
+  const [unreadCount, setUnreadCount] = useState(1);
   const [userId, setUserId] = useState<string | null>(null);
   const socketRef = useRef<Socket | null>(null);
 

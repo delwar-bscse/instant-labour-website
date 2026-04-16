@@ -20,7 +20,7 @@ import { BsExclamationCircle } from 'react-icons/bs';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
 
-  console.log("Job details : ", jobDetails);
+  console.log("Job details Top: ", jobDetails);
 
 
   const goBack = () => {
@@ -88,12 +88,12 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
               </li>
               <li className={`flex items-center gap-3 ${jobDetails?.createdBy?.isAccountVerified ? "text-green-500" : "text-red-500"}`}>
                 <MdOutlineVerifiedUser />
-                <span>{jobDetails?.createdBy?.isAccountVerified ? <CustomModal
+                {jobDetails?.createdBy?.isAccountVerified ? <CustomModal
                   title="ID Verified"
                   trigger={<button className='text-green-500 flex items-center gap-1 cursor-pointer'>Verified <BsExclamationCircle size={14} /></button>}
                 >
                   <p>This job has been posted by a user who has provided a government-issued ID to confirm they are a real person. Instant Labour has not verified the accuracy of the job details or carried out checks on the employer, role, or compliance with applicable laws. Users are responsible for reviewing job information before applying or engaging.</p>
-                </CustomModal> : "Not Verified"}</span>
+                </CustomModal> : <span className=''>Not Verified</span>}
               </li>
             </ul>
 
