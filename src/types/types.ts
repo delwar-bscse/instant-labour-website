@@ -14,7 +14,7 @@ export const sectionTypeEnum = {
   HOW_IT_WORKS: "how-it-works",
   HOW_IT_WORKS_WORKER: "how-it-works-worker",
   WHY_US: "why-us",
-  
+
   ABOUT_HERO: "about-hero",
   WHO_WE_ARE: "who-we-are",
   OUR_MISSION: "our-mission",

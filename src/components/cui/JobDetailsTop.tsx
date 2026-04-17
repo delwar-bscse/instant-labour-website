@@ -101,10 +101,10 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
             {/* -------------------Apply Now, Contact & Review Button ------------------- */}
             {!getUserRoleEmployer() && (jobDetails.isApplied ? <div>
               {jobDetails.applicationStatus === APPLICATION_STATUS.APPROVED ? <div className='flex gap-4 items-center'>
-                <Link href={`/inbox`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
+                <Link href={`/inbox?chat_id=${jobDetails?.chatId}`} className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Contact Now</Link>
                 <button className='border-2 border-blue-600 text-blue-600 font-semibold py-2 px-8 rounded-sm hover:border-blue-700 transition-colors duration-300'>Feed Back</button>
               </div> : <div>
-                <p>Status : {jobDetails.applicationStatus}</p>
+                <p className='text-gray-500'>Status : Your application status is {jobDetails.applicationStatus}</p>
               </div>}
             </div> : <div className='flex'>
               <CustomModal title="" trigger={<button className='border-2 border-brandClr2 bg-brandClr2 text-gray-800 font-semibold py-2 px-8 rounded-sm hover:bg-brandClr2/90 transition-colors duration-300'>Apply Now</button>} >

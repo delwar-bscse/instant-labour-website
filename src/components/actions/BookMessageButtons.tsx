@@ -30,7 +30,7 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
   const handleMessage = () => {
     if (getUserRoleEmployer()) {
       if (workerDetails?.bookingStatus === BOOKING_STATUS?.APPROVED) {
-        router.push("/inbox");
+        router.push("/inbox?chat_id=" + workerDetails?.chatId);
       } else {
         toast.error("Booking not approved yet");
       }
@@ -41,13 +41,16 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
 
 
   return (
-    <div className='maxWidth flex gap-2 pb-8'>
-      <div className=''>
-        <Button onClick={handleBooked} disabled={workerDetails?.isBooked} variant="yelloBtn" className='w-full text-gray-700 rounded-sm'>Book Now</Button>
+    <div className='maxWidth pb-8'>
+      <div className='flex gap-2'>
+        <div className=''>
+          <Button onClick={handleBooked} disabled={workerDetails?.isBooked || workerDetails?.bookingStatus === BOOKING_STATUS?.PENDING || workerDetails?.bookingStatus === BOOKING_STATUS?.APPROVED} variant="yelloBtn" className='w-full text-gray-700 rounded-sm'>Book Now</Button>
+        </div>
+        <div className=''>
+          <Button onClick={handleMessage} disabled={!workerDetails?.isBooked} variant="yelloBtn" className='w-full text-gray-600 rounded-sm'>Message</Button>
+        </div>
       </div>
-      <div className=''>
-        <Button onClick={handleMessage} disabled={!workerDetails?.isBooked} variant="yelloBtn" className='w-full text-gray-600 rounded-sm'>Message</Button>
-      </div>
+      <p className='text-gray-500 pt-4'>{workerDetails?.bookingStatus === BOOKING_STATUS?.PENDING && "You have already sent a booking request to this worker. Please wait for the worker to approve your request."}</p>
     </div>
   )
 }

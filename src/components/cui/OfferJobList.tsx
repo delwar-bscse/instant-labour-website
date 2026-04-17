@@ -19,7 +19,7 @@ const OfferJobList = () => {
       const res = await myFetch(`/booking`);
       const employerDatas = res?.data || [];
       // const meta: any = res?.data?.pagination || {};
-      //console.log("Booked employer datas : ", employerDatas);
+      console.log("Booked employer datas : ", employerDatas);
       setEmployerDatas(employerDatas);
     }
     getEmployers();
@@ -55,7 +55,7 @@ const OfferJobList = () => {
           </div>
           {item.status === BOOKING_STATUS.APPROVED &&
             <div className='h-full flex items-end justify-end gap-4'>
-              <Link href={`/inbox`} className='w-25 bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-200 cursor-pointer text-sm font-semibold px-3 py-2 rounded-md text-center'>Message</Link>
+              <Link href={`/inbox?chat_id=${item?.chatId}`} className='w-25 bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-200 cursor-pointer text-sm font-semibold px-3 py-2 rounded-md text-center'>Message</Link>
             </div>}
           {item.status === BOOKING_STATUS.PENDING && <div className='flex items-center flex-col gap-4'>
             <button onClick={() => handleApproveDecline(item?._id, BOOKING_STATUS.APPROVED)} className='w-25 bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-200 cursor-pointer text-sm font-semibold px-3 py-2 rounded-md'>Approved</button>

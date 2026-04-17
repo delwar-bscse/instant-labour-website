@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 
 export default async function CommonLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-   const response = await myFetch("/user/profile", {
+  const response = await myFetch("/user/profile", {
     method: "GET",
     tags: ["user"],
   });
@@ -20,7 +20,7 @@ export default async function CommonLayout({ children }: Readonly<{ children: Re
 
   return (
     <div className="">
-        <Navbar userData={response?.data} />
+      <Navbar userData={response?.data} />
       {children}
       <Toaster />
       <Footer />
