@@ -1,23 +1,10 @@
 
-
-// export const formatUrl = (path?: string | null): string => {
-//   if (!path) return "";
-
-//   if (path.startsWith("http")) {
-//     return path;
-//   }
-
-//   const base = process.env.NEXT_PUBLIC_IMAGE_URL ?? "";
-
-//   return path.startsWith("/")
-//     ? `${base}${path}`
-//     : `${base}/${path}`;
-// };
+import { defaultImage } from "@/assets/assets";
 
 export const formatUrl = (path?: string | null | undefined) => {
 
   if (!path || path === "" || path === null || path === undefined) {
-    return "";
+    return defaultImage.src;
   } else if (path.startsWith("http")) {
     return path;
   } else {
