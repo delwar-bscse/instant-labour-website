@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { GoogleMap, Marker, useLoadScript } from "@react-google-maps/api";
 
 export default function LocationPicker({ locations }: { locations: { lat: number, lng: number }[] }) {
@@ -22,9 +22,11 @@ export default function LocationPicker({ locations }: { locations: { lat: number
   }, [markerPosition, map]);
 
 
-  const { isLoaded, loadError } = useLoadScript({
+  const googleMapsOptions = useMemo(() => ({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
-  });
+  }), []);
+
+  const { isLoaded, loadError } = useLoadScript(googleMapsOptions);
 
   if (loadError) return <div>Error loading map</div>;
   if (!isLoaded) return <div>Loading map...</div>;

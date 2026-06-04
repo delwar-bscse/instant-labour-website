@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Input } from "@/components/ui/input";
 
@@ -27,10 +27,12 @@ export default function LocationAutocompleteGoogleMap({
 }: Props) {
   const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
 
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY!,
+  const googleMapsOptions = useMemo(() => ({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY || "",
     libraries,
-  });
+  }), []);
+
+  const { isLoaded } = useLoadScript(googleMapsOptions);
 
   const handlePlaceChanged = () => {
     if (!autocompleteRef.current) return;

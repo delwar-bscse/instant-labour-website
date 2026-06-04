@@ -1,19 +1,19 @@
 import type { NextConfig } from "next";
- 
+
 const nextConfig: NextConfig = {
-  /* config options here */
- 
+  allowedDevOrigins: ["*"],
+
   images: {
     domains: [
       "i.ibb.co.com",
-      "10.10.7.50",
+      "10.10.7.47",
       "76.13.5.2",
       "example.com",
       "api.instantlabour.co.uk"
     ],
   },
 };
- 
+
 export default nextConfig;
 // https://example.com/images/company1.jpg
 

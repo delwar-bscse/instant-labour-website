@@ -28,24 +28,24 @@ export const quickLinks = [
   },
 ];
 
-export const contactInfo= [
+export const contactInfo = [
   {
     title: "admin@instantlabour.co.uk",
-    icon: <FiMail/>
+    icon: <FiMail />
   },
 ];
 
 export const followUs = [
   {
-    icon: <SlSocialFacebook/>,
-    url: "https://www.facebook.com"
+    icon: <SlSocialFacebook />,
+    url: "https://www.facebook.com/share/18aDTGKxxs"
   },
   {
-    icon: <SlSocialInstagram/>,
-    url: "https://www.instagram.com"
+    icon: <SlSocialInstagram />,
+    url: "https://www.instagram.com/instantlabour?igsh=MW40dGVrNjdsbWoyYw"
   },
   {
     icon: <PiTiktokLogoThin />,
-    url: "https://www.tiktok.com"
+    url: "https://www.tiktok.com/@instantlabour?_r=1&_t=ZN-961NO8GiCNW"
   },
 ]
