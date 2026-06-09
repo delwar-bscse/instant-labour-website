@@ -3,9 +3,13 @@ import React from 'react'
 import { toast } from 'sonner';
 // import { getUserRoleEmployer } from '@/utils/getUserRoleClient';
 import { myFetch } from '@/utils/myFetch';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { APPLICATION_STATUS } from '@/types/jobTypes';
 
 const ApplicationApproveDeclineButtons = ({ jobId, workerId, applicationId }: { jobId: any, workerId: any, applicationId: any }) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
   const approveApplication = async () => {
     //console.log("Application Id : ", applicationId)
@@ -19,6 +23,10 @@ const ApplicationApproveDeclineButtons = ({ jobId, workerId, applicationId }: { 
     //console.log("Apply res : ", res);
     if (res.success) {
       toast.success("Approved Successfully");
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("type", APPLICATION_STATUS.APPROVED);
+      router.push(`${pathname}?${params.toString()}`);
+      router.refresh();
     } else {
       toast.error(res.message);
     }
@@ -36,6 +44,10 @@ const ApplicationApproveDeclineButtons = ({ jobId, workerId, applicationId }: { 
     console.log("Apply res : ", res);
     if (res.success) {
       toast.success("Declined Successfully");
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("type", APPLICATION_STATUS.DECLINED);
+      router.push(`${pathname}?${params.toString()}`);
+      router.refresh();
     } else {
       toast.error(res.message);
     }

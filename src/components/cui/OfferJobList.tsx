@@ -14,14 +14,15 @@ import { toast } from 'sonner'
 const OfferJobList = () => {
   const [employerDatas, setEmployerDatas] = React.useState<any>([]);
 
+  const getEmployers = async () => {
+    const res = await myFetch(`/booking`);
+    const employerDatas = res?.data || [];
+    // const meta: any = res?.data?.pagination || {};
+    console.log("Booked employer datas : ", employerDatas);
+    setEmployerDatas(employerDatas);
+  }
+
   useEffect(() => {
-    const getEmployers = async () => {
-      const res = await myFetch(`/booking`);
-      const employerDatas = res?.data || [];
-      // const meta: any = res?.data?.pagination || {};
-      console.log("Booked employer datas : ", employerDatas);
-      setEmployerDatas(employerDatas);
-    }
     getEmployers();
   }, []);
 
@@ -35,6 +36,7 @@ const OfferJobList = () => {
     //console.log("Approve res : ", res);
     if (res.success) {
       toast.success(res.message || `Job offer ${status} successfully!`);
+      getEmployers();
     } else {
       toast.error(res.message || `Failed to ${status} job.`);
     }

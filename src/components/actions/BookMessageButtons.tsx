@@ -19,6 +19,7 @@ const BookMessageButtons = ({ workerDetails }: { workerDetails: any }) => {
       //console.log("Apply res : ", res);
       if (res.success) {
         toast.success("Booked Successfully");
+        router.refresh();
       } else {
         toast.error(res.message);
       }

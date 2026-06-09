@@ -104,7 +104,8 @@ const NidUploadEmployer = () => {
 
     //console.log("Verification Update : ", res)
     if (res.success) {
-      toast.success("Verification request send to admin successfully")
+      toast.success("Verification request send to admin successfully");
+      await fetchProfile();
     }
   }
 

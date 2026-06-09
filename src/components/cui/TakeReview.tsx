@@ -6,7 +6,10 @@ import StarRating from './StarRaings'
 import { myFetch } from '@/utils/myFetch'
 import { toast } from 'sonner'
 
+import { useRouter } from 'next/navigation'
+
 const TakeReview = ({ id }: { id?: string }) => {
+  const router = useRouter();
   const [rating, setRating] = useState(3);
   const [review, setReview] = useState("");
 
@@ -26,6 +29,7 @@ const TakeReview = ({ id }: { id?: string }) => {
       toast.success(res.message ?? "Review submitted successfully!");
       // toast.success("Review submitted successfully!");
       document.getElementById("cancel")?.click();
+      router.refresh();
     } else {
       toast.error(res.message);
     }

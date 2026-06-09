@@ -7,10 +7,10 @@ const Subscriptions = async () => {
   const res = await myFetch("/package", {
     method: "GET",
   })
-  console.log("Get Subscriptions : ", res?.data);
+  // console.log("Get Subscriptions : ", res?.data);
 
   const resCoupon = await myFetch("/package/offer-data", { method: "GET" });
-  //console.log("Coupon Data : ", resCoupon);
+  // console.log("Coupon Data : ", resCoupon);
 
   return (
     <div className='maxWidth my-12 lg:my-20'>

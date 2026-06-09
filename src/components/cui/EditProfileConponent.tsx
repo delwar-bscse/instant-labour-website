@@ -2,6 +2,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -75,6 +76,7 @@ const defaultValues: Partial<EditProfileFormValues> = {
 /* ---------------- Component ---------------- */
 
 const EditProfileComponent = () => {
+  const router = useRouter();
   const [categoryDatas, setCategoryDatas] = useState<any>([]);
   const [subCategories, setSubCategories] = useState<any>([]);
   const [coreSkills, setCoreSkills] = useState<string[]>([]);
@@ -135,6 +137,8 @@ const EditProfileComponent = () => {
 
     if (res.success) {
       toast.success(res.message || "Profile updated!");
+      await fetchProfile();
+      router.refresh();
     } else {
       toast.error(res.message || "Something went wrong!");
     }

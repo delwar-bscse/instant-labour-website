@@ -27,7 +27,7 @@ import InputList from "./InputList";
 import { SALARY_TYPE } from "@/constants/salaryObject";
 import { AVAILABILITY } from "@/constants/availabilityObject";
 import { myFetch } from "@/utils/myFetch";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import LocationAutocompleteGoogleMap from "../map/LocationAutocompleteGoogleMap";
 
@@ -71,6 +71,7 @@ const defaultValues: Partial<EditPostFormValues> = {
 
 const JobPostForm = () => {
   const params = useParams();
+  const router = useRouter();
   const jobId = params?.id || "";
 
   const [categoryDatas, setCategoryDatas] = useState<any>([]);
@@ -174,6 +175,8 @@ const JobPostForm = () => {
 
     if (res.success) {
       toast.success(res.message);
+      router.push("/employer/posted-jobs");
+      router.refresh();
     } else {
       toast.error(res.message);
     }

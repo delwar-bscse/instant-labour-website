@@ -105,18 +105,18 @@ const EmployeeProfile = () => {
       </div>
 
       {/* ------------------- Settings Sidebar ------------------- */}
-      <div className='maxWidth flex flex-col md:flex-row gap-8 py-8'>
+      <div className='maxWidth flex flex-col gap-8 py-8'>
         <div>
-          <ul className='flex flex-row justify-center md:flex-col gap-4'>
+          <ul className='flex flex-row flex-wrap justify-start gap-4'>
             {profileSidebar?.map((item) => (
-              <li onClick={() => setStep(item.id)} key={item.id} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow ${item.id === step ? "bg-[#FFECAC]" : "bg-white"}`}>
+              <li onClick={() => setStep(item.id)} key={item.id} className={`flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-4 shadow ${item.id === step ? "bg-[#FFECAC]" : "bg-white"}`}>
                 <span>
                   {item.icon}
                 </span>
                 <span className='text-lg font-semibold text-gray-600 hidden md:block'>{item.title}</span>
               </li>
             ))}
-            <li onClick={handleLogout} className={`max-md:max-w-60 md:w-60 flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-3 shadow bg-white`}>
+            <li onClick={handleLogout} className={`flex items-center gap-2 py-2 cursor-pointer  hover:bg-[#FFECAC] rounded-sm px-4 shadow bg-white`}>
               <span>
                 <MdOutlineLogout className='text-gray-700 text-xl' />
               </span>

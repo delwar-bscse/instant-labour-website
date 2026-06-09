@@ -3,8 +3,11 @@ import React from 'react'
 import { Button } from '../ui/button'
 import { myFetch } from '@/utils/myFetch';
 import { toast } from 'sonner';
+import { deleteCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 
 const DeleteAccount = () => {
+  const router = useRouter();
   const [password, setPassword] = React.useState('');
 
   async function onSubmit() {
@@ -23,6 +26,11 @@ const DeleteAccount = () => {
     // console.log("Delete account res : ", res)
     if (res.success) {
       toast.success(res.message || "Account deleted successfully!", { id: "loading" });
+      deleteCookie("role");
+      deleteCookie("accessToken");
+      deleteCookie("refreshToken");
+      router.push("/login");
+      router.refresh();
     } else {
       toast.error(res.message || "Failed to delete account.", { id: "loading" });
     }

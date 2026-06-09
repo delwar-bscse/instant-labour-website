@@ -8,6 +8,7 @@ import { FiClock } from "react-icons/fi";
 // import { jobDetails } from '@/data/jobDatas';
 import { HiOutlineCurrencyPound } from "react-icons/hi";
 import { MdArrowBack, MdOutlineStarPurple500, MdOutlineVerifiedUser } from 'react-icons/md';
+import { useRouter } from 'next/navigation';
 import { getUserRoleEmployer, getUserRoleWorker } from '@/utils/getUserRoleClient';
 import { toast } from 'sonner';
 import { CustomModal } from '../modal/CustomModal';
@@ -19,6 +20,7 @@ import { APPLICATION_STATUS } from '@/types/jobTypes';
 import { BsExclamationCircle } from 'react-icons/bs';
 
 const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
+  const router = useRouter();
 
   console.log("Job details Top: ", jobDetails);
 
@@ -36,6 +38,7 @@ const JobDetailsTop = ({ jobDetails }: { jobDetails: any }) => {
       if (res.success) {
         toast.success(res.message || "Applied successfully!");
         document.getElementById("cancel")?.click()
+        router.refresh();
       } else {
         toast.error(res.message || "Please login as a worker first");
       }

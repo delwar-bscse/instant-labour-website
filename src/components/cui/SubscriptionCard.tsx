@@ -7,6 +7,8 @@ import { toast } from 'sonner';
 const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolean }) => {
   const afterDiscount = data.regularPrice - (data.regularPrice * (data.discountPercent / 100));
 
+  // console.log("Subscription Card Data : ", data)
+
   const handleSubscribe = async () => {
     const isEmployer = await getUserRoleEmployer();
     if (!isEmployer) {
@@ -18,8 +20,12 @@ const SubscriptionCard = ({ data, hideButton }: { data: any, hideButton?: boolea
     })
     // console.log("Subscribe Response : ", res)
     if (res.success) {
-      window.location.href = res?.data?.checkoutUrl;
-    }else {
+      if (res?.data?.checkoutUrl) {
+        window.location.href = res?.data?.checkoutUrl;
+      } else if (res?.statusCode === 200) {
+        toast.success(res?.data?.message || res.message)
+      }
+    } else {
       toast.error(res.message || "Something went wrong!");
     }
   };
